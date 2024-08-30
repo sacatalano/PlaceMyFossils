@@ -1,0 +1,19 @@
+nstates 8 ; 
+xread 'Data saved from TNT' 
+10 8 
+&[num] 
+Undertango  000000000 
+Libertango  000001111 
+Violentango 000011111 
+Novitango   000111111 
+Amelitango  001111111 
+Meditango   011111110
+Nonino      011111111 
+Nino        011111110 
+; 
+xgroup 
+=0 (Chords)        2 3 4 5 6  
+=1 (Notes)        0 1 7      
+ 
+;  
+proc/;
