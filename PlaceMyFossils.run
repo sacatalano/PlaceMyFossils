@@ -13,7 +13,7 @@ silent = all ;
 
 /*-------------------------------------------------------
 TNT script:  PlaceMyFossils.run                                                           
-Updated:     2024-05-07                                                                 
+Updated:     2024-09-05                                                                 
 Author:      Santiago A. Catalano                                                        
 Mantainer:   Santiago A. Catalano                              
 Depends:     TNT version 1.6
@@ -177,7 +177,8 @@ doamb hayigual outcross stricting cestros['nosize']  guicherr
 guicherr_cross mean_dist
 clade_anal score_poly[ 'nosize' 2 ] 
 lis ['nosize']  domodif tochang tofork color_poly ['nosize' 3 ] luptre tricto
-guerquery justerr muchos ogrup queta[40] quita[40] 
+guerquery justerr muchos ogrup sisou brastri [100]  hermano queta[100] quita [100] 
+did_colorquer 
 ;   
 
 
@@ -298,6 +299,7 @@ set doamb 1 ;
 set guicherr 2 ; 
 set guicherr_cross 2 ; 
 set domodif  0 ; 
+set did_colorquer 0 ; 
 
  SIL=All; 
  warn- ; 
@@ -341,7 +343,7 @@ set domodif  0 ;
        errmsg This script version handles datasets with 1000 characters or less. Please contact Santiago Catalano for a modified version. ;     
    end
    
-  hold 2000/2000 ; 
+  hold 10000/10000 ; 
   
     
     
@@ -421,6 +423,7 @@ goto TAX_SETS ;
 goto CHECK_STATUS ; 
 goto CHAR_SETS ; 
 goto SETTING_PALETTE ; 
+
 sil=all; 
 tabl/ 7 ; 
 macfloat 7 ; 
@@ -467,7 +470,6 @@ set maxi 0 ;
      goto COLORTREE_MULTREE ; 
     end
    goto GENERATE_OUTPUT_STRICT; 
-   
    proc/; 
 else 
   if ('domodif' ) 
@@ -1055,77 +1057,78 @@ loop=cd 0 ('nconds'-1)
           set dolik 0 ; 
           piwe = 'kkval' ; 
          end
-  else
-      if ( !'dolik' )
-        if ('guichsensit' == 2 )
-             set str_settings hiftext ; 
-             quote ncond 'nconds' ; 
-              quote condicion #cd string $str_settings ; 
-             $str_settings ; 
-         else
-            piwe = 'condic[#cd]' ; 
+   else
+	      if ( !'dolik' )
+			if ('guichsensit' == 2 )
+			     set str_settings hiftext ; 
+			     quote ncond 'nconds' ; 
+			      quote condicion #cd string $str_settings ; 
+			     $str_settings ; 
+			 else
+			    piwe = 'condic[#cd]' ; 
+			end
+	      else     /* sensit en ML */ 
+		 if ('reduced_mk_sens' )
+			     if ('space_sensit')
+			       if (#cd == 0 ) 
+				 lset nogstatespace ; 
+			       else
+				 lset gstatespace ; 
+			       end
+			    end 
+			    if ('unlinked_sensit')
+				if (#cd == 0 ) 
+				    set doing_unlinked 0 ;
+				 else
+				   set doing_unlinked 1 ; 
+				end
+			    end 
+		 else   /* las cuatro condiciones */ 
+			    if (#cd < 2 ) 
+				 lset nogstatespace ; 
+			    else
+				 lset gstatespace ; 
+			    end
+			    if ( (#cd == 0) || (#cd == 2) ) 
+			         
+				 set doing_unlinked 0 ; 
+			    else
+			        
+			       set doing_unlinked 1 ; 
+			    end
+		 end 
+	     end 
+      end
+      k 0 ; 
+      tvault < 0 ;      
+      force/&0; 
+      constrain=; 
+      col none ; 
+      cc ] . ;
+      mu 1 = ho 1 ;
+      bb = fillonly ;
+      if (ntrees >= 999 )
+       tch 0.998 ; 
+      end 
+      cc [ . ; 
+      loop=jj 0 nchar 
+        if ( 'listchar[#jj]' == 0 )
+       	  cc ] #jj ;
         end
-      else
-         if ('reduced_mk_sens' )
-             if ('space_sensit')
-               if (#cd == 0 ) 
-                 lset nogstatespace ; 
-               else
-                 lset gstatespace ; 
-               end
-            end 
-            if ('unlinked_sensit')
-	        if (#cd == 0 ) 
-	            set doing_unlinked 0 ;
-	         else
-	           set doing_unlinked 1 ; 
-	        end
-            end 
-        else
-            if (#cd < 2 ) 
-                 lset nogstatespace ; 
-            else
-                 lset gstatespace ; 
-            end
-            if (#cd == 0 || #cd == 2 ) 
-                 set doing_unlinked 0 ; 
-            else
-               set doing_unlinked 1 ; 
-            end
-        end 
-     end 
-  end
-         k 0 ; 
-         tvault < 0 ;      
-         force/&0; 
-         constrain=; 
-         col none ; 
-         cc ] . ;
-         mu 1 = ho 1 ;
-         bb = fillonly ;
-         if (ntrees == 999 )
-            tch 0.998 ; 
-         end 
-         cc [ . ; 
-	 loop=jj 0 nchar 
-	    if ( 'listchar[#jj]' == 0 )
-	        cc ] #jj ;
-	    end
-         stop 
-         if ('guichsensit' == 2 )
-            $str_settings ; 
-         end
-    tvault>. ; 
-    k0 ; 
-    tvault<. ;
-    constrain- ; 
-    set mini_mult[#cd] 9999999 ; 
-    set maxi_mult[#cd] 0 ; 
-    if ('dolik' )
-       goto CALCULATE_ML_REF ; 
-    end
-
-   loop=tr 1 ntrees 
+      stop 
+      if ('guichsensit' == 2 )
+         $str_settings ; 
+      end
+      tvault>. ; 
+      k0 ; 
+      tvault<. ;
+      constrain- ; 
+      set mini_mult[#cd] 9999999 ; 
+      set maxi_mult[#cd] 0 ; 
+      if ('dolik' )
+        goto CALCULATE_ML_REF ; 
+     end
+    loop=tr 1 ntrees 
       set opt_tree #tr ; 
       set bran sister [#tr 'tgtsp'] ; 
       if ( 'bran' > root )
@@ -1135,6 +1138,7 @@ loop=cd 0 ('nconds'-1)
            else
                set core_mult[#cd 'bran_ref'] 0 ; 
                if ('doing_unlinked' )
+              
                    loop=po 0 ('numchrgrp'-1)
                       cc ] . ; cc [ {#po} ; 
                       loop=er 0 nchar
@@ -1268,7 +1272,11 @@ loop=cd 0 ('nconds'-1)
        set blue sister [0 outgroup] ; /*New* para colorear el out */
        set core_mult [ #cd outgroup] 'core_mult[ #cd 'blue']'    ;  /*New*/
 stop        
-       
+ 
+ 
+ 
+ 
+ 
   set pivote sister[0 outgroup] ; /* esta es la rama que queda sin tag */ /*New*/
  
     
@@ -1299,9 +1307,15 @@ stop
 ttag & $output_sensit xysave eti bheight 'alturama' legup 15 txtsep 20 bfontsize 20 thickness 4  tfontsize 35 blength 'larama'  ; 
  
 
-
- 
-
+ loop=nd 0 'nds' 
+     set ndtran 'trad_nd[#nd]' ; 
+     if ('ndtran' == (-1) ) 
+        set hermano sister [ 0 #nd] ;   
+        continue ;
+    end
+ stop         
+        
+    
        
 loop=cd 0 ('nconds'-1)     
          
@@ -1356,10 +1370,10 @@ loop=cd 0 ('nconds'-1)
             goto FILL_COLIM ; 
         end 
        loop=nd 0 'nds' 
-          if ( #nd == 'tochang' )
-            continue ; 
-          end
           set ndtran 'trad_nd[#nd]' ; 
+          if ('ndtran' == (-1) ) 
+               continue ;
+          end
           if ( (#nd == root) || (#nd == 'tgtsp') || (!isintree [0 #nd]) ) 
              continue ; 
           end
@@ -1396,8 +1410,6 @@ loop=cd 0 ('nconds'-1)
 	        set micore 'core_mult[#cd 'ndtran']' ; 
 	        goto SETTING_COLORS ; 
            end
-	     
-		  
 	  end	  
           set pos_x ('eti[#nd 0]' - 'eti[anc[0 #nd] 0]')/ 12 + 'eti[anc[0 #nd] 0]' + 'suma_x' ; 
           set pos_y 'eti[#nd 1]' + 4 + 'suma_y'; 
@@ -1416,14 +1428,15 @@ loop=cd 0 ('nconds'-1)
           set pos_y 'pos_y' + 22 ; 
 	  set pos_x 'pos_x' + 11 ; 
 	  set bescuare [#nd 5 ] 0 ; 
-          if ('core_mult[#cd 'ndtran']'== 'mini_mult[#cd]') 
+          if (('core_mult[#cd 'ndtran']'== 'mini_mult[#cd]') &&   ('maxi_mult[#cd]' != 'mini_mult[#cd]')  ) 
 	            ttag &+ write <text x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32 font-size=&34 14&34&32 > * </text> &10 ; 
 	            set bescuare[#nd 5] 1 ; 
           end 
-          set nod sister [0 'tochang'] ;  
-          if (#nd == 'nod' ) 
-          	     set pos_x ('eti['tochang' 0]' - 'eti[anc[0 'tochang'] 0]')/ 12 + 'eti[anc[0 'tochang'] 0]' + 'suma_x' ; 
-		     set pos_y 'eti['tochang' 1]' + 4 + 'suma_y'; 
+          if (#nd == 'hermano' ) 
+                set nod sister [ 0 'hermano'] ; 
+                sil-all; quote nd #nd  nod 'nod' hermano 'hermano' red 'red' green 'green' blue 'blue' ndtran 'ndtran'; sil=all;  
+          	     set pos_x ('eti['nod' 0]' - 'eti[anc[0 'nod'] 0]')/ 12 + 'eti[anc[0 'nod'] 0]' + 'suma_x' ; 
+		     set pos_y 'eti['nod' 1]' + 4 + 'suma_y'; 
 		     if (('dosensit' == 1 ) || ('dosensit' == 2 ))
 			 set redsiz 'sizsq' -2 ; 
 			 if (#cd == 'bespos') 
@@ -1432,10 +1445,10 @@ loop=cd 0 ('nconds'-1)
 			 else
 			    ttag &+ write <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 'redsiz'&34&32height=&34 'redsiz'&34&32style=&34fill:rgb('red','green','blue')&59 stroke:none&34 /> &10 ;sil=all; 
 			 end
-		   else
+		     else
 		      ttag &+ write <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 'sizsq'&34&32height=&34 'sizsq'&34&32style=&34fill:rgb('red','green','blue')&59 stroke:none&34 /> &10 ;sil=all; 
-		   end  
-                 set bescuare ['nod' 5 ] 0 ; 
+		     end  
+                     set bescuare ['nod' 5 ] 0 ; 
           end
           set pos_y 'pos_y' + 22 ; 
           set pos_x 'pos_x' + 11 ; 
@@ -1452,7 +1465,7 @@ loop=cd 0 ('nconds'-1)
      set listchar [#yy] 'bak_listchar [#yy]' ; 
   stop 
 stop
-
+ 
 
  
  
@@ -1649,8 +1662,6 @@ proc/;
 
 
 
-
-
 label TAX_SETS 
 k 0 ; 
 tv < . ; 
@@ -1665,36 +1676,43 @@ tplot = <2 /30  >1000 \'red'  ;
 
 
 
-
-
-
 if (ntrees == 0 )
-	loop 0 ntax    
-	     if (!isintree [0 #1 ]) 
+	loop 0 ntax     /* chequea cuantos ausentes hay en el arbol */ 
+	     if (!isintree [0 #1 ])  
 		 set ause ++ ;
 		 set nosta['nuabs'] #1 ; 
 		 set guichsp #1 ; 
 		 set nuabs ++ ;
 	     end
 	stop 
-	if ('ause' > 1 )
+	/*if ('notarget' != 2 ) 
+	    set nosta['nuabs'] 'tgtsp' ;
+            set nuabs++ ; 
+	end*/
+	
+	if ('ause' > 1 ) /* si hay mas de un ausente en el arbol ya es multisp */ 
 	   set multisp 1 ; 
 	end
+	
 	if ( ('chssp' == 2 ) &&  ('nuabs' > 1 )  ) 
 	   ra1; sil-all; tplot [ ; k 0; tv - ;  cls; 
 	   errmsg The option /No additional query species/ was selected but several species are missing from the tree. Please select the option / Absent in reference tree / or include these species in the reference tree  ;
 	end
+	
+	
 	
 	/* si no eligio ni target ni aditional query */ 
 	if ( ( ('notarget' == 2)  && ('chssp' == 2 ) ) &&  (!'clade_anal') && (!'char_anal') ) 
 		ra1; sil-all; tplot [ ; k 0; tv - ;  cls; 
 		errmsg Neither target nor additional query species were selected. Only EP and Subtree Error analyses can be conducted  ;
 	end
+	
 	/* si indico que los queries no estan en el arbol y el arbol esta completo*/ 
 	if ( ( 'chssp' == 1 ) && ('ause' ==  0 ) && ( 'notarget' == 2 )  )
 		   ra1; sil-all; tplot [ ; k 0; tv - ;  cls; 
 		   errmsg The reference tree is complete. Please select target/query species    ;
 	end
+
 
        /* si eligio tgt como ausente del arbol y el arbol tenia mas de una ausente o cero ausente. Si hay un solo ause la defino como tgtsp */ 
 	if ( ( 'notarget' == 1 ) )  
@@ -1711,6 +1729,7 @@ if (ntrees == 0 )
 	       set listax['guichsp'] 1 ; 
 	    end
 	end 
+	
        /* Define la tgt desde el nombre introducido o da un error si no aparece. Prunea la especie del arbol */ 
 	set mini 0 ; 
 	if ( 'notarget'  == 0 ) 
@@ -1729,25 +1748,29 @@ if (ntrees == 0 )
 			sil-all; errmsg Target species ($tgtname) is not in dataset.  ; 
 		    end 
 	end
+	
 	/* agrego a lista las especies ausentes del arbol  */ 
 	 loop 0 ntax    /* se fija del arbol cuales no estan */ 
 	    if (!isintree [0 #1 ]) 
 	       set listax[#1] 1  ; 
 	    end
 	stop 
+	
+	
 	/* PRUNEO LAS ESPECIES DEL ARBOL  y me fijo si son mas de 1 especie pruneada. ademas le sumo la tgtsp  */ 
-	if ('chssp' == 0 )  
+	if ('chssp' == 0 )  /* si selecciono especies adicionales para ubicar */ 
 	  loop 0 ntax     
 		 sil=all; quote #1 'listax[#1]' ;  
 		 if ( ('listax[#1]' ==  1)  && (isintree [0 #1 ])) 
 		   prunt 0/#1;
 		 end
-	   stop 
-	   loop 0 ntax     
-	     if ( 'listax[#1]' ==  1) 
-	       set ause ++ ; 
-	     end  
-	   stop
+	  stop 
+	  set ause 0 ; 
+	  loop=ww 0 ntax     
+	      if ( 'listax[#ww]' ==  1) 
+	        set ause ++ ; 
+	      end  
+	  stop
 	end
 	if ('ause' > 1 )
 	   set multisp 1 ; 
@@ -1760,8 +1783,22 @@ if (ntrees == 0 )
 	     ra1; sil-all; tplot [ ; k 0; tv - ;  cls; 
 	     errmsg Analysis with multiple query species cannot be run considering the option: / Allow target species to modify relationships / ; 
 	end
+	set blue 0 ; 
+	loop=zz 0 ntax 
+	   if  ( 'listax[#zz]' == 1 ) 
+	      set blue ++ ; 
+	   end
+	stop 
+	if ('blue' > 1) 
+	  set multisp 1 ; 
+	end
 
+ 
 end 
+
+
+
+
 
 if (ntrees > 0 )
               
@@ -1889,11 +1926,12 @@ if ( 'notarget' && 'domodif')
      errmsg The option /Allow target species to modify relationships/ is only available when selecting a target species  ;
 end
 
+
 	
 
 if (!'stricting') 
     goto CHECK_ROOTING ; 
-    tv > 0 ;  /* ACA SE MANDA A VAULT EL ARBOL Q SE USAR? DE ACA EN MAS   */ 
+    tv > 0 ;  /* ACA SE MANDA A VAULT EL ARBOL Q SE USAR DE ACA EN MAS   */ 
     k 0 ; 
 else
    tv > . ; 
@@ -1911,6 +1949,7 @@ if ( tsize [0] == ('ntax' + 1 ))
   end
 end
 k0 ; 
+
 
 
 proc/; 
@@ -1937,9 +1976,9 @@ loop=sz 0 1  /* si uno de los dos es un terminal entonces va a ser el pivote */
 stop
  
 set blue 1 ; 
-sil-all ; quote dientes[0]  'dientes[0]' dientes[1]  'dientes[1]' ; sil=all ; 
+sil=all ; quote dientes[0]  'dientes[0]' dientes[1]  'dientes[1]' ; sil=all ; 
 set green 0 ; 
-sil-all; quote van 'van' ; sil=all; 
+sil=all; quote van 'van' ; sil=all; 
 travtree + ; 
 if ('van' == 2 )  /* si ninguno de los dos es terminal entonce pivote es el que tiene el out  */ 
    travtree  below 0 outgroup red 
@@ -1971,7 +2010,7 @@ else
 end
 */
 
-set nod sister[ 0 'desroot_noout']  ; 
+set nod sister[ 0 'desroot_noout']  ;  /* TOCHANG INDICA EL NODO QUE DESAPARECE AL REENRAIZARLO CON LO CUAL ESTA BIEN QUE LO USE PARA INDICAR EL NODO QUE TENGO QUE CORREGIR CON SU HERMANO */ 
 if ( 'trad_nd['desroot_noout']'  == (-1) ) 
    set tochang 'desroot_noout' ; 
 else
@@ -1985,7 +2024,7 @@ reroot 1 ; /* RERUTEO EL ARBOL 1 CON EL OUTGROUP DE LA MATRIZ NO DEL ARBOL */
 sil-all; 
 
 /*set toinv grptogrp  1 0 ;   NO LO USO XQ NO ANDA CUANDO ESTA RUTEADO EN EL MEDIO en ndo #1 del arbol 1 se corresponde con el nodo toinv[#1] del arbol 0 */  
-sil-all; quote nosize 'nosize' ; 
+sil=all; quote nosize 'nosize' ; 
 
 
 /* esto viene a reemplazar el grptogrp q no anda cdo hay root con mulitples outs */ 
@@ -2000,27 +2039,27 @@ end*/
 
 
 loop 0 (nnodes[0])
- sil-all; quote NEW toinv[#1] 'toinv[#1]' ; 
+ sil=all; quote NEW toinv[#1] 'toinv[#1]' ; 
 stop
 
 
  
 set pavote eqgroup [ 0 'pivote' 1 ] ; /*a donde deberia reenraizar el arbol para que quede como el original */ 
 
-sil-all; quote ANTES pivote 'pivote' pavote 'pavote' ; 
+sil=all; quote ANTES pivote 'pivote' pavote 'pavote' ; 
 if ('pavote' == (-1) ) 
  set pavote eqgroup [ 0 sister[ 0 'pivote'] 1 ] ;
 end
 
 
-sil-all; quote pivote 'pivote' pavote 'pavote' ; 
+sil=all; quote pivote 'pivote' pavote 'pavote' ; 
  
 /* el cero es el original , el uno ruteado en outgroup */ 
 
 ttag= ; 
 nak- ; 
 tp 1 ; /* sobre el arbol enraizado en out le imprimo sus nodos */ 
- sil-all ; quote 'pavote' ;  
+sil=all ; quote 'pavote' ;  
  tt; 
  
 
@@ -2038,10 +2077,10 @@ loop 0 (nnodes [0])
     else 
       set trad_nd[#1]  ( $ttag #1 ) ;   
     end
-   sil-all; quote nodo #1 'trad_nd[#1]' ; sil=all;  
+   sil=all; quote nodo #1 'trad_nd[#1]' ; sil=all;  
 stop  
  
-
+ 
 
 k1 ; 
 
@@ -2079,7 +2118,7 @@ if ('char_anal' || 'clade_anal')
 		    else 
 		      set trad_nd_out[#1]  ( $ttag #1 ) ;   
 		    end
-		   sil-all; quote nodo #1 'trad_nd_out[#1]' ; sil=all;   
+		   sil=all; quote nodo #1 'trad_nd_out[#1]' ; sil=all;   
 		stop  
 		k1 ; 
 	 
@@ -2248,11 +2287,15 @@ if ('dolik')
     end
 end
 
-if (!'mult_w_target') 
+
+
+if ( (!'mult_w_target') && (!'domodif')  ) 
 	   sil=all; 
 	   k0 ; 
-	   tvault < 0 ;      
+	   tvault < 0 ; 
+	   rer ; 
 	   force/&0; 
+	
 	   constrain=; 
 	   col none ; 
 	   cc ] . ;
@@ -2261,6 +2304,7 @@ if (!'mult_w_target')
 	   if (ntrees > 998 )
               tch 0.998 ; 
 	   end
+	
 	   loop=ps 0 nchar 
 	     if ('listchar[#ps]' == 1 ) 
 	       cc [ #ps ; 
@@ -2279,10 +2323,11 @@ if (!'mult_w_target')
 	   if ('dolik') 
 	     goto CALCULATE_ML_REF ; 
 	   end
-	   loop=rr 1 ntrees
+	    loop=rr 1 ntrees
 		     set bran sister [#1 'tgtsp'] ; 
 		      if (!'dolik' )  
-				set elesco score [#1] ; 
+				set elesco score [#rr] ;
+			
 		      else
 			     set elesco 0 ; 
 			     if ( 'doing_unlinked' )
@@ -2355,8 +2400,6 @@ if (!'mult_w_target')
 		 set mini 'core['besnod']' ; 
 		 macfloat 10 ; 
 	   end 
-	   sil=con ; quote mini 'mini' maxi 'maxi' 'core['besnod']'   besnod 'besnod' core[17] 'core[17]' ;  ;   
-	   
 	   ts/; ts *$output_mpts ; 
 	   set van 0 ; 
 	   loop 1 ntrees 
@@ -2380,10 +2423,12 @@ if (!'mult_w_target')
  
 end
 
-
-
 k0 ; 
 tvault < 0 ;
+
+
+
+
 set nds nnodes [ 0 ] ; 
 ttag * 0 ;
 
@@ -2417,9 +2462,9 @@ end
 
 set blue sister [0 outgroup] ;  
 set core [outgroup] 'core['blue']'    ;
-sil-con; quote core ['blue'] 'core ['blue']' ;   
+sil=all; quote core ['blue'] 'core ['blue']' ;   
 set blue outgroup ;
-sil-all; quote core [outgroup] 'core [outgroup]' ;   
+sil=all; quote core [outgroup] 'core [outgroup]' ;   
  
  
 
@@ -2429,7 +2474,7 @@ loop=no 0 'nds'
       continue ; 
   end 
   if ('mini' == 'maxi') 
-      ttag +#1 (0,0,0) ; 
+      ttag +#1(0,0,0); 
       continue ; 
   end 
   set ccc 'core[#1]' - 'mini' ; 
@@ -2444,10 +2489,10 @@ loop=no 0 'nds'
 	     end  
 	     macfloat 2 ; 
 	     if (!'doing_EPA')
-	       ttag +#1 ('red','green','blue') ;
+	       ttag +#1('red','green','blue');
 	    else
 	       macfloat 4 ;
-	       ttag +#1 ('red','green','blue') ;
+	       ttag +#1('red','green','blue');
 	    end
 	    macfloat 10 ; 
   else
@@ -2483,20 +2528,18 @@ loop=no 0 'nds'
      end	     
      macfloat 2 ; 
      if (!'doing_EPA') 
-         ttag +#1 ('red','green','blue'); 
+         ttag +#1('red','green','blue'); 
      else
         macfloat 4 ; 
         set posy 1 - 'core[#1]' ; 
-        ttag +#1 ('red','green','blue') ;
+        ttag +#1('red','green','blue');
       end
       macfloat 10 ; 
   end
   
   macfloat 10 ;
 stop
-sil-all ; 
-tt ; 
-
+ 
 
 ttag & ;
  
@@ -2521,35 +2564,40 @@ end
 set pivote sister[0 outgroup] ; /* esta es la rama que queda sin tag */ /*New*/
 
  
- sil-all; 
-tt ; 
 
 reroot  * = 'pavote' ; /* pongo el enraizado original */ /*New*/
+ 
+ 
+ 
+ 
+/*CODIGO PARA VOLVER A PONER EL COLOR EN LA RAMA QUE SE PIERDE AL REENRAIZAR */
 
-tt ; 
-
-
+sil=all; 
 set dientes deslist[0 root ]  ; 
-set queta $ttag 'dientes[0]' ; 
-ttag +'dientes[0]' W ; 
-if (! eqstring [ $ttag'dientes[0]' W   ]  )
-    set blue sister [0 'dientes[1]'] ;  
-    set stri  $queta  ;
+set queta $$ttag'dientes[0]';
+quote $queta ; 
+set - ;  
+ttag +'dientes[0]'W; 
+
+if (! eqstring [ $ttag'dientes[0]'  W  ]  )  /* el que tiene la info es 0 */ 
+    set blue sister [0 'dientes[0]'] ;  /* el hermano del que tiene la etiqueta */ 
+    set stri  $$queta  ;  /* La info que estaba en el tag de dientes[0]  */ 
     ttag < 'blue'  ;
-    ttag +'blue' $stri  ; 
+       
+    ttag +'blue' $stri; 
     ttag < 'dientes[0]'  ;
     ttag +'dientes[0]' $stri  ; 
 else
     set blue 'dientes[0]' ;  
     ttag < 'blue'  ;
-    set stri  $$ttag 'dientes[1]'  ;
-    ttag +'blue' $stri  ; 
+    set stri  $$ttag 'dientes[1]';
+    ttag +'blue' $stri;
 end
+set sisou 'blue' ; 
 
 
+/* SISOU ES EL NODO QUE PIERDE LA ETIQUETA */ 
  
-
-   
 
 if ('doing_EPA')
   set larama 140 ;
@@ -2558,29 +2606,23 @@ end
  /*ttag & $output_svg xysave eti bheight 70 legup 15 thickness 4 tfontsize 35 txtsep 20 bfontsize 28 blength 80 colors ; */
 /*ttag & $output_svg xysave eti bheight 70 legup 15 thickness 4 tfontsize 35 txtsep 20 bfontsize 28 blength 80 colors ; */
 
+ 
+
 ttag & $output_svg  xysave eti bheight 'choram' legup 15 txtsep 20 bfontsize 20  tfontsize 35 blength 'larama' thickness 4  colors ; /* bheight 120 */
 
-
+  
+ 
 set dist -99999 ; 
 
-sil-all; quote nod = 'nod' desroot_noout= 'desroot_noout' tochang 'tochang' ; sil=all; 
  
-sil-all; 
-loop=no 0 'nds'
- set ndtran 'trad_nd[#no]' ; 
- quote Nodo #no ndtran 'ndtran' core[ 'ndtran' ] 'core[ 'ndtran' ]' ; 
-stop 
-
-xxxxx 
 
 loop=no 0 'nds'
   set ndtran 'trad_nd[#no]' ; 
   ttag <#no ; 
   set nod #no ; 
- /*  if (#no == 'tochang' )
-   continue ;
-  end  */ 
- 
+  if ('sisou' == #no )/*SKIPPEO EL NODO QUE PIERDE EL TTAG XQ CREO QUE ES EL QUE NO TIENE CALCULADO EL SCORE */ 
+      continue ;
+  end  
   if ((#no == root)  || (#no == 'tgtsp') || (!isintree [0 #no]) ) /* saque q no haga el out */
      continue ; 
   end 
@@ -2620,66 +2662,47 @@ loop=no 0 'nds'
 stop
 
 
-
-/*
-set nod sister[ 0 'desroot_noout']  ; 
-sil=con ; quote core[ 'trad_nd['nod']'  ] 'core[ 'trad_nd['nod']'  ]' ;sil=all; 
-sil=con ; quote core[ 'trad_nd['desroot_noout']'  ] 'core[ 'trad_nd['desroot_noout']'  ]' ;sil=all; 
-
+/* ACA COPIO EL SCORE DE LA RAMA DESC DEL ROOT QUE TIENE UN VALOR Y LA COPIO A SU HERAMANA ASUMIENDO QUE EL NODO QUE PIERDE EL TTAG ES EL MISMO AL QUE NO LE CALCULO EL SCORE */ 
+set red sister[ 0 'sisou' ]    ; 
 if (!'doing_EPA) 
-  if ( 'trad_nd['desroot_noout']'  == (-1) ) 
-     sil=con; quote entro en if ; sil=all; 
-     set ccc 'core[ 'trad_nd['nod']'  ]'-'mini' ;
-  else
-     set ccc 'core[ 'trad_nd['desroot_noout']'  ]'-'mini' ; 
-  end
+    set ccc 'core[ 'trad_nd['red']'  ]'-'mini' ; 
 else
-  if ( 'trad_nd['desroot_noout']'  == (-1) ) 
-       sil=con; quote entro en if ; sil=all; 
-       set ccc 'core[ 'trad_nd['nod']'  ]' ;
-    else
-       set ccc 'core[ 'trad_nd['desroot_noout']'  ]' ; 
-    end
+    set ccc 'core[ 'trad_nd['red']'  ]' ;
 end
-
-
-sil-con; quote  nod 'nod' / desroot_noout 'desroot_noout' / trad_nd['desroot_noout'] 'trad_nd['desroot_noout']' / ccc 'ccc' / mini 'mini' /tochang 'tochang'  ; sil=all; 
- 
- 
-ttag <'tochang' ; 
-set pos_x ('eti['tochang' 0]' - 'eti[anc[0 'tochang'] 0]')/ 12 + 'eti[anc[0 'tochang'] 0]' - 5  ; 
-set pos_y 'eti['tochang' 1]' - 8  ; 
-  if ('mini' == 'maxi') 
-    ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> Nd'tochang'0 </text> &10 ; 
-  end
- if ('ccc' < 0.00001 )
-	     macfloat 2 ; 
-	     set pos_y 'pos_y' - 10 ; 
-	     if (!'doing_EPA')
-	         ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'tochang' &32 'mini' </text> &10 ;
-	     else
-	        macfloat 4  ;
-	        set blue 1 - 'mini' ; 
-	        ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'tochang' 'blue' </text> &10 ;
-	     end
-	     macfloat 10 ; 
- else
-      macfloat 2 ; 
-      if (!'doing_EPA') 
-         ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'tochang'+'ccc' </text> &10 ;
-      else
-         macfloat 4  ;
-         set posy 1 - 'ccc' ; 
-         ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'tochang' 'posy'  </text> &10 ;
-      end
-      macfloat 10 ; 
+ttag <'sisou' ; 
+set pos_x ('eti['sisou' 0]' - 'eti[anc[0 'sisou'] 0]')/ 12 + 'eti[anc[0 'sisou'] 0]' - 5  ; 
+set pos_y 'eti['sisou' 1]' - 8  ; 
+   if ('mini' == 'maxi') 
+     ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> Nd'sisou'0 </text> &10 ; 
+   end
+  if ('ccc' < 0.00001 )
+ 	     macfloat 2 ; 
+ 	     set pos_y 'pos_y' - 10 ; 
+ 	     if (!'doing_EPA')
+ 	         ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'sisou' &32 'mini' </text> &10 ;
+ 	     else
+ 	        macfloat 4  ;
+ 	        set blue 1 - 'mini' ; 
+ 	        ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'sisou' 'blue' </text> &10 ;
+ 	     end
+ 	     macfloat 10 ; 
+  else
+       macfloat 2 ; 
+       if (!'doing_EPA') 
+          ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'sisou'+'ccc' </text> &10 ;
+       else
+          macfloat 4  ;
+          set posy 1 - 'ccc' ; 
+          ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'sisou' 'posy'  </text> &10 ;
+       end
+       macfloat 10 ; 
   end 
 
-*/
-
-
-sil-all; quote llego aca ; sil=all ; 
  
+
+
+/* ACA EMPIEZA EL PRINTEO DE LAS REFERENCIAS */ 		
+
 loop 0 nnodes [ 0] 
  if ('eti [#1 1]' > 'dist')
    set dist 'eti [#1 1]' ; 
@@ -2786,9 +2809,7 @@ set uncuar_err ( 'span_err' / 4 ) ;
 set trescuar_err ( (3 * 'span_err') / 4 );
 
 
-/* aca se imprimen los circulos y si corresponde, el error */ 
-
-sil-all; quote llego acadde ; sil=all ; 
+/* ACA SE IMPRIMEN LOS CIRCULOS Y SI CORRESPONDE, EL ERROR */
 
 loop=nd 0 nnodes[0] 
 	 if ( (#1 == root) || (#1 == 'tgtsp') || (!isintree [0 #nd]) ) 
@@ -2799,8 +2820,6 @@ loop=nd 0 nnodes[0]
 	 end
 	 set tancia ('eti [#1 0]' - 'eti [anc[0 #1] 0]' ) / 4 ; 
 	 set posx 'eti [anc[0 #1] 0]' + ('tancia' * 3 )  ;
-
-
 	 if ('clade_anal')
 		  set posy 'eti[#1 1]' + 10 ; 
 		  set tancia ('eti [#1 0]' - 'eti [anc[0 #1] 0]' ) ;
@@ -2841,18 +2860,19 @@ loop=nd 0 nnodes[0]
 		  set elmasi 'red' - 14 ; 
 		  ttag&+ write<line x1=&34 'red'&34&32y1=&34 'blue'&34&32x2=&34 'red'&34&32y2=&34 'green'&34&32style=&34fill:black&59 stroke-width:2&34 /> &10 ;
 		  ttag&+ write <text&32x=&34 'elmasi' &34 &32 y=&34 'dde' &34 &32stroke-width=&34 1&34&32 font-size=&34 12&34 > &62 .20 </text>&10 ;
-                   
-                   if (#nd == 'desroot_noout' )
+                  /* 	ESTOY ASUMIENDO QUE PUEDO USAR desroot_noout PARA VER CUAL DE LOS NODOS DESCENDIENTES DEL ROOT DEBEN SER MODIFICADOS XQ NO ESTAN EN EL NUEVO RUTEADO
+                  ES LO MISMO QUE USO AL IMPRIMIR LOS ERRORES EN EL ARCHIVO DE TEXTO*/   
+                  if (#nd == 'desroot_noout' )
 		   	set ndtran 'trad_nd[sister [ 0 'desroot_noout']]'   ;
 		        set error   'false_neg['ndtran']' ;
-		   else 
-		     set ndtran 'trad_nd[#nd]' ; 
-		     if ( 'toinv[#nd]' == ( -1 ) ) 
-		 	set error 'false_neg['ndtran']' ;
-		     else
-		        set error 'false_pos['ndtran']'  ; 
-		     end
-		  end  
+		  else 
+		       set ndtran 'trad_nd[#nd]' ; 
+		       if ( 'toinv[#nd]' == ( -1 ) ) 
+		           set error 'false_neg['ndtran']' ;
+		       else
+		           set error 'false_pos['ndtran']'  ; 
+		      end
+		 end  
                  if ('error' != 7777777 ) 
 			     if ('error' > 20 ) 
 				  ttag &+ write <rect x=&34 'limA'&34&32y=&34 'posy'&34&32width=&34 'px'&34&32height=&34 20&34&32style=&34fill:rgb(130,130,130)&59 stroke:black&59&32 stroke-width:2&34 /> &10 ;
@@ -2865,7 +2885,7 @@ loop=nd 0 nnodes[0]
 		  end   
     	          set posy 'posy' - 2 ; 
 	 end
-	 if ('core['trad_nd[#nd]']' == 'mini') /*New*/
+	 if ( ('core['trad_nd[#nd]']' == 'mini') && ('mini' != 'maxi')) /*New*/
 			   if ('trad_nd[#1]' == 'besnod' ) /*New*/
 			          ttag &+ write <circle cx=&34 'posx'&34 &32cy=&34 'eti [#1 1]'&34 &32r=&34 18&34&32 fill=&34black&34&32 stroke=&34black&34&32 /> &10 ;
 			   else
@@ -2874,37 +2894,30 @@ loop=nd 0 nnodes[0]
 		           set primero ++ ; 
 	 end
 stop 
-
-set nod sister[ 0 'desroot_noout']  ; 
-
-
-
-if ( 'trad_nd['desroot_noout']'  == (-1) ) 
-      set ccc 'core[ 'trad_nd['nod']'  ]' ;
-      set error 'false_neg[ 'trad_nd['nod']']' ;
-else
-      set error  'false_neg[ 'trad_nd['desroot_noout']'  ]' ; 
-end
-
- 
-if ('error' != 7777777 ) 
-     if ('error' > 20 ) 
-	  ttag &+ write <rect x=&34 'limA'&34&32y=&34 'posy'&34&32width=&34 'px'&34&32height=&34 20&34&32style=&34fill:rgb(130,130,130)&59 stroke:black&59&32 stroke-width:2&34 /> &10 ;
-     else
-       set px 'px' * ( 'error' / 20 ) ;  
-       ttag &+ write <rect x=&34 'limA'&34&32y=&34 'posy'&34&32width=&34 'px'&34&32height=&34 20&34&32style=&34fill:rgb(130,130,130)&59 stroke:black&59&32 stroke-width:2&34 /> &10 ;
-     end 
-else
-     ttag &+ write <rect x=&34 'limA'&34&32y=&34 'posy'&34&32width=&34 'px'&34&32height=&34 20&34&32style=&34fill:rgb(130,130,130)&59 stroke:black&59&32 stroke-width:2&34  /> &10 ;
+/* esto no deberia ir creo que ya lo solucione dentro del loop anterior  
+if ('clade_anal')
+	
+	set nod sister[ 0 'desroot_noout']  ; 
+	if ( 'trad_nd['desroot_noout']'  == (-1) ) 
+	      set error 'false_neg[ 'trad_nd['nod']']' ;
+	else
+	      set error  'false_neg[ 'trad_nd['desroot_noout']'  ]' ; 
+	end
+	if ('error' != 7777777 ) 
+	     if ('error' > 20 ) 
+		  ttag &+ write <rect x=&34 'limA'&34&32y=&34 'posy'&34&32width=&34 'px'&34&32height=&34 20&34&32style=&34fill:rgb(130,130,130)&59 stroke:black&59&32 stroke-width:2&34 /> &10 ;
+	     else
+	       set px 'px' * ( 'error' / 20 ) ;  
+	       ttag &+ write <rect x=&34 'limA'&34&32y=&34 'posy'&34&32width=&34 'px'&34&32height=&34 20&34&32style=&34fill:rgb(130,130,130)&59 stroke:black&59&32 stroke-width:2&34 /> &10 ;
+	     end 
+	else
+	     ttag &+ write <rect x=&34 'limA'&34&32y=&34 'posy'&34&32width=&34 'px'&34&32height=&34 20&34&32style=&34fill:rgb(130,130,130)&59 stroke:black&59&32 stroke-width:2&34  /> &10 ;
+	end 
 end 
+*/
+
+
  
-
-  sil-all; quote llego acaddf ; sil=all ; 
-              
-                
-
-
-
 set posx 'dist' +70 ; 
 set tgtname $$taxon 'tgtsp'; 
 ttag&+ write <text&32x=&34 10 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 28&34 >Target Species=&32 $tgtname </text> &10 ; 
@@ -2934,6 +2947,7 @@ if ('clade_anal')
 end 
 
 ttag & ;
+
 
 
  
@@ -3020,7 +3034,7 @@ if ( ('sensato' == 1 ) )
 	   if (!'dolik')
 		 mu 1 = ho 1 ; 
 		 bb = fillonly ; 
-		 if (ntrees == 999 )
+		 if (ntrees >= 999 )
 		  tch 0.998 ; 
 		 end 
 	   else
@@ -3055,7 +3069,7 @@ else
     if (!'dolik')
          mu 10 = ho 3 ; 
          bb = fillonly ;
-         if (ntrees == 999 )
+         if (ntrees >= 999 )
           tch 0.998 ; 
          end 
      else
@@ -3069,7 +3083,7 @@ else
 	   loop 0 ('nuabs'-1 ) 
 	      if ('nosta[#2]' == #1) 
 	           tt < #1 ; 
-	           ttag +#1  (255,0,0) ;
+	           ttag +#1 (255,0,0);
 	           set yes 1 ;
 	           endloop ; 
 	      end
@@ -3078,7 +3092,7 @@ else
 	     continue ; 
  	   end
  	   tt < #1 ; 
-  	   ttag +#1  (0,0,0) ; 
+  	   ttag +#1  (0,0,0); 
        stop
     
       reroot  * = 'pavote' ; 
@@ -3105,7 +3119,7 @@ proc / ;
  
 
 label CHAR_SCORES
-
+ 
 
 report- ;
 
@@ -3199,6 +3213,8 @@ stop
 proc/; 
  
  
+ 
+ 
 
  label NODE_DISTANCE 
 
@@ -3218,7 +3234,7 @@ proc/;
 	  calculo los ancestros de ambos
 	  calculo las distancias 
 	  */
-	  nak- ; 
+	
 	   
 	  
 	  set red  sister  ['ref_tree' 'eltax'] ;
@@ -3226,11 +3242,10 @@ proc/;
 	  
 	  set blue  sister ['opt_tree' 'eltax'] ;
 	  set onetocero grptogrp 'ref_tree' 'opt_tree'  ;
-	  /*loop=ee 0 nnodes [ 0] ; 
+	 /* loop=ee 0 nnodes [ 0] ; 
 	    sil-all; quote #ee 'onetocero[#ee]'; 
-	  stop 
-	  sil-all; quote blue='blue' ;   
-	   */
+	  stop */
+	  sil=all; quote blue='blue' ;   
 	  set nodo_trans 'onetocero['blue']' ; 
 	  
 	  if ('nodo_trans' != (-1) )
@@ -3246,9 +3261,8 @@ proc/;
 	   set pos_y distnode [ 'opt_tree' 'pos_cero' 'pos_one' ] ;
         end
           
-          sil=all; quote opt_tree 'opt_tree' ref_tree 'ref_tree' red='red' blue='blue' pos_one='pos_one'  pos_cero='pos_cero' nodo_trans 'nodo_trans' eltax 'eltax'; sil=all; 
-	
-          sil=all; quote distancia 'pos_y' ; 
+          /*quote: opt_tree 'opt_tree' ref_tree 'ref_tree' red='red' blue='blue' pos_one='pos_one'  pos_cero='pos_cero' nodo_trans 'nodo_trans' eltax 'eltax';  
+	  quote: distancia 'pos_y' ; */
 	  if ('pos_y' < 'min_dist') 
 	    set min_dist 'pos_y' ; 
 	  end
@@ -3268,6 +3282,9 @@ proc/;
 
  
 label MULT_WITH_TARGET 
+
+/* scores calculated using the tree rooted with the outgroup */ 
+
 set mini 9999999999 ; 
 set maxi 0 ; 
 k 0 ; 
@@ -3304,7 +3321,7 @@ loop=nd 0 (nnodes[0])
                   constrain=;
                   mu 100 = ho 1 ;
                   bb = fillonly ; 
-                  if (ntrees == 999 )
+                  if (ntrees >= 999 )
                    tch 0.998 ; 
                   end
                   set esco score[0] ; 
@@ -3376,10 +3393,13 @@ if ('multree' == 0 )
 	  ttag *0 ; 
 	  loop 0 nnodes [0]
 		  set posy #1 ; 
-		   if (#1 == outgroup ) 
+		   if (#1 == outgroup )
+		     ttags +'posy' (0,0,0) ; 
 		      continue 
 		   end 
 		   set yes 0 ; 
+		     
+		  
 		   loop 0 ('nuabs'-1 ) 
 			   if ('nosta[#2]' == #1) 
 				    ttag < #1 ; 
@@ -3393,10 +3413,19 @@ if ('multree' == 0 )
 		  end
 		  ttag < #1 ; 
 		  ttags +'posy' (0,0,0) ; 
+		  if (#1 == 'tgtsp') 
+		     ttag < #1 ; 
+		     ttags +'posy' (255,0,0) ;
+		  end 
 	  stop
 
 	  ttag &color_query.svg bheight 40 legup 10 fontsize 20 txtsep 20 blength 80 colors ; 
+	  
 	  ttag & ;
+	  set did_colorquer 1 ; 
+	  
+	  
+	  
 end
 k 0 ; 
 proc/; 
@@ -3503,6 +3532,7 @@ loop=cnd 0 ( 'nconds'-1 )
 		  mu 1 = h 1 ;
 		  bb ; 
 		  tvault < 0 ;
+		  rer ; 
 		  set max_dist 0 ;
 	          set eltax #tx ; 
 	          set ref_tree ntrees ; 
@@ -3623,7 +3653,7 @@ loop=cd 0 ('nconds'-1)
 		 constrain=; 
 		 mu 1 = ho 1 ;
 		 bb = fillonly ; 
-		 if (ntrees == 999 )
+		 if (ntrees >= 999 )
 		    tch 0.998 ; 
 		  end 
 		   set esco score[0] ; 
@@ -3722,7 +3752,7 @@ loop=nd 0 'nds'
      continue ; 
     end 
     TT <#nd ; 
-    ttag +#nd /N#nd ; 
+    ttag +#nd /N#nd; 
 stop 
  
 ttag & $output_sensit xysave eti bheight 'alturama' legup 15 txtsep 20 bfontsize 20 thickness 4  tfontsize 35 blength 'larama' colors ; 
@@ -4132,6 +4162,19 @@ tt- ;
 ttag * 0 ; 
 
 
+ loop=nd 0 'nds' 
+     set ndtran 'trad_nd[#nd]' ; 
+     /*quote: #nd ndtran 'ndtran' hermano 'hermano'  ; */
+     if ('ndtran' == (-1) ) 
+        set hermano sister [ 0 #nd] ;   
+        continue ;
+    end
+ stop         
+    
+ 
+
+ 
+/* SVG DE SCORES DE CARACTERES */ 
 
 if (!'dogrpchars' || 'nomeagrupes') 
  loop=tar 0 nchar 
@@ -4139,10 +4182,9 @@ if (!'dogrpchars' || 'nomeagrupes')
   set pos_x 'star_b' + ('pace_x' * 'dde') ;
   set ctos_sp 0 ; 
   loop=ods 0 nnodes [0] 
-        set nod #ods ;
         set ndtran 'trad_nd[#ods]' ; 
-        if (#ods == 'tochang' )
-	        continue
+        if ('ndtran' == (-1) )
+          continue ;  
         end
         if ( ('nod' == root ) ||  ('nod' == 'tgtsp') || (!isintree [0 'nod']) ) 
          continue ; 
@@ -4220,12 +4262,13 @@ if (!'dogrpchars' || 'nomeagrupes')
              sil-file; quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; sil=all;
           end
           set ctos_sp ++ ;
-          set nod sister[0 'tochang'] ; 
-          if (  #ods  ==  'nod'  )
-            set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ; 
+         
+          if (#ods == 'hermano' ) 
+	    set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ; 
             sil-file; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;sil=all;
-            if ( ('charscore['ndtran' #tar]' == 'minis[#tar]') && ('maxis [#tar]' != 'minis[#tar]') ) 
+            if ( ('charscore['ndtran' #1]' == 'minis[#1]') && ('maxis [#1]' != 'minis[#1]') ) 
 	            set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
+	            
 	            sil-file; quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; sil=all;
             end
             set ctos_sp ++ ;
@@ -4264,10 +4307,10 @@ else
               end
          end
          loop=nd 0 nnodes [0] 
-           if (#nd == 'tochang' )
-	   	continue ;
-           end
            set ndtran 'trad_nd[#nd]' ; 
+	   if ('ndtran' == (-1) )
+	       continue ;  
+           end
            set nod #nd ;
            if (('nod' == root ) ||   ('nod' == 'tgtsp') || (!isintree [0 'nod']) ) 
              continue ; 
@@ -4321,10 +4364,12 @@ else
                sil-file; quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; sil=all;
           end
           set ctos_sp ++ ;
-          set nod sister[0 'tochang'] ; 
-          if (  #nd  ==  'nod'  )
+   
+          if (#nd == 'hermano' ) 
 	    set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ; 
 	    sil-file; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;sil=all;
+	    /*sil-file; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb(55,212,23)&34 /> &10 ;sil=all;*/
+	    
             if ( ('charscore['ndtran' #car]' == 'minis[#car]') && ('maxis [#car]' != 'minis[#car]') ) 
 	          set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
 	          sil-file; quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; sil=all;
@@ -4336,7 +4381,7 @@ else
   stop
  stop 
 end
-
+ 
 
 
 set star_y 'star_y' + 12 ; 
@@ -4347,9 +4392,10 @@ loop=pp 0 nnodes [0]
   if ( ( #pp == root ) || (#pp == 'tgtsp') || (!isintree [0 #pp]) ) 
          continue ; 
         end 
-         if (#pp == 'tochang' )
-	       continue ;
-         end
+        set ndtran 'trad_nd[#pp]' ; 
+        if ('ndtran' == (-1) )
+       	       continue ;  
+        end
         set dde root ; 
         sil=all ;  quote root 'dde' &10; 
         if ( #pp < 'dde'  ) 
@@ -4367,8 +4413,8 @@ loop=pp 0 nnodes [0]
           sil-file; quote <rect x=&34 4 &34&32y=&34 'py'&34&32width=&34 'px'&34&32height=&34 17&34&32stroke-width=&34 2&34&32stroke=&34black&34&32fill=&34none&34&32 /> &10 ;sil=all;
         end
         sil=all ; quote pase por aca ; sil=all; 
-        set nod sister[0 'tochang'] ; 
-        if (  #pp  ==  'nod'  )
+        if (#pp == 'hermano' ) 
+           set tochang sister [ 0 #pp] ; 
        	   if ('tochang' < root ) 
 		set bl_name $$taxon 'tochang' ; 
 	   else
@@ -4467,6 +4513,11 @@ sil-file; quote </svg> &10 ; sil=all;
 log/;
 
  
+ 
+ /* TABLA DE SCORES DE CARACTERES */ 
+
+
+
 
 log $char_file ; 
 lquote = ; 
@@ -4478,8 +4529,9 @@ loop=grp 0 nchar
 stop 
 sil-file; quote &10 ; sil=all; 
 loop=nd 0 nnodes [0] 
-          if (#nd == 'tochang' )
-	 	       continue ;
+         set ndtran 'trad_nd[#nd]' ; 
+         if ('ndtran' == (-1) )
+              	       continue ;  
          end
 	 if (#1 < root ) 
   	    set bl_name $$taxon #1 ;
@@ -4496,26 +4548,29 @@ loop=nd 0 nnodes [0]
 	 stop
 	 sil-file; quote &10 ; sil=file;
 	 set nod sister[0 'tochang'] ; 
-         if (  #nd  ==  'nod'  )
-	  if ('tochang' < root ) 
-	       set bl_name $$taxon 'tochang' ; /*cambiue aca decia #1 ) */
-	  else
-	     set bl_name $Node'tochang' ;
-	  end
-	  sil-file; quote $bl_name , ; sil=file;
-	  loop=grp 0 nchar 
-	     sil-file; quote 'charscore['trad_nd[#nd]' #grp]' , ; sil=file;
-	  stop
-	  sil-file; quote &10 ; sil=file;
+	 if (#nd == 'hermano' ) 
+		   set tochang sister [ 0 #nd] ; 
+		   if ('tochang' < root ) 
+		       set bl_name $$taxon 'tochang' ; /*cambiue aca decia #1 ) */
+		   else
+		     set bl_name $Node'tochang' ;
+		   end
+		  sil-file; quote $bl_name , ; sil=file;
+		  loop=grp 0 nchar 
+		     sil-file; quote 'charscore['trad_nd[#nd]' #grp]' , ; sil=file;
+		  stop
+		  sil-file; quote &10 ; sil=file;
         end
 stop 
 log/; 
  
-         
+  
+  
+ /* SVG DE SCORES DE GRUPOS DE CARACTERES */ 
+ 
   sil=all; quote dogrpchars   'dogrpchars'     numchrgrp 'numchrgrp'  grpscore [0 1]  'grpscore [0 1]'; 
           
 if ('dogrpchars') 
-	 
 	  if (!'domodif' )
 		  loop 0 'numchrgrp' 
 		      set mybestscore [#1] 99999999 ; 
@@ -4579,9 +4634,10 @@ if ('dogrpchars')
 	 sil-file; quote &10 ; sil=file;
 	 loop=nd 0 nnodes [0] 
 	             set nod #nd ; 
-	              if (#nd == 'tochang' )
-		      	 	       continue ;
-                      end
+	             set ndtran 'trad_nd[#nd]' ; 
+	     	     if ('ndtran' == (-1) )
+		          continue ;  
+                     end
 		     if (('nod' == root ) ||  ('nod' == 'tgtsp') || (!isintree [0 'nod']) ) 
 		         continue ; 
 		      end
@@ -4595,9 +4651,9 @@ if ('dogrpchars')
 			 sil-file; quote 'grpscore['trad_nd[#nd]'  #grp]' , ; sil=file;
 		     stop
 		     sil-file; quote &10 ; sil=file;
-		     set nod sister[0 'tochang'] ; 
-                     if (  #nd  ==  'nod'  )
-	                 if ('tochang' < root ) 
+		     if (#nd == 'hermano' ) 
+		        set tochang sister [ 0 #nd] ; 
+		        if ('tochang' < root ) 
 			 	set bl_name $$taxon 'tochang' ;
 			 else
 				set bl_name $Node 'tochang' ;
@@ -4677,8 +4733,9 @@ if ('dogrpchars')
                 end 
                 loop=nd 0 nnodes [0] 
                    set nod #2 ;
-                   if (#nd == 'tochang' )
-		  	continue ;
+                   set ndtran 'trad_nd[#nd]' ; 
+		   if ('ndtran' == (-1) )
+		         continue ;  
                    end
                    if (('nod' == root ) ||   ('nod' == 'tgtsp') || (!isintree [0 'nod']) ) 
                      continue ; 
@@ -4741,8 +4798,7 @@ if ('dogrpchars')
                         SIL-FILE ;    quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; SIL=FILE ; 
                   end
                 set ctos_sp ++ ;
-                set nod sister[0 'tochang'] ; 
-		if (  #nd  ==  'nod'  )
+                if (#nd == 'hermano' ) 
 	          set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ; 
                    SIL-FILE; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;SIL=FILE ;  
                    if (('grpscore['trad_nd[#nd]' #grp]' == 'minis[#grp]') && ('maxis[#grp]' != 'minis[#grp]' )) 
@@ -4901,6 +4957,7 @@ reroot * = 'pavote' ;
     set tochang 'nod' ; 
  end
 
+/* ESTO ES PARA COLOREO DEL ARBOL DE ACUERDO A ERROR IN GROUP HAY QUE CHEQUEARLO TOO */ 
 if ('doing_grp_anal')
  loop=gr 0 ('numchrgrp'-1)
      set back_maxi [#gr ] 'maxis[#gr]' ; 
@@ -4926,13 +4983,18 @@ if ('doing_grp_anal')
 end
  
 log/; 
-  /* desroot_noout es el nodo que no tiene el out en el arbol enraizado original   
+ 
+ /* desroot_noout es el nodo que no tiene el out en el arbol enraizado original   
  Los que tienen menos 1 indican los grupos del arbol enraizado original que no estan en el enraizado en out 
  trad nod te devuelve el nodo del arbol enr en rut q corresponde al nodo entrado */
 
 
 k0 ; 
 tvault < 0 ; 
+
+
+
+ 
 
 ttag-;
 ttag =; 
@@ -5094,9 +5156,16 @@ if (!'besever')
     end 
    end 
 end 
+
+
 nak = ; 
+
+
+
+
+
 reroot  * = 'pavote' ; /* pongo el enraizado original */ /*New*/
-nak= ; 
+nak= ;
 tt- ; 
 ttag * 0 ; 
 nak = ; 
@@ -5105,6 +5174,17 @@ if ( !'doing_grp_anal' )
 else
      ttag & $output_svggrperr xysave eti bheight 'alturama' legup 12 txtsep 20 fontsize 20 blength 'larama'  ; 
 end
+
+ loop=nd 0 'nds' 
+     set ndtran 'trad_nd[#nd]' ; 
+     /*quote: #nd ndtran 'ndtran' hermano 'hermano'  ; */
+     if ('ndtran' == (-1) ) 
+        set hermano sister [ 0 #nd] ;   
+        continue ;
+    end
+ stop         
+        
+
 
 
 
@@ -5167,13 +5247,13 @@ loop=grp 0 ('numchrgrp'-1)
           end
           loop=nd 0 'nds' 
                set ndtran 'trad_nd[#nd]' ; 
+               if ('ndtran' == (-1) ) 
+	                      continue ;
+               end
                set nod #nd ; 
                if ( (#nd == root) || (#nd == 'tgtsp') || (!isintree [0 #nd]) ) 
                        continue ; 
                end
-               if ( ( #nd == 'tochang' ) && ( !'doing_grp_anal' ) )  
-                continue ; 
-               end 
                if ( ('listax[#nd]' == 1) && (#nd < root) )
                    continue ; 
                end
@@ -5248,11 +5328,12 @@ loop=grp 0 ('numchrgrp'-1)
                    end
              end 
            end
-           set nod sister[0 'tochang'] ; 
-           if (   ( #nd ==  'nod' )  &&   (!'doing_grp_anal')  ) 
-              sil=all; quote entrando y el nodo es 'nod' y el tochang es 'tochang' ; 
-              set pos_x ('eti['tochang' 0]' - 'eti[anc[0 'tochang'] 0]')/ 12 + 'eti[anc[0 'tochang'] 0]' + 'suma_x' ; 
-	      set pos_y 'eti['tochang' 1]' + 4 + 'suma_y';    
+           if (#nd == 'hermano' ) 
+             set nod sister [ 0 'hermano'] ; 
+           end
+           if (   ( #nd ==  'hermano' )  &&   (!'doing_grp_anal')  ) 
+              set pos_x ('eti['nod' 0]' - 'eti[anc[0 'nod'] 0]')/ 12 + 'eti[anc[0 'nod'] 0]' + 'suma_x' ; 
+	      set pos_y 'eti['nod' 1]' + 4 + 'suma_y';    
               ttag &+ write <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 'sizsq'&34&32height=&34 'sizsq'&34&32style=&34fill:rgb('red','green','blue')&59 stroke:white&34 /> &10 ;sil=all; 
 	      set pos_y 'pos_y' + 22 ; 
 	      set pos_x 'pos_x' + 11 ; 
@@ -5502,7 +5583,7 @@ loop=tx 0 ntax
 	 k 0 ; 
 	 mu 3 = h 1 ;
 	 bb ;
-	 if ( ntrees == 999 )
+	 if ( ntrees >= 999 )
 	    tch 0.998 ; 
 	 end 
 	 tvault < 0 ;
@@ -5558,7 +5639,7 @@ loop=tx 0 ntax
 		         if ('yacambP['man_trad']' == 0 ) 
 		    	   set poss ['man_trad'] ++ ;
 		  	   set yacambP['man_trad'] 1 ; 
-			    sil-all; quote caca 'man_trad' pis 'poss ['man_trad']' ; sil=all;    
+			    sil=all; quote caca 'man_trad' pis 'poss ['man_trad']' ; sil=all;    
 		        end
 		     end
 		  end
@@ -5583,9 +5664,9 @@ loop=tx 0 ntax
 				 else
 			            if ('yacambP[#nd]' == 0 ) /* para no sumarle dos veces al mismo nodo que fue ya considerado q tiene error por este taxon */ 
 				      set poss [ #nd ] ++ ;
-				      sil-all; quote Nodo #nd cambio por taxon #tx ; sil=all ; 
+				      sil=all; quote Nodo #nd cambio por taxon #tx ; sil=all ; 
 				      if ( #nd == 0 )
-			  		sil-all; quote entro #tx en  'mano'  despues ; sil=all; 
+			  		sil=all; quote entro #tx en  'mano'  despues ; sil=all; 
 			              end 
 				      set yacambP[#nd] 1 ;
 				      if (#tx > 1000 ) gaaa end 
@@ -5597,7 +5678,7 @@ loop=tx 0 ntax
 		set raiz root ; 
                 set dientes deslist [ 'opt_tree' 'mano'] ;
 		loop=di 0 1
-	            sil-all; quote placing #tx 'mano' mano dientes[#di] 'dientes[#di]' out= outgroup ; sil=All; 
+	            sil=all; quote placing #tx 'mano' mano dientes[#di] 'dientes[#di]' out= outgroup ; sil=All; 
 		    if ('dientes[#di]' == #tx )
 		      if ('yacambN[outgroup]' == 0 ) 
 		        set poss[outgroup] ++ ; 
@@ -5610,7 +5691,7 @@ loop=tx 0 ntax
 stop
 
 
-sil-all; quote error en nodo 0 'poss [ 0 ]'  ; 
+sil=all; quote error en nodo 0 'poss [ 0 ]'  ; 
 
 
 k 0 ; 
@@ -5989,7 +6070,7 @@ if ('clade_anal')
 	 k0 ; 
 	 tv < 0 ; 
 
-	 sil-file ; quote Placement error for each subtree of reference tree ; sil=all; 
+	 sil-file ; quote Placement error for each subtree of reference tree &10; sil=all; 
 	 sil-file ; quote ,Complete_dataset, Complete_dataset,; sil=all; 
 	 if ('doerror_w_grps'   ) 
 	   loop=gc 0 ('numchrgrp'-1)
@@ -6014,11 +6095,10 @@ if ('clade_anal')
        
 	 reroot * = 'pavote';  /*  para que quede como el original */ 
  
-         lquote - ; 
-	 loop=dd 0 ( nnodes [ 0 ] ) 
+        loop=dd 0 ( nnodes [ 0 ] ) 
 	         set ndtran 'trad_nd[#dd]' ; 
-	         sil-all; quote Nodo #dd ndtran 'trad_nd[#dd]'  toinv[#dd] 'toinv[#dd]' fp[ndtran] 'false_pos['ndtran']' fn[ndtran] 'false_neg['ndtran']' fp[dd]   'false_pos[#dd]' fn[#dd] 'false_neg[#dd]' ; sil=all; 
-		 sil-all ; quote Nodo #dd 'desroot_noout' 
+	         sil=all; quote Nodo #dd ndtran 'trad_nd[#dd]'  toinv[#dd] 'toinv[#dd]' fp[ndtran] 'false_pos['ndtran']' fn[ndtran] 'false_neg['ndtran']' fp[dd]   'false_pos[#dd]' fn[#dd] 'false_neg[#dd]' ; sil=all; 
+		 sil=all ; quote Nodo #dd 'desroot_noout' 
 		 if ( (#dd == root) || ( #dd == 'tgtsp' ) || (!isintree [0 #dd]) ) 
 		     continue ; 
 		  end
@@ -6027,22 +6107,22 @@ if ('clade_anal')
 				set ndtran 'trad_nd[sister [ 0 'desroot_noout']]'   ;
 				set erne   'false_pos['ndtran']'  ; 
 				set erpo   'false_neg['ndtran']' ;
-				sil-all; quote entro en 1 ; sil=all; 
+				sil=all; quote entro en 1 ; sil=all; 
 			 else 
 			     if ('toinv[#dd]' == (-1)) 
 				 set erne   'false_pos['ndtran']'  ; 
 				 set erpo   'false_neg['ndtran']' ;
-				 sil-all; quote entro en 2 ; sil=all; 
+				 sil=all; quote entro en 2 ; sil=all; 
 			     else
 				  set erpo 'false_pos['ndtran']'  ; 
 				  set erne 'false_neg['ndtran']' ;
-				  sil-all; quote entro en 3 ; sil=all; 
+				  sil=all; quote entro en 3 ; sil=all; 
 			     end
 			  end  
 	          else
 	            set erpo 'false_pos[ 'trad_nd['desroot_noout']']' ;  
 	          end 
-		  sil-all ; quote Nodo #dd desroot_noout 'desroot_noout'  toinv[#dd] 'toinv[#dd]'   ;
+		  sil=all ; quote Nodo #dd desroot_noout 'desroot_noout'  toinv[#dd] 'toinv[#dd]'   ;
 	 
 		  if ( #dd <= ntax ) 
 			   set bl_name $$taxon #dd ;
@@ -6080,43 +6160,41 @@ if ('clade_anal')
 
 		  end
 		  if ('doerror_w_grps'   )
-		    loop=gc 0 ('numchrgrp'-1)
-		      if (#dd !='ogrup') 
-		      			if (#dd == 'desroot_noout' )
-		      				set ndtran 'trad_nd[sister [ 0 'desroot_noout'] ]'   ;
-		      				set erne   'falses_pos['ndtran' #gc]'  ; 
-		      				set erpo   'falses_neg['ndtran' #gc]' ;
-		      				sil-all; quote entro en 1 ; sil=all; 
-		      			 else 
-		      			     if ('toinv[#dd]' == (-1)) 
-		      				 set erne   'falses_pos['ndtran' #gc]'  ; 
-		      				 set erpo   'falses_neg['ndtran' #gc]' ;
-		      				 sil-all; quote entro en 2 ; sil=all; 
-		      			     else
-		      				  set erpo 'falses_pos['ndtran' #gc]'  ; 
-		      				  set erne 'falses_neg['ndtran' #gc]' ;
-		      				  sil-all; quote entro en 3 ; sil=all; 
-		      			     end
-		      			  end  
-		      else
-		      	  set erpo 'falses_pos[ 'trad_nd['desroot_noout']' #gc]' ;  
-	              end 
-		       if (('erpo' != 7777777) && ( 'erne' != 7777777)) 
-			     set posx 'erpo'/100 ; set posy 'erne'/100 ;  
-			      sil-file; quote 'posx','posy', ; sil=all; 
-			end
-			if (('erpo' == 7777777) && ( 'erne' != 7777777)) 
-			    set posy 'erne'/100 ;
-			    sil-file; quote NA,'posy', ; sil=all; 
-			end
-			if (('erpo' != 7777777) && ( 'erne' == 7777777)) 
-			      set posx 'erpo'/100 ;
-			     sil-file ; quote 'posx', NA , ; sil=all;
-			end
-			if (('erpo' == 7777777) && ( 'erne' == 7777777)) 
-			      sil-file; quote NA, NA , ; sil=all;
-			end
-		   stop
+			    sil-file ;  
+			    loop=gc 0 ('numchrgrp'-1)
+			      if (#dd !='ogrup') 
+						if (#dd == 'desroot_noout' )
+							set ndtran 'trad_nd[sister [ 0 'desroot_noout'] ]'   ;
+							set erne   'falses_pos['ndtran' #gc]'  ; 
+							set erpo   'falses_neg['ndtran' #gc]' ;
+						 else 
+						     if ('toinv[#dd]' == (-1)) 
+							 set erne   'falses_pos['ndtran' #gc]'  ; 
+							 set erpo   'falses_neg['ndtran' #gc]' ;
+						     else
+							  set erpo 'falses_pos['ndtran' #gc]'  ; 
+							  set erne 'falses_neg['ndtran' #gc]' ;
+						     end
+						  end  
+			      else
+				  set erpo 'falses_pos[ 'trad_nd['desroot_noout']' #gc]' ;  
+			      end 
+			       if (('erpo' != 7777777) && ( 'erne' != 7777777)) 
+				     set posx 'erpo'/100 ; set posy 'erne'/100 ;  
+				       quote 'posx','posy',  ; 
+				end
+				if (('erpo' == 7777777) && ( 'erne' != 7777777)) 
+				    set posy 'erne'/100 ;
+				     quote NA,'posy', ;  
+				end
+				if (('erpo' != 7777777) && ( 'erne' == 7777777)) 
+				      set posx 'erpo'/100 ;
+				       quote 'posx', NA ,  ;
+				end
+				if (('erpo' == 7777777) && ( 'erne' == 7777777)) 
+				      quote NA, NA , ; 
+				end
+			   stop
 		  end
 
 		 sil-file; quote &10 ; sil=all; 
@@ -6553,6 +6631,7 @@ proc/;
  
 label GENERATE_OUTPUT
 
+ 
 macfloat 2 ;
 log $output_conditions ; 
 cls ; clb  ;
@@ -6609,17 +6688,17 @@ if ('nopiwe' == 1 )
    sil-all; quote &32&32 Maximum Likelihood &10; sil=all; 
    if ('numchrgrp')
     if ('unlinked')
-    sil-all; quote &32&32&32 (Unlinked Mk model with character groups representing partitions) &10;sil=all;
+    sil-all; quote &32&32&32&32 Unlinked Mk model with character groups representing partitions &10;sil=all;
     else
-    sil-all; quote &32&32&32 (Linked Mk model) &10;sil=all;
+    sil-all; quote &32&32&32&32  Linked Mk model &10;sil=all;
     end
    else
     sil-all; quote &32&32&32 (Mk model) &10;sil=all;
    end 
    if (!'mk_space') 
-   sil-all ; quote &32&32&32 (Considering the same state space for every character) &10; sil=all ;
+   sil-all ; quote &32&32&32&32 Considering the same state space for every character &10; sil=all ;
    else
-   sil-all ; quote &32&32&32 (Each character with its own state space) &10 ; sil=all ;
+   sil-all ; quote &32&32&32&32 Each character with its own state space &10 ; sil=all ;
    end
   end 
   if ('pars_frm_mult')
@@ -6697,7 +6776,7 @@ if ('sensato')
 end 
 
 
-if (('dosensit' == 1) || ('dosensit' == 2) )
+if (('dosensit' == 1) || ('dosensit' == 2) && ('sensato' == 1)  )
               if ('docross_w_tgt') 
 	         if (!'notarget')
 	            sil-all; quote - Leave-one-out validation analysis run considering character sampling of target species  ; sil=all; 
@@ -6768,7 +6847,9 @@ if (('nopiwe' != 1 ) && ('sensato' == 0 ))
            sil-all; quote - A svg file was generated ( $output_svg ) displaying the scores of placing the target species on each branch of the backbone tree ; sil=all; 
         else
            sil-all; quote - Best tree(s) save in $output_mpts file, including optimal placement of the target species ; sil=all; 
-	   sil-all; quote - A svg file was generated ( $output_svg ) displaying the scores of placing the target species on each branch of the backbone tree ; sil=all; 
+	   sil-all; quote - A svg file was generated ( $output_svg ) displaying the scores of placing the target species on each branch of the backbone tree ; sil=all;
+	   if ('did_colorquer'  ) 
+	   sil-all; quote - A svg file was generated  ( &color_query.svg ) showing the placement of all query species on the backbone tree ; sil=all;                
         end
     else
        sil=all;  quote - Best tree(s) save in $output_mpts file, including optimal placement the query species ; sil=all; 
@@ -7792,13 +7873,12 @@ label MAGIC_FOR_OUT
 	k 0 ; 
 	mu 3 = h 1 ;
 	bb ;
-	if ( ntrees == 999 )
+	if ( ntrees >= 999 )
 	   tch 0.998 ; 
 	end 
 	tvault < 0 ; /* traigo el cero de vaoutl y lo reenraizo */ 
 	rer ; 
-	si-all ; quote prevout 'prevout'  outrut 'outrut ; 
-	tt- ; sil-all;  tp ; 
+	si=all ; quote prevout 'prevout'  outrut 'outrut ; 
 	
 	set ref_tree ntrees ;
 	set eltax 'prevout' ; 
@@ -7875,19 +7955,19 @@ label MAGIC_FOR_OUT
      lquote- ; 
      loop=nd 0 (nnodes ['ref_tree']) 
         set ndtran 'trad_nd_out[#nd]' ;
-        sil-all ;quote nodo #nd ntran 'ndtran' posout 'poss_out [#nd]' toinv 'toinv_out[#nd]' ;  
+        sil=all ;quote nodo #nd ntran 'ndtran' posout 'poss_out [#nd]' toinv 'toinv_out[#nd]' ;  
         if ('poss_out [#nd]' == 1 ) 
             if ('toinv_out[#nd]' == (-1) ) 
                   set negg ['ndtran']  'negg ['ndtran']'   + 1 ; 
-                  sil-all ; quote le aumente neg a  'ndtran' por directo nodo #nd outrut 'outrut';  
+                  sil=all ; quote le aumente neg a  'ndtran' por directo nodo #nd outrut 'outrut';  
             else
                   set poss ['ndtran'] 'poss ['ndtran']'   + 1   ; 
-                  sil-all ; quote le aumente pos a  'ndtran' por directo nodo #nd  outrut 'outrut'; 
+                  sil=all ; quote le aumente pos a  'ndtran' por directo nodo #nd  outrut 'outrut'; 
             end  
        end
         if ('negg_out [#nd]' == 1 )  
               if ('toinv_out[#nd]'  == (-1)) 
-                  sil-all ;quote le aumente pos a  'ndtran' por inverso nodo #nd 'outrut'; 
+                  sil=all ;quote le aumente pos a  'ndtran' por inverso nodo #nd 'outrut'; 
 		  set poss ['ndtran']  'poss ['ndtran']'   + 1 ;  
                else
                  set negg ['ndtran'] 'negg ['ndtran']'   + 1 ; 
@@ -8160,9 +8240,12 @@ loop=nd 0 (nnodes[0])
          k 0 ; 
          tvault<0 ; 
          rer ; 
-         if ((#nd == root) ||  (#nd == 'tgtsp') || (!isintree [0 #nd]) )
+
+         if ((#nd == root) ||  (#nd == 'tgtsp') || (!isintree [0 #nd]) || (#nd == outgroup) )
              continue ; 
          end
+         
+         /*
          if (#nd == outgroup ) 
 	 		     loop=xx 0 ntax 
 	 		       if ( (#xx != outgroup) && (isintree [0 #xx]) )   
@@ -8173,23 +8256,28 @@ loop=nd 0 (nnodes[0])
 	 		        end
 	 		    stop 
 	 end
+	 */
          set blue root ; 
-         sil=all; edit 0 'blue' 'tgtsp' #nd ; 
+         quote: 'blue' 'tgtsp' #nd ;  
+         sil=all; 
+         edit 0 'blue' 'tgtsp' #nd ; 
          set blue score[0] ; 
          set ter sister[0 'tgtsp'] ; 
          set ces anc[0 'tgtsp'] ;  
          force + [ @0 'ces'  ]  [ @0 'ter'  ] ;   
          k 0 ; 
          constrain=;
+       
          mu 300 = h 5  ;/*mu 30 */ 
          bb = fillonly ; 
-         if (ntrees == 999 )
+         if (ntrees >= 999 )
              tch 0.998 ; 
          end
          set esco score[0] ; 
          if ('blue' < 'esco' ) 
             set esco 'blue' ; 
          end 
+         quote: nodo #nd esco 'esco' blue 'blue'  ; 
          set core[#nd] 'esco' ;
          if ('esco' <= 'mini')
                   if ('esco' == 'mini')
@@ -8239,6 +8327,9 @@ loop=nd 0 (nnodes[0])
 	 end
 stop
 
+quote: mini 'mini' besnod 'besnod' ; 
+
+ 
 proc/
 ; 
 
@@ -8258,11 +8349,15 @@ tt- ;
 tv < . ; 
 rer; 
 nelsen * /'tgtsp' ; 
-
- 
 tc / ; 
 
+if ( nnodes[0] == 0 ) 
+  ra1 ; tplot [ ; k0 ; cls; 
+  sil-all;
+  errmsg The strict consensus after having pruned the target species is completely unresolved. The analysis cannot be completed ; 
+end 
 
+ 
 
 set nds nnodes [0] ;
 if ('dolik')
@@ -8280,14 +8375,16 @@ macreport-;
 tt-; 
 
  
+log saliendo.txt ; 
 
 loop=nd 0 (nnodes[0])
          set tofork 0 ;  
          k 0 ; 
          tv < . ; 
+         rer ; 
 	 nelsen * /'tgtsp' ; 
          tc / ;  
-         
+    
          set nod #nd ; 
          if ((#nd == root) ||  (#nd == 'tgtsp') || (!isintree [0 #nd]) || ( #nd == outgroup  ) )
 	              continue ; 
@@ -8297,6 +8394,8 @@ loop=nd 0 (nnodes[0])
          end
         
          set blue root ; 
+         quote: 'blue' 'tgtsp' 'nod' ; 
+         
          edit 0 'blue' 'tgtsp' 'nod' ; 
          set blue score[0] ; 
          set ces anc[0 'tgtsp'] ;  
@@ -8310,6 +8409,7 @@ loop=nd 0 (nnodes[0])
          k 0 ; 
          constrain=;
          mu 300 = h 5  ; 
+         quote: vta afuera #nd ; 
          set esco score[0] ; 
          if ('blue' < 'esco' ) 
             set esco 'blue' ; 
@@ -8321,14 +8421,19 @@ loop=nd 0 (nnodes[0])
          if ('esco' > 'maxi')
             set maxi 'esco' ; 
          end
+     
          if ( 'tofork' )   
+              quote: entro en tofork ; 
               nak- ; /*borrar*/ 
               k 0 ; 
 	      tv < . ; 
+	      rer ; 
 	      nelsen * /'tgtsp' ; 
 	      tc / ;  
               set nod #nd ; 
-              set blue root ;  
+              set blue root ;
+              sil-all; nak- ; tp ; 
+                quote: 'blue' 'tgtsp' 'nod' ; 
               edit 0 'blue' 'tgtsp' 'nod' ; 
               set red anc [0 'tgtsp'] ;  
               set lis deslist[ 0 'red']; 
@@ -8336,6 +8441,7 @@ loop=nd 0 (nnodes[0])
               force=&0;
               constrain=;
               mu 300 = h 5  ; 
+         
 	      set  esco  score[0]  ;
 	      if ('esco' < 'mini')
                   set mini 'esco' ; 
@@ -8347,11 +8453,10 @@ loop=nd 0 (nnodes[0])
          else
              set score_poly[#nd 1]  99999 ;	 
 	 end 
-	 
+	    
  stop
-
-
-
+ 
+ 
 /* coloreo las ramas con los colores como siempre  para las ramas poly le puedo superponer una rama xq tengo las coor y de los desc. tengo que lupearlas y ver los valores minimos y maximos de y  */
 
 k0 ; 
