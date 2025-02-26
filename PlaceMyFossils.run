@@ -1,24 +1,28 @@
 report- ; 
 sil=all; 
 macro - ;
-mxram 600 ; 
-macro [ 500000 ; 
-macro *20 5729000 ; 
+mxram 400 ; 
+macro [ 800000 ; 
+macro *20 14929000 ; 
 macro = ;                                        
 var - ; 
 xwipe ; 
 goto = %0 ; 
 macreport = ; 
 silent = all ; 
+macfloat 10 ; 
+
 
 /*-------------------------------------------------------
-TNT script:  PlaceMyFossils.run                                                           
-Updated:     2024-09-05                                                                 
+TNT script:  PlaceMyFossils.run     
+Version:     1.2
+Updated:     2025-02-11                                                                 
 Author:      Santiago A. Catalano                                                        
 Mantainer:   Santiago A. Catalano                              
 Depends:     TNT version 1.6
              (Goloboff and Morales, 2023. doi: 10.1111/cla.12524)      
-License:     GPL (3). Citation: Catalano et al. (2024)    
+License:     GNU General Public Licence (3). 
+Citation:    Catalano et al. (2025)    
 ---------------------------------------------------------*/
 
 var: 
@@ -28,9 +32,11 @@ grusize
 nucondis
 nosize ; 
 
-macfloat 7 ; 
 set taxsize 1000 ; 
-set charsize 1000 ; 
+set charsize 5000 ;  
+
+
+
 set grusize 50; 
 set nucondis 30 ; 
 set nosize 'taxsize' * 2 ; 
@@ -58,7 +64,7 @@ miti_err        setting_file[300]
 best                    guichpiwe               mult_w_target           shift   
 bestdis                 guichsensit             multiopt                shof    
 mybestscore['grusize'] guichsp                  multisp                 shoft   
-bl_name[300]            guichval                multree                 sizsq   
+bl_name[100]            guichval                multree                 sizsq   
 blue                    hayconts          myout[100]            son_uno son_cero        
 bran    haylands        n                       sonamb  
 bran_ref                haytax                  nconds                  sortedchars[4000]       
@@ -78,7 +84,7 @@ core[('taxsize'*2)]                       output_file[50]               suma_y
 core_mult['nucondis' 'nosize' ] limA                    output_mpts[50]         tadentro        
 ctos                    tot_width               limB                    output_svg[50]   
 output_sensit [50]    tancia  output_errbars[50]
-ctos_sp                 limred                  output_svggrpchar[300]  taxnombre[300]  
+ctos_sp                 limred                  output_svggrpchar[100]  taxnombre[300]  
 cual                    lineas                  output_svggrperr[100]   taxtarg['taxsize']
 output_svgchars [100] grp_scores_tabl [100]
 dde                                           pace                    tgtname[300]    
@@ -150,6 +156,7 @@ tiempo
 pos_two  pos_tre pos_cua
 opt_mk_brlen [  'nosize' ] 
 mk_brlen [ 'nosize' ] 
+EPA_mk_brlen [  'nosize' ] 
 largos [ 'nosize' ] 
 red_mk_brlen [ 'nosize' ]  
 tmp_brlen [ 'nosize' ] 
@@ -178,12 +185,13 @@ guicherr_cross mean_dist
 clade_anal score_poly[ 'nosize' 2 ] 
 lis ['nosize']  domodif tochang tofork color_poly ['nosize' 3 ] luptre tricto
 guerquery justerr muchos ogrup sisou brastri [100]  hermano queta[100] quita [100] 
-did_colorquer 
-;   
-
-
- 
-
+did_colorquer redo bluo latar bestesco ['nosize']  estim_ML
+grp_mk_brlen[ 'nosize' 'grusize' ] grp_opt_mk_brlen [ 'nosize' 'grusize' ]
+do_jplace output_jplace[100]  output_color[100] jplacer[4 'nosize']
+tgt_blen sis_blen minima_trees [ 'nosize' 2  ]  
+usr_float flot_prnt  flot_calc ddi vani myseed 
+greene bluee rede rever_tgtsp RAS_num gg
+; 
 
 naked=;
 
@@ -194,6 +202,7 @@ taxname +200 ;
 set + ; 
 piwe - ; 
 
+
 set input_treefile $NOTREEFILE ; 
 set input_file $NOFILE ; 
 set output_consense $Strict.tre ; 
@@ -203,6 +212,7 @@ set output_sensit $Query_sensit.svg ;
 set output_svggrpchar $Query_placement_partitions.svg ;
 set output_svggrperr $Error_by_subtree.svg ; 
 set char_file $Chars_score_table.out ; 
+set output_color $Color_query.svg ; 
 set output_svgchars $Chars_score_table.svg ; 
 set group_file $Partitions_score_table.svg ; 
 set grp_scores_tabl $Partitions_score_table.out ; 
@@ -210,44 +220,43 @@ set setting_file $settings.txt ;
 set Los_errors $Errors_by_subtree.out ;
 set prefix $Prefix ; 
 set toter_string $Error_by_partition.out ; 
+
 set output_conditions $Running_conditions.out ; 
-set output_errbars  $Errors_by_partition.svg
-set ancho[0] 375 ; set ancho[4] 375 ;
-set ancho[2] 375 ; set ancho[3] 375 ; 
+set output_errbars  $Errors_by_partition.svg ; 
+set output_jplace  $Query_placement.jplace ; 
+
+
+
+set ancho[0] 375 ; set ancho[4] 380 ;
+set ancho[2] 375 ; set ancho[3] 380 ; 
 set ancho[1] 375 ; 
 set ancho[6] 375 ; 
-
-set alto[2] 300 ; set alto[4] 178 ; 
-set alto[1] 90 ; set alto[3] 125 ;
-
+set alto[2] 275 ; set alto[4] 210 ; 
+set alto[1] 75 ; set alto[3] 125 ;
 set alto [6 ] 100 ; 
-
-
-
 set start_x[5] 390 ;
-set start_y[5] 308 ;
-set ancho[5] 375 ; 
+set start_y[5] 333 ;
+set ancho[5] 380 ; 
 set alto[5] 195;  
-
 set start_x[0] 8 ; 
 set start_x[2] 8 ; set start_x[4] 390 ;
 set active 1 ; 
 set start_x[1] 8 ; set start_x[3] 390 ;
- set start_y [4] 8 ; 
-set start_y[2] 8 ; set start_y[3] 185 ; 
-set start_y[1] 305 ; 
-
+set start_y [4] 3 ; 
+set start_y[2] 3 ; set start_y[3] 210 ; 
+set start_y[1] 275 ; 
 set start_x[6] 8 ;
-set start_y[6] 130  ;
-
-
-set start_y[0] 390 ;
-set alto [0] 150 ;
+set start_y[6] 25  ;
+set start_y[0] 348;
+set alto [0] 180 ;
 set ancho[0] 375 ;
 set start_x[0] 8 ;
 
+
+
+
 set anchotot 780 ; 
-set altotot 575;
+set altotot 596;
 
 set tgtsp  ( -9)   ; 
 set chssp 1 ; 
@@ -276,9 +285,9 @@ set sensato 0 ;
 set chg_dogrpchars 0 ; 
 set char_anal 0 ; 
 set doing_grp_anal 0 ; 
-set doerror_w_tgt 1 ;
+set doerror_w_tgt 0 ;
 set dolik 0 ; 
-set docross_w_tgt 1 ; 
+set docross_w_tgt 0 ; 
 set doing_unlinked 0 ; 
 set space_sensit 1 ; 
 set unlinked_sensit 1 ; 
@@ -300,7 +309,13 @@ set guicherr 2 ;
 set guicherr_cross 2 ; 
 set domodif  0 ; 
 set did_colorquer 0 ; 
-
+set usr_float 0 ; 
+set flot_prnt 2 ; 
+set flot_calc 10 ; 
+set estim_ML 0 ; 
+set myseed 1 ;
+set rever_tgtsp 0 ; 
+set RAS_num 300 ; 
  SIL=All; 
  warn- ; 
  
@@ -351,7 +366,7 @@ set did_colorquer 0 ;
    set stricting 0 ; 
     if (ntrees > 0 )
        cls; tplot [ ; 
-       sil-all ; quote *  More than one tree read from tree file. The placement of the target species will be displayed on the strict consensus. If you want to run an analysis using scaffolds inclue a single topology in the tree file; 
+       sil-all ; quote *  More than one tree read from tree file. The placement of the target species will be displayed on the strict consensus. If you want to run an analysis using scaffolds include a single topology in the tree file; 
        set stricting 1 ; 
        report=; 
   end
@@ -418,6 +433,12 @@ if ('doprefix')
 	 set output_errbars $$int_string ;
          set int_string $$prefix $output_conditions  ; 
          set output_conditions $$int_string ; 
+    
+         set int_string $$prefix $output_jplace ; 
+	 set output_jplace $$int_string ; 
+        
+        set int_string $$prefix $output_color  ;
+         set output_color $$int_string ; 
 end
 goto TAX_SETS ;  
 goto CHECK_STATUS ; 
@@ -426,13 +447,21 @@ goto SETTING_PALETTE ;
 
 sil=all; 
 tabl/ 7 ; 
-macfloat 7 ; 
+macfloat 'flot_calc' ; 
 
 if ('nopiwe' == 2 ) 
    set dolik 1 ; 
    lset display ; 
    if ('mk_space' )
       lset nogstatespace ; 
+   else
+       lset gstatespace ; 
+   end
+   lset speed 0.05 ldelta 0.01 bdelta 0.01 passes 40 40 ;
+   if ('unlinked' ) 
+       set doing_unlinked 1 ; 
+   else
+       set doing_unlinked 0 ; 
    end
 end 
 
@@ -463,7 +492,7 @@ set mini 9999999 ;
 set maxi 0 ; 
 
 
- if ('stricting')
+if ('stricting')
    if ('domodif' )  
      goto PLACE_TARGET_WITH_MODIF_MULTREES ; 
    else
@@ -546,7 +575,7 @@ end
 
 
  
-macfloat 7 ; 
+macfloat 'flot_calc' ; 
 if ( ( ('dosensit' == 1) || ('dosensit' == 2 ) ) && ('sensato' == 1)  ) 
     progress 0 100 Running Leave-one-out Validation Analysis ;    
      goto CROSSVALIDATION ; 
@@ -554,15 +583,18 @@ if ( ( ('dosensit' == 1) || ('dosensit' == 2 ) ) && ('sensato' == 1)  )
 end
 
 if ('sensato') 
-     if (!'notarget') 
+quote: entro sensato ; 
+     if (!'notarget')
+     quote: entro notarget ; 
 	  if (('dosensit' == 0) || ('dosensit' == 2 ) ) 
+	      quote: entro en or ; 
 	       if ('multisp' )
 		  progress 0 100 Running Sensitivity Analysis ;    
 		   goto SENSIT_MULT_WITH_TARGET ;
 		   progress/; 
 	       else
 		      progress 0 100 Running Sensitivity Analysis ;    
-		 
+		      quote: entro en color sensit ; 
 		      goto COLOR_SENSITIVITY ; 
 		     progress/; 
 	       end 
@@ -665,47 +697,52 @@ label SCAFFOLD_MENU
 	tplot ] ; 
 	k0 ; 
 	set myout $$taxon outgroup ; 
-  	opendlg 50 50 'anchotot' 'altotot' Place Species on Backbone... ;
+  	opendlg 20 20 'anchotot' 'altotot' Place Species on Backbone... ;
 
 
 	  showtxt ('start_x[2]'+8) ('start_y[2]'+8) 300 25 Species Settings ; 
 	 
 
 	   frame 'start_x[2]' 'start_y[2]' 'ancho[2]' 'alto[2]' ; 
-           showtxt ('start_x[2]' + 18) ('start_y[2]'+ 30) 350 20 Target species;
+           showtxt ('start_x[2]' + 18) ('start_y[2]'+ 25) 350 20 Target species;
 	 
-	   choose notarget ('start_x[2]' + 30) ('start_y[2]'+75) 300 20 Select a target species  
-	    +   gettxt tgtname ('start_x[2]' + 50) ('start_y[2]'+ 100) 150 20   ;= 
-	       ('start_x[2]' + 30) ('start_y[2]'+50) 300 20 Target species is absent in reference tree  
-               ('start_x[2]' + 30) ('start_y[2]'+125) 300 20 No  target species ;
+	   choose notarget ('start_x[2]' + 30) ('start_y[2]'+60) 300 20 Select a target species  
+	    +   gettxt tgtname ('start_x[2]' + 50) ('start_y[2]'+ 80) 200 20   ;= 
+	       ('start_x[2]' + 30) ('start_y[2]'+40) 300 20 Target species is absent in reference tree  
+               ('start_x[2]' + 30) ('start_y[2]'+105) 300 20 No target species ;
           
           
-           showtxt ('start_x[2]' + 18) ('start_y[2]'+ 155) 350 20 Add species to query list;  
-	   choose chssp ('start_x[2]' + 30) ('start_y[2]'+175) 300 20 Select additional query species
-	            + taxsel listax ('start_x[2]' + 50) ('start_y[2]'+200) 150 20 ; = 
-	                  ('start_x[2]' + 30) ('start_y[2]'+225) 300 20 Absent in reference tree 
-	                  ('start_x[2]' + 30) ('start_y[2]'+250) 300 20 No additional query species ;  
+           showtxt ('start_x[2]' + 18) ('start_y[2]'+ 130) 350 20 Add species to query list;  
+	   choose chssp ('start_x[2]' + 30) ('start_y[2]'+150) 300 20 Select additional query species
+	            + taxsel listax ('start_x[2]' + 50) ('start_y[2]'+175) 150 20 ; = 
+	                  ('start_x[2]' + 30) ('start_y[2]'+205) 300 20 Absent in reference tree 
+	                  ('start_x[2]' + 30) ('start_y[2]'+225) 300 20 No additional query species ;  
 	                                   
-      	   check domodif ('start_x[2]' + 18) ('start_y[2]'+275) 300 20 Allow target species to modify relationships ; 
+      	   check domodif ('start_x[2]' + 18) ('start_y[2]'+250) 300 20 Allow target species to modify relationships ; 
 
 	   frame 'start_x[0]' 'start_y[0]' 'ancho[0]' 'alto[0]' ; 
             showtxt ('start_x[0]' + 8) ('start_y[0]'+ 8) 150 20 Output Settings ; 
-	    check doprefix ('start_x[0]' + 8) ('start_y[0]'+ 28) 300 30 Define a prefix for output files ; 
-	     +  gettxt prefix ('start_x[0]' + 15) ('start_y[0]'+ 57) 150 20     ;= 
-	  showtxt ('start_x[0]'+8) ('start_y[0]'+ 85) 300 25 Palette for coloring ; 
-	  choose do_palette ('start_x[0]' + 20) ('start_y[0]'+100) 300 20 Blue->Green->Red
-			    ('start_x[0]' + 20) ('start_y[0]'+120) 300 20 Inferno (Yellow->Violet)  ;  
-
-	  frame 'start_x[4]' 'start_y[4]' 'ancho[4]' 'alto[4]' ;
+	    check doprefix ('start_x[0]' + 8) ('start_y[0]'+ 23) 300 30 Define a prefix for output files ; 
+	     +  gettxt prefix ('start_x[0]' + 15) ('start_y[0]'+ 55) 150 20     ;= 
+	  showtxt ('start_x[0]'+8) ('start_y[0]'+ 80) 300 25 Palette for coloring ; 
+	  choose do_palette ('start_x[0]' + 20) ('start_y[0]'+95) 140 20 Blue->Green->Red
+	                ('start_x[0]' + 180) ('start_y[0]'+95) 170 20 Inferno (Yellow->Violet)  ;  
+          check do_jplace ('start_x[0]' + 8) ('start_y[0]'+120) 300 20 Save results in jplace format ;  
+          subdlg ('start_x[0]' + 8) ('start_y[0]'+148) 200 20 Change number of decimals to print ;
+		     290 255 300 140 Decimals ; 
+		      showtxt 8 8 180 20 Select number of decimals to print ;  
+		       spin 0 10 flot_prnt 15 30 100 20 .;   
+		      closedlg ;  
+          frame 'start_x[4]' 'start_y[4]' 'ancho[4]' 'alto[4]' ;
 	    showtxt ('start_x[4]'+5) ('start_y[4]'+12) 250 25 Optimality Criterion ; 
 	    choose nopiwe ('start_x[4]' + 12) ('start_y[4]'+ 55) 150 20 Implied Weighting 
 		    + subdlg ('start_x[4]' + 180) ('start_y[4]'+ 55) 120 20 Define settings ;
 		     290 255 350 190 Implied Weighting Settings ; 
 		     showtxt 7 7 290 15 Strength weighting against homoplasy ; 
 		    choose guichval 11 38 11 11 . 
-									+ spin 1 99 kkval 37 35 200 20 Defined by K value ;=
+									+ spin 1 99 kkval 37 35 100 20 Defined by K value ;=
 								  11 73 11 11 . ;
-								  + spin 2 99 nval 37 70 200 20 Defined by N value ;=
+								  + spin 2 99 nval 37 70 100 20 Defined by N value ;=
 							  closedlg ; =
 
 					('start_x[4]' + 12) ('start_y[4]'+ 105) 160 20 Multiple Optimality Criteria
@@ -722,7 +759,7 @@ label SCAFFOLD_MENU
 
 					('start_x[4]' + 12) ('start_y[4]'+ 80) 150 20 Maximum Likelihood (MK) 
 		      + subdlg ('start_x[4]' + 180) ('start_y[4]'+ 80) 120 20 Define settings ;
-								      290 255 360 220 Maximum Likelihood Settings ; 
+								      290 255 360 190 Maximum Likelihood Settings ; 
 								      check unlinked 11 20 200 21 Use unlinked model ; 
 								      check mk_space 11 50 280 21 Use a different state space for each character ;
 								      check doing_EPA 11 80 330 21 Show relative probabilities instead of diff. in logL (EPA approach) ;
@@ -738,7 +775,7 @@ label SCAFFOLD_MENU
 							 choose guichsensit 11 230 400 25 Evaluate different K values ( Implied Weighting only )
 										 + spin 1 50 kmax 205 255 60 20 To 
 										 spin 1 50 kmin 35 255 60 20 From 
-										 spin 2 15 nconds 350 255 100 20 N? of k values ;
+										 spin 2 15 nconds 350 255 100 20 Num of k values ;
 										 =
 								    11 280 400 25 Choose parameters (Maximum Likelihood only)    
 								     + check space_sensit  20  310 140 20 Global state space ;
@@ -756,15 +793,18 @@ label SCAFFOLD_MENU
 			                                                       150 140 60 20 Max. ;	 
  
 	      closedlg ; =
-
-
+              subdlg ('start_x[4]' + 8) ('start_y[4]'+ 180) 180 20 Define Random Seed ;
+                   290 330 250 150 Random Seed ;
+                   spin 0 9000 myseed 30 30 100 20 Random Seed (0=time) 
+               closedlg ;    
+                   
 	  frame 'start_x[1]' 'start_y[1]' 'ancho[1]' 'alto[1]' ; 
 	  
 	    showtxt ('start_x[1]' + 8) ('start_y[1]'+ 10) 150 20 Character Settings;
 	    
-	    choose active ('start_x[1]' + 12) ('start_y[1]'+ 30) 200 20 Define active characters
-	     + charsel listchar ('start_x[1]' + 190) ('start_y[1]'+ 30) 150 20 ;=
-	       ('start_x[1]' + 12) ('start_y[1]'+ 60) 230 20 Use activity defined in dataset file;  
+	    choose active ('start_x[1]' + 12) ('start_y[1]'+ 27) 200 20 Define active characters
+	     + charsel listchar ('start_x[1]' + 190) ('start_y[1]'+ 25) 150 20 ;=
+	       ('start_x[1]' + 12) ('start_y[1]'+ 48) 230 20 Use activity defined in dataset file;  
 	 frame 'start_x[3]' 'start_y[3]' 'ancho[3]' 'alto[3]' ; 
 			     showtxt ('start_x[3]' + 8) ('start_y[3]'+ 10) 150 20 Character Analysis 
 			     check dolist  ('start_x[3]' + 18) ('start_y[3]' + 22 ) 355 30 Display character scores for each placement of target species ; 
@@ -779,12 +819,12 @@ label SCAFFOLD_MENU
 	       + subdlg ('start_x[3]' + 30) ('start_y[3]'+ 180) 150 20 Define Settings ;
 		      290 255 550 120 Dataset error settings  ;
 	                check calc_prob   11  11 300 25 Calculate probabilities ;
-	                showtxt 11 41 300 25 Select nodal distance to use calculate EP  ; 
+	                showtxt 11 41 300 25 Select nodal distance to use to calculate EP  ; 
 	                    choose guicherr 50 61 60 20 Min.
 			                    110 61 60 20 Mean 
 			                    170 61 60 20 Max. ;	        
 	         closedlg ; =
-	     check clade_anal  ('start_x[3]' + 18) ('start_y[3]' + 205 ) 350 30 Calculate Errors for subtrees (ISE/OSE) ; 
+	     check clade_anal  ('start_x[3]' + 18) ('start_y[3]' + 210 ) 350 30 Calculate Errors for subtrees (ISE/OSE) ; 
 	       +  subdlg ('start_x[3]' + 30) ('start_y[3]'+ 235) 150 20 Define Settings ;
 	      		      290 255 550 80 Subtree error settings  ;
 	     		      check doamb          11 14 300 25 Consider ambiguity in placement as error  ; 
@@ -799,7 +839,8 @@ label SCAFFOLD_MENU
     silent - all ; quote Procedure cancelled ; silent = all;
     procedure / ;
   end 
- 
+ rseed   'myseed' ; 
+ macseed 'myseed'; 
 
 resettime; 
 proc/; 
@@ -810,13 +851,16 @@ label STRICT_MENU
   k 0 ;*/ 
   cls; 
   tplot ] ; 
-  set alto[2] 'alto[2]' - 150  ;
-  set start_y[0] 'start_y[0]' - 235  ; 
-  set start_y[1] 'start_y[1]' - 180 ; 
+  set alto[2] 'alto[2]' - 125  ;
+  set start_y[0] 'start_y[0]' - 198  ; 
+  set start_y[1] 'start_y[1]' - 125 ; 
   set start_x[1] 'start_x[4]' ; 
+  
   set alto[4]  'alto[4]' - 60 ; 
   set altotot 'altotot' - 230 ; 
   set nopiwe 2  ;
+  set alto [0] 180 ;
+  set alto[1] 'alto[1]' + 5 ; 
  opendlg 50 50 'anchotot' 'altotot' Running analysis with multiple reference trees  ;
  	
  	 frame 'start_x[2]' 'start_y[2]' 'ancho[2]' 'alto[2]' ; 
@@ -830,38 +874,49 @@ label STRICT_MENU
  	 frame 'start_x[0]' 'start_y[0]' 'ancho[0]' 'alto[0]' ; 
 	 showtxt ('start_x[0]' + 8) ('start_y[0]'+ 8) 150 20 Output Settings ; 
 	 check doprefix ('start_x[0]' + 20) ('start_y[0]'+ 28) 300 30 Define a prefix for output files ; 
-	     +  gettxt prefix ('start_x[0]' + 30) ('start_y[0]'+ 57) 150 20     ;= 
+	     +  gettxt prefix ('start_x[0]' + 50) ('start_y[0]'+ 57) 150 20     ;= 
 	 showtxt ('start_x[0]'+20) ('start_y[0]'+ 85) 300 25 Palette for coloring ; 
 	 choose do_palette ('start_x[0]' + 30) ('start_y[0]'+100) 300 20 Blue->Green->Red
 	                   ('start_x[0]' + 30) ('start_y[0]'+120) 300 20 Inferno (Yellow->Violet)  ;  
-
- 	  frame 'start_x[4]' 'start_y[4]' 'ancho[4]' 'alto[4]' ;
+	 subdlg ('start_x[0]' + 20) ('start_y[0]'+148) 200 20 Change number of decimals to print ;
+		     290 255 300 140 Decimals ; 
+		      showtxt 8 8 180 20 Select number of decimals to print ;  
+		       spin 0 10 flot_prnt 15 30 100 20 .;   
+		      closedlg ;                    
+	                   
+	                   
+          frame 'start_x[4]' 'start_y[4]' 'ancho[4]' 'alto[4]' ;
 	 	    showtxt ('start_x[4]'+5) ('start_y[4]'+12) 250 25 Optimality Criterion ; 
 	    choose nopiwe ('start_x[4]' + 12) ('start_y[4]'+ 55) 150 20 Implied Weighting
-                    + subdlg ('start_x[4]' + 180) ('start_y[4]'+ 55) 120 20 Define settings ;
+                    + subdlg ('start_x[4]' + 180) ('start_y[4]'+ 50) 120 20 Define settings ;
 		     290 255 350 190 Implied Weighting Settings ; 
 		     showtxt 7 7 290 15 Strength weighting against homoplasy ; 
 		      choose guichval 11 38 11 11 . 
-	                                     + spin 1 99 kkval 37 35 200 20 Defined by K value ;=
+	                                     + spin 1 99 kkval 37 35 100 20 Definedd by K value ;=
 								  11 73 11 11 . ;
-								  + spin 2 99 nval 37 70 200 20 Defined by N value ;=
+								  + spin 2 99 nval 37 70 100 20 Defined by N value ;=
 							  closedlg ; = 
 		('start_x[4]' + 12) ('start_y[4]'+ 80) 150 20 Maximum Likelihood (MK) 				  
 		  	      + subdlg ('start_x[4]' + 180) ('start_y[4]'+ 80) 120 20 Define settings ;
-								      290 255 360 220 Maximum Likelihood Settings ; 
+								      290 255 330 180 Maximum Likelihood Settings ; 
 								      check unlinked 11 20 200 21 Use unlinked model ; 
 								      check mk_space 11 50 280 21 Use a different state space for each character ;
-								      check doing_EPA 11 80 330 21 Show relative probabilities instead of diff. in logL (EPA approach) ;
+								      
 							  closedlg ; =
 		('start_x[4]' + 12) ('start_y[4]'+ 30) 150 20 Maximum Parsimony ;
+		
+		subdlg ('start_x[4]' + 8) ('start_y[4]'+ 110) 120 20 Define Random Seed ;
+		                   290 330 250 150 Random Seed ;
+		                   spin 0 9000 myseed 30 30 100 20 Random Seed (0=time) 
+                closedlg ; 
 		
 		 frame 'start_x[1]' 'start_y[1]' 'ancho[1]' 'alto[1]' ; 
 			  
 			    showtxt ('start_x[1]' + 8) ('start_y[1]'+ 10) 150 20 Character Settings;
 			    
 			    choose active ('start_x[1]' + 12) ('start_y[1]'+ 30) 200 20 Define active characters
-			     + charsel listchar ('start_x[1]' + 190) ('start_y[1]'+ 30) 150 20 ;=
-			       ('start_x[1]' + 12) ('start_y[1]'+ 60) 230 20 Use activity defined in dataset file;  
+			     + charsel listchar ('start_x[1]' + 190) ('start_y[1]'+ 25) 150 20 ;=
+			       ('start_x[1]' + 12) ('start_y[1]'+ 55) 230 20 Use activity defined in dataset file;  
 	
 		
 		
@@ -894,8 +949,12 @@ end
     set tokill 1 ; 
     proc / ;
  end 
+rseed 'myseed' ; 
+macseed 'myseed' ; 
+
 
  resettime; 
+
 PROC/; 
 
 label CHECK_POLYTOMY
@@ -936,8 +995,6 @@ tvault < 0 ;
 
 
 
-
-
 if ('guichsensit' == 2 )
    hifile open $setting_file ; 
 end
@@ -966,9 +1023,9 @@ if ('dolik')
     if ( 'unlinked_sensit' ) 
       set blue 1 ;   
     end
-     if ( 'space_sensit' ) 
+    if ( 'space_sensit' ) 
        set red 1 ;  
-     end
+    end
     if ( 'unlinked_sensit'  && 'space_sensit') 
         set nconds 4 ;
         set reduced_mk_sens 0 ;
@@ -978,10 +1035,7 @@ if ('dolik')
     end
 end
 
-/*sil-all; quote entro con nconds = 'nconds' ; sil=all; */
-
-
-
+ 
 if ('nconds'<= 3) 
   set sizsq 30 ;
   set alturama 70 ; 
@@ -1001,13 +1055,13 @@ if ( 'nconds' > 12 )
       set ccc ++ ; 
       macfloat 0 ;
       set ccc 'ccc' ; 
-      macfloat 4 ; 
+      macfloat 'flot_calc' ; 
   end 
   set larama 'larama' + ( ('ccc' - 4 ) * 'sizsq') + 10 ; 
  
   macfloat 0 ; 
   set larama 'larama' ; 
-  macfloat 4 ; 
+  macfloat 'flot_calc' ; 
 end
 
  
@@ -1020,44 +1074,45 @@ loop=yy 0 nchar
  set bak_listchar [#yy] 'listchar [#yy]' ; 
 stop 
 
- 
+ quote: entro previa ; sil=all; 
+
 loop=cd 0 ('nconds'-1)
    sil=all ; 
    cc [ . ; 
-         loop=jj 0 nchar 
+   loop=jj 0 nchar 
          if ( 'listchar[#jj]' == 0 )
-          cc ] #jj ;
+           cc ] #jj ;
          end  
    stop 
    if ( 'nopiwe' == 1 )  
-     set doing_pars_frm_mult 0 ;
-     set doing_mk_frm_mult 0 ;
-     set doing_piwe_frm_mult 0 ;
-     if ('pars_frm_mult' && !'done_pars' )
-         set doing_pars_frm_mult 1 ;
-         set done_pars 1 ;    
+	      set doing_pars_frm_mult 0 ;
+	      set doing_mk_frm_mult 0 ;
+	      set doing_piwe_frm_mult 0 ;
+	      if ('pars_frm_mult' && !'done_pars' )
+		  set doing_pars_frm_mult 1 ;
+		  set done_pars 1 ;    
+	      else
+		 if ('piw_frm_mult' && !'done_piw' )
+		    set doing_piwe_frm_mult 1 ;
+		    set done_piw 1 ;
+		 else
+		     if ('mk_frm_mult' && !'done_mk' )
+			set doing_mk_frm_mult 1 ;
+			set done_mk 1 ;
+		     end   
+		 end
+	     end
+	     if ('doing_mk_frm_mult') 
+		 set dolik 1 ; 
+	     end
+	     if ('doing_pars_frm_mult') 
+		  set dolik 0 ; 
+	     end 
+	     if ('doing_piwe_frm_mult') 
+		  set dolik 0 ; 
+		  piwe = 'kkval' ; 
+	     end
      else
-      if ('piw_frm_mult' && !'done_piw' )
-           set doing_piwe_frm_mult 1 ;
-           set done_piw 1 ;
-      else
-        if ('mk_frm_mult' && !'done_mk' )
-           set doing_mk_frm_mult 1 ;
-           set done_mk 1 ;
-       end   
-    end
-   end
-   if ('doing_mk_frm_mult') 
-        set dolik 1 ; 
-   end
-   if ('doing_pars_frm_mult') 
-          set dolik 0 ; 
-   end 
-   if ('doing_piwe_frm_mult') 
-          set dolik 0 ; 
-          piwe = 'kkval' ; 
-         end
-   else
 	      if ( !'dolik' )
 			if ('guichsensit' == 2 )
 			     set str_settings hiftext ; 
@@ -1068,22 +1123,22 @@ loop=cd 0 ('nconds'-1)
 			    piwe = 'condic[#cd]' ; 
 			end
 	      else     /* sensit en ML */ 
-		 if ('reduced_mk_sens' )
+		     if ('reduced_mk_sens' )
 			     if ('space_sensit')
 			       if (#cd == 0 ) 
 				 lset nogstatespace ; 
 			       else
 				 lset gstatespace ; 
 			       end
-			    end 
-			    if ('unlinked_sensit')
+			     end 
+			     if ('unlinked_sensit')
 				if (#cd == 0 ) 
 				    set doing_unlinked 0 ;
 				 else
 				   set doing_unlinked 1 ; 
 				end
-			    end 
-		 else   /* las cuatro condiciones */ 
+			     end 
+		    else   /* las cuatro condiciones */ 
 			    if (#cd < 2 ) 
 				 lset nogstatespace ; 
 			    else
@@ -1096,7 +1151,7 @@ loop=cd 0 ('nconds'-1)
 			        
 			       set doing_unlinked 1 ; 
 			    end
-		 end 
+		   end 
 	     end 
       end
       k 0 ; 
@@ -1125,7 +1180,7 @@ loop=cd 0 ('nconds'-1)
       constrain- ; 
       set mini_mult[#cd] 9999999 ; 
       set maxi_mult[#cd] 0 ; 
-      if ('dolik' )
+      if ('dolik' & 'estim_ML')
         goto CALCULATE_ML_REF ; 
      end
     loop=tr 1 ntrees 
@@ -1138,26 +1193,35 @@ loop=cd 0 ('nconds'-1)
            else
                set core_mult[#cd 'bran_ref'] 0 ; 
                if ('doing_unlinked' )
-              
                    loop=po 0 ('numchrgrp'-1)
                       cc ] . ; cc [ {#po} ; 
+                      set van 0 ; 
                       loop=er 0 nchar
-                        if ( isinxgroup[#po #er] && 'listchar[#er]' == 0 ) 
-                          cc ] #er ; 
-                        end
+                          if ( isinxgroup[#po #er] ) 
+                             if( 'listchar[#er]' == 0 ) 
+                               cc ] #er ;
+                             else
+                               set van++  ; 
+                            end
+                          end 
                       stop
-                      piwe-; 
-                      set blue mklik [#tr] ; 
+                      if ('van')
+                         piwe-;
+                         set blue mklik [#tr] ; 
+                      else
+                        set blue 0 ; 
+                      end
                       set core_mult[#cd 'bran_ref'] 'core_mult[#cd 'bran_ref']' + 'blue' ; ;
                   stop
-                  cc [ . ; 
-                  loop=jj 0 nchar 
-                    if ( 'listchar[#jj]' == 0 )
-                      cc ] #jj ;
-                    end
-                 stop 
+                  goto ACTIVATE_CHARS ; 
               else
-                 goto CALCULATE_ML ; 
+                 set ref_tree 0 ; 
+                 set latar 'tgtsp' ; 
+                 if ('estim_ML')
+                   goto CALCULATE_ML ; 
+                 else
+                   set elesco mklik [#tr]; 
+                 end
                  set core_mult[#cd 'bran_ref'] 'elesco' ;
               end
          end
@@ -1171,18 +1235,26 @@ loop=cd 0 ('nconds'-1)
                   loop=po 0 ('numchrgrp'-1)
 			   maketable - ; 
 			   cc ] . ; cc [ {#po} ; 
+			   set van 0 ; 
 			   loop=er 0 nchar
-				 if ( isinxgroup[#po #er] && 'listchar[#er]' == 0 ) 
-				   cc ] #er ; 
-				 end
+			         if ( isinxgroup[#po #er]) 
+			           if ('listchar[#er]' == 0 ) 
+				        cc ] #er ;
+				     else
+				       set van++ ; 
+				   end
+				 end  
 			   stop
 			   report- ; 
 			   sil=all; 
-			   rseed ; macseed ; 
-			   piwe-; 
-			   set blue mklik [ #tr ] ; 
-			    sil=all; quote score condicion #cd de arbol #tr nodo 'bran_ref' grupo #po = 'blue'; sil=all; 
-			    set core_mult[#cd 'bran_ref'] 'core_mult[#cd 'bran_ref']' + 'blue' ; 
+		           if ('van' ) 	
+			     piwe-; 
+			     set blue mklik [ #tr ] ; 
+			   else
+			    set blue 0 ; 
+			   end 
+			   sil=all; quote score condicion #cd de arbol #tr nodo 'bran_ref' grupo #po = 'blue'; sil=all; 
+			   set core_mult[#cd 'bran_ref'] 'core_mult[#cd 'bran_ref']' + 'blue' ; 
 		  stop 
                   cc [ . ; 
                   loop=jj 0 nchar 
@@ -1192,6 +1264,8 @@ loop=cd 0 ('nconds'-1)
                  stop 
                  sil=all; quote score condicion #cd total de arbol nodo 'bran_ref' 'core_mult[#cd 'bran_ref']' ; sil=all; 
          else
+               set ref_tree 0 ; 
+               set latar 'tgtsp' ;
                goto CALCULATE_ML ; 
                set core_mult[#cd 'bran_ref'] 'elesco' ;
           end
@@ -1273,7 +1347,8 @@ loop=cd 0 ('nconds'-1)
        set core_mult [ #cd outgroup] 'core_mult[ #cd 'blue']'    ;  /*New*/
 stop        
  
- 
+  quote:  salida ; sil=all; 
+
  
  
  
@@ -1300,7 +1375,7 @@ loop=nd 0 'nds'
   continue ; 
  end 
  tt <#nd ; 
- ttag +#nd N#nd ; 
+ ttag +#nd B#nd ; 
 stop 
 
 
@@ -1335,7 +1410,7 @@ loop=cd 0 ('nconds'-1)
                     set ccc ++ ; 
                     macfloat 0 ;
                     set ccc 'ccc' ; 
-                    macfloat 4 ; 
+                    macfloat 'flot_calc' ; 
               end 
               set limA 'ccc' - 1 ; 
               set limB ('ccc' *2 ) - 1 ; 
@@ -1503,8 +1578,7 @@ ttag&+ write <text&32x=&34 500 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34
   set mit ('span'/2) ; 
   set uncua ( 'span' / 4 ) ;
   set trescua ( (3 * 'span') / 4 ) ;
-  macfloat 2 ; 
-  macfloat 10; 
+  macfloat 'flot_calc'; 
  
  set dist 'posx' + 10 ; 
 
@@ -1583,7 +1657,7 @@ loop=cd 0 ('nconds'-1)
            set ccc ++ ; 
            macfloat 0 ;
            set ccc 'ccc' ; 
-           macfloat 4 ; 
+           macfloat 'flot_calc' ; 
     end 
     set limA 'ccc' - 1 ; 
     set limB ('ccc' *2 ) - 1 ; 
@@ -1806,16 +1880,16 @@ if (ntrees > 0 )
                     set blue ntax ; 
                     set red nnodes [0] ; 
                     set green nnodes [1] ;
-                     sil-all ; quote notarget 'notarget' blue 'blue' green 'green' red 'red'; sil=all;  
+                     sil=all ; quote notarget 'notarget' blue 'blue' green 'green' red 'red'; sil=all;  
                      if ('notarget' ) 
                          loop=lr 0 ntrees
 	         	     if (  nnodes [#lr]  == (2 * ntax)  )
-	         	         ra1; sil-all; tplot [ ; k 0; tv - ;  cls; 
+	         	         ra1; sil=all; tplot [ ; k 0; tv - ;  cls; 
 	                     	 errms  Tree #lr is complete select a target species from the menu  ; 
 		             end 	       
 		             set blue  (( 2 * ntax)) - 1  ;
 		             set red nnodes [#lr]  ; 
-		             sil-all ; quote #lr blue 'blue'   red 'red'; sil=all; 
+		             sil=all ; quote #lr blue 'blue'   red 'red'; sil=all; 
 		             if (  ( nnodes [#lr] )  <  (( 2 * ntax) - 1 )     )
 	                         ra1; sil-all; tplot [ ; k 0; tv - ;  cls; 
 			     	 errms  Tree #lr has more than one species absent. A single query species can be placed with multiple reference trees  ; 
@@ -1900,13 +1974,17 @@ if (ntrees > 0 )
 			end
 		   stop   
 		   if ('dolik')
-			     lset speed 0.05 ldelta 0.01 bdelta 0.01 passes 40 40 ;
+			    lset speed 0.05 ldelta 0.01 bdelta 0.01 passes 40 40 ;
 			     if ('mk_space' )
 			       lset nogstatespace ; 
+			     else
+			      lset  gstatespace ; 
 			     end
 			      if ('unlinked' ) 
 			       set doing_unlinked 1 ; 
-			     end
+			      else
+			       set doing_unlinked 0 ; 
+			      end
 		   end
 	 end 	   
 		   
@@ -1966,12 +2044,18 @@ set dientes deslist [ 0 'raiz'] ;
 set sszz listsize ; 
 set van 0 ; 
 set ogrup 999999 ; 
+
+if ('do_jplace')
+  goto PNT_JPLACE_TREE ;
+end
+
+
 loop=sz 0 1  /* si uno de los dos es un terminal entonces va a ser el pivote */ 
   if ( 'dientes[#sz]' < root )
     set pivote 'dientes[#sz]' ;
     set ogrup 'dientes[#sz]' ; 
   else
-    set van ++ ;  
+    set van++ ;  
  end 
 stop
  
@@ -2158,7 +2242,8 @@ loop 0 nchar
   lm f= 1 ; 
   lm term + ; 
   lm cel 6 nes 1 1 ; 
-  set haylands ++ ; 
+  set haylands ++ ;
+  set RAS_num 1 ;
   endloop ; 
  end
 stop 
@@ -2277,25 +2362,15 @@ label COLORTREE
 report- ;
 sil=all; 
 taxc + . ; 
-if ('dolik')
-    lset speed 0.05 ldelta 0.01 bdelta 0.01 passes 40 40 ;
-   if ('mk_space' )
-      lset nogstatespace ; 
-    end
-    if ('unlinked' ) 
-      set doing_unlinked 1 ; 
-    end
-end
+macfloat 'flot_calc' ;
 
-
-
+ 
 if ( (!'mult_w_target') && (!'domodif')  ) 
 	   sil=all; 
 	   k0 ; 
 	   tvault < 0 ; 
 	   rer ; 
 	   force/&0; 
-	
 	   constrain=; 
 	   col none ; 
 	   cc ] . ;
@@ -2304,102 +2379,59 @@ if ( (!'mult_w_target') && (!'domodif')  )
 	   if (ntrees > 998 )
               tch 0.998 ; 
 	   end
-	
-	   loop=ps 0 nchar 
-	     if ('listchar[#ps]' == 1 ) 
-	       cc [ #ps ; 
-	     end 
-	   stop 
+	   goto ACTIVATE_CHARS ;  
 	   tvault>. ;
 	   k0 ; 
 	   tvault<. ;
 	   constrain- ; 
-	   macfloat 10 ;
+	   macfloat 'flot_calc' ;
 	   set mini 999999 ; 
 	   set maxi 0 ; 
 	   set dde ntrees + 1 ;
 	   report- ; 
 	   set sumLik 0 ;
-	   if ('dolik') 
-	     goto CALCULATE_ML_REF ; 
+	   if ('dolik' && 'estim_ML') 
+	     goto CALCULATE_ML_REF ; /* sin query*/
 	   end
-	    loop=rr 1 ntrees
-		     set bran sister [#1 'tgtsp'] ; 
-		      if (!'dolik' )  
-				set elesco score [#rr] ;
-			
-		      else
-			     set elesco 0 ; 
-			     if ( 'doing_unlinked' )
-				 loop=po 0 ( 'numchrgrp' - 1 )
-				    cc ] . ; cc [ { #po } ;
-				     loop=er 0 nchar
-					   if ( isinxgroup[#po #er] && 'listchar[#er]' == 0 ) 
-						   cc ] #er ; 
-						 end
-					   stop
-					   piwe- ; 
-
-					   set dde mklik [#rr] ; 
-					   set elesco 'elesco' + 'dde' ;
-					stop
-					cc ] . ; 
-					loop=ps 0 nchar 
-					  if ('listchar[#ps]' == 1 ) 
-					    cc [ #ps ; 
-					  end 
-				       stop 
-			      else
-				   set opt_tree #1 ; 
-				   goto CALCULATE_ML ; 
-			      end
-		       end 	   
-		    if ('bran' > root)
-			     set bran_ref simgroup [ #1 'bran' 0 ] ;
+	   set ref_tree 0 ; 
+	   loop=rr 1 ntrees
+	            quote: entrando en arbol #rr  ; 
+	  	    goto CALCULATE_TREE_SCORE ; 	   
+		    /* quote: saliendo en arbol #rr  ; */ 
+	  	    if ('bran' > root)
+			     set bran_ref simgroup [ #1 'bran' 'ref_tree' ] ; /*set bran_ref simgroup [ #1 'bran' 'reftree' ] ; */ 
 			     set core['bran_ref'] 'elesco' ;
 			     set coras 'elesco' ;
+			     if ('do_jplace' )
+			       set jplacer[2 'bran_ref'] 'sis_blen' ;
+			       set jplacer[3 'bran_ref'] 'tgt_blen' ; 
+			     end
+			    /* quote: bran_ref 'bran_ref' sis_blen='sis_blen' tgt_blen  'tgt_blen'  'core['bran_ref']' 'bran_ref' &10 ; */
 		    else
 			   set bran_ref 'bran' ;
 			   set core['bran_ref'] 'elesco' ; 
 			   set coras 'elesco' ;
+			   if ('do_jplace' )
+			       set jplacer[2 'bran_ref'] 'sis_blen' ;
+			       set jplacer[3 'bran_ref'] 'tgt_blen' ; 
+			   end
+			   /* quote: bran_ref 'bran_ref' sis_blen='sis_blen' tgt_blen  'tgt_blen'  'core['bran_ref']' 'bran_ref'  &10 ; */
+			  
 		    end 
 		    if ('core['bran_ref']' < 'mini') 
 			  set mini 'core['bran_ref']' ; 
-			  set best #1 ; 
+			  set best #rr ; 
 			  set besnod 'bran_ref' ; 
 		    end
 		    if ('core['bran_ref']' > 'maxi') 
 			 set maxi 'core['bran_ref']' ; 
 		    end
 	   stop
-	   if ('doing_EPA')
-		 set maxi 0 ; 
-		 macfloat 40 ; 
-		 table /10 ; 
-		 set sumLik 0 ; 
-		 set mini_bk 'mini' ; 
-		 set mini 1 ; 
-		 set shift 'mini_bk' - 'mini' ; 
-		 loop=lor 0 nnodes [0] 
-		   if ((#lor == outgroup) || (#lor == root) || (#1 == 'tgtsp' ) || (!isintree [0 #lor]) )
-		     continue ; 
-		   end
-		   set ladif ('core[#lor]' - 'shift') *(-1) ; 
-		   set core[#lor] (power [ 2.7182818 'ladif' ] * 1000000 ); 
-		   set sumLik 'sumLik' + 'core[#lor]' ; 
-		 stop
-		 loop=lor 0 nnodes [0] 
-			  if ((#lor == outgroup) || (#lor == root) || (#1 == 'tgtsp' ) || (!isintree [0 #lor]) )
-			   continue ; 
-			  end
-			  set core[#lor] (1 - ('core[#lor]' / 'sumLik')) ; 
-			  if ('core[#lor]' > 'maxi' ) 
-			   set maxi 'core[#lor]' ; 
-			  end
-		 stop
-		 set mini 'core['besnod']' ; 
-		 macfloat 10 ; 
+	  
+	   if ( 'doing_EPA' &&  'dolik' )
+		goto  EPA_CALCULATIONS ; 
 	   end 
+ 
 	   ts/; ts *$output_mpts ; 
 	   set van 0 ; 
 	   loop 1 ntrees 
@@ -2428,7 +2460,6 @@ tvault < 0 ;
 
 
 
-
 set nds nnodes [ 0 ] ; 
 ttag * 0 ;
 
@@ -2449,7 +2480,7 @@ set uncuarI   'maxi' + ('maxi'-'trescuar' )  ;
 set maxiI    'maxi' + ('maxi - 'mini' )  ;
 
 
-macfloat 10 ;
+
 set violet 0 ;
 
 
@@ -2463,8 +2494,18 @@ end
 set blue sister [0 outgroup] ;  
 set core [outgroup] 'core['blue']'    ;
 sil=all; quote core ['blue'] 'core ['blue']' ;   
-set blue outgroup ;
 sil=all; quote core [outgroup] 'core [outgroup]' ;   
+
+set  jplacer[2 outgroup] 0 ; /* ESTO ES ASI XQ ASIGNO RAMA DE LARGO 0 AL OUT Y TODO EL LARGO DE RAMA VA AL GRUPO HERMANO */ 
+set  jplacer[3 outgroup] 'jplacer[3 'blue']' ; 
+
+ 
+ loop 0 nnodes [ 0] 
+     quote: #1 core [#1] 'core [#1]' &10 ; 
+ stop     
+quote:_ mini 'mini' maxi 'maxi' ;  
+/* quizas aca tenga que calcular el EPA para outgroup */ 
+
  
  
 
@@ -2487,14 +2528,13 @@ loop=no 0 'nds'
 	            set green 55 ;  
 	            set blue  148 ;  
 	     end  
-	     macfloat 2 ; 
+	     macfloat 'flot_prnt' ; 
 	     if (!'doing_EPA')
 	       ttag +#1('red','green','blue');
 	    else
-	       macfloat 4 ;
 	       ttag +#1('red','green','blue');
 	    end
-	    macfloat 10 ; 
+	    macfloat 'flot_calc' ; 
   else
       if ('do_palette')
           set micore 'core[#no]' ; 
@@ -2526,18 +2566,16 @@ loop=no 0 'nds'
 	     end
 	 
      end	     
-     macfloat 2 ; 
+     macfloat 'flot_prnt' ; 
      if (!'doing_EPA') 
          ttag +#1('red','green','blue'); 
      else
-        macfloat 4 ; 
         set posy 1 - 'core[#1]' ; 
         ttag +#1('red','green','blue');
       end
-      macfloat 10 ; 
+      macfloat 'flot_calc' ; 
   end
-  
-  macfloat 10 ;
+  macfloat 'flot_calc' ; 
 stop
  
 
@@ -2575,7 +2613,7 @@ reroot  * = 'pavote' ; /* pongo el enraizado original */ /*New*/
 sil=all; 
 set dientes deslist[0 root ]  ; 
 set queta $$ttag'dientes[0]';
-quote $queta ; 
+/*quote $queta ;*/
 set - ;  
 ttag +'dientes[0]'W; 
 
@@ -2614,7 +2652,6 @@ ttag & $output_svg  xysave eti bheight 'choram' legup 15 txtsep 20 bfontsize 20 
  
 set dist -99999 ; 
 
- 
 
 loop=no 0 'nds'
   set ndtran 'trad_nd[#no]' ; 
@@ -2629,41 +2666,39 @@ loop=no 0 'nds'
   set pos_x ('eti[#no 0]' - 'eti[anc[0 #no] 0]')/ 12 + 'eti[anc[0 #no] 0]' - 5  ; 
   set pos_y 'eti[#no 1]' - 8  ; 
   if ('mini' == 'maxi') 
-    ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> Nd'nod'0 </text> &10 ; 
+    ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> B'nod'0 </text> &10 ; 
     continue ; 
   end
-  set ccc 'core[ 'ndtran' ]'-'mini' ;   /* set ccc 'core[ #no ]'-'mini' ; */
+  set ccc 'core[ 'ndtran' ]'-'mini' ;   
+  quote: ccc #no 'ccc' ; 
   if ('ccc' < 0.00001 )
-	     macfloat 2 ; 
-	     set pos_y 'pos_y' - 10 ; 
+  	     set pos_y 'pos_y' - 10 ; 
 	     if (!'doing_EPA')
-	        /*ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'nod' &32 'mini' </text> &10 ;*/ 
-	        ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'nod' &32 'mini' </text> &10 ;
+	         macfloat  'flot_prnt'; 
+	         ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> B'nod' &32 'mini' </text> &10 ;
 	     else
-	        macfloat 4  ;
-	        set blue 1 - 'mini' ; 
-	        ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'nod' 'blue' </text> &10 ;
+	        set blue 1 - 'mini' ; macfloat 'flot_prnt'  ;
+	        ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> B'nod' 'blue' </text> &10 ;
 	    end
-	    macfloat 10 ; 
+	    macfloat 'flot_calc'  ; 
   else
-     macfloat 2 ; 
      if (!'doing_EPA') 
-         ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'nod'+'ccc' </text> &10 ;
-         /*ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> +'ccc' </text> &10 ;*/ /*cambiar */ 
+           macfloat 'flot_prnt'  ; 
+           ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> B'nod'+'ccc' </text> &10 ;
      else
-       macfloat 4  ;
-       set posy 1 - 'core[ 'ndtran']' ; 
-       ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'nod' 'posy'  </text> &10 ;
+       set posy 1 - 'core[ 'ndtran']' ; macfloat 'flot_prnt'  ;
+       ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> B'nod' 'posy'  </text> &10 ;
       end
-      macfloat 10 ; 
+      macfloat 'flot_calc' ; 
   end
-  
-  macfloat 10 ;
+  macfloat 'flot_calc' ;
 stop
 
-
+ 
 /* ACA COPIO EL SCORE DE LA RAMA DESC DEL ROOT QUE TIENE UN VALOR Y LA COPIO A SU HERAMANA ASUMIENDO QUE EL NODO QUE PIERDE EL TTAG ES EL MISMO AL QUE NO LE CALCULO EL SCORE */ 
 set red sister[ 0 'sisou' ]    ; 
+/*quote: red vale 'red' y sisu 'sisou' ; */
+
 if (!'doing_EPA) 
     set ccc 'core[ 'trad_nd['red']'  ]'-'mini' ; 
 else
@@ -2672,37 +2707,39 @@ end
 ttag <'sisou' ; 
 set pos_x ('eti['sisou' 0]' - 'eti[anc[0 'sisou'] 0]')/ 12 + 'eti[anc[0 'sisou'] 0]' - 5  ; 
 set pos_y 'eti['sisou' 1]' - 8  ; 
-   if ('mini' == 'maxi') 
-     ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> Nd'sisou'0 </text> &10 ; 
+if ('mini' == 'maxi') 
+   ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> B'sisou'0 </text> &10 ; 
+end
+if ('ccc' < 0.00001 )
+     set pos_y 'pos_y' - 10 ; 
+     if (!'doing_EPA')
+        macfloat 'flot_prnt' ;  
+        ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> B'sisou' &32 'mini' </text> &10 ;
+     else
+      /*	set blue 1 - 'mini' ; 	macfloat 'flot_prnt' ;  
+	ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> B'sisou' 'blue' </text> &10 ;*/
+     end
+     macfloat 'flot_calc' ; 
+else
+   
+   if (!'doing_EPA') 
+     macfloat 'flot_prnt' ;   
+     ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> B'sisou'+'ccc' </text> &10 ;
+   else
+     /*set posy 1 - 'ccc' ; macfloat 'flot_prnt' ; 
+     ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> B'sisou' 'posy'  </text> &10 ;*/
    end
-  if ('ccc' < 0.00001 )
- 	     macfloat 2 ; 
- 	     set pos_y 'pos_y' - 10 ; 
- 	     if (!'doing_EPA')
- 	         ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'sisou' &32 'mini' </text> &10 ;
- 	     else
- 	        macfloat 4  ;
- 	        set blue 1 - 'mini' ; 
- 	        ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'sisou' 'blue' </text> &10 ;
- 	     end
- 	     macfloat 10 ; 
-  else
-       macfloat 2 ; 
-       if (!'doing_EPA') 
-          ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'sisou'+'ccc' </text> &10 ;
-       else
-          macfloat 4  ;
-          set posy 1 - 'ccc' ; 
-          ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'sisou' 'posy'  </text> &10 ;
-       end
-       macfloat 10 ; 
-  end 
+   macfloat 'flot_calc'  ; 
+end 
 
- 
+
+/* GENERA EL JPLACE */
+if ('do_jplace')
+  goto GENERATE_DOJPLACE ; 
+end
 
 
 /* ACA EMPIEZA EL PRINTEO DE LAS REFERENCIAS */ 		
-
 loop 0 nnodes [ 0] 
  if ('eti [#1 1]' > 'dist')
    set dist 'eti [#1 1]' ; 
@@ -2723,16 +2760,11 @@ set posx 'dist' -15 ;
   set uncua ( 'span' / 4 ) ;
   set trescua ( (3 * 'span') / 4 ) ;
 
-if ('doing_EPA') 
-  macfloat 4 ;
-else
-  macfloat 2 ; 
-end
+macfloat 'flot_prnt' ; 
 ttag&+ write<text&32x=&34 10 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34 > 0 </text>&10 ; 
   if (!'doing_EPA') 
     ttag&+ write<text&32x=&34 160 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34>+'uncua' </text> &10 ; 
   else
-    
     ttag&+ write<text&32x=&34 160 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34>-'uncua' </text> &10 ; 
   end
   ttag&+ write<rect x=&34 158&34&32y=&34 'posx'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
@@ -2754,14 +2786,9 @@ ttag&+ write<text&32x=&34 10 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&3
     ttag&+ write<text&32x=&34 610 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34>-'span' </text> &10 ; 
   end  
   ttag&+ write<rect x=&34 608&34&32y=&34 'posx'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
-if ('doing_EPA') 
-  macfloat 10 ;
-end
- 
- set dist 'posx' + 10 ; 
 
-
-
+macfloat 'flot_calc' ; 
+set dist 'posx' + 10 ; 
 if (!'do_palette') 
 	 ttag&+ write <defs>&10<linearGradient&32id=&34graa&34&32x1=&34 0&37&34&32y1=&34 0&37&34&32x2=&34 100&37&34&32y2=&34 0&37&34>&10 ; 
 	 ttag&+ write <stop offset=&34 0&37&34&32style=&34stop-color:rgb(254,240,1).,stop-opacity:1&34></stop>&10; 
@@ -2798,19 +2825,13 @@ else
    stop   
    
 end
-
-
 set primero 0 ; 
-
-
 set span_err 100 ; 
 set miti_err ('span_err'/2) ; 
 set uncuar_err ( 'span_err' / 4 ) ;
 set trescuar_err ( (3 * 'span_err') / 4 );
 
-
 /* ACA SE IMPRIMEN LOS CIRCULOS Y SI CORRESPONDE, EL ERROR */
-
 loop=nd 0 nnodes[0] 
 	 if ( (#1 == root) || (#1 == 'tgtsp') || (!isintree [0 #nd]) ) 
 	   continue ; 
@@ -2830,9 +2851,7 @@ loop=nd 0 nnodes[0]
 		  set uncu 'px' / 8 ; 
 		  set pos_y 'posy' + 30 ; 
 		  set ref 'miti' + 'uncu' ; 
-		  macfloat 7 ;
 		  ttag &+ write <rect x=&34 'limA'&34&32y=&34 'posy'&34&32width=&34 'px'&34&32height=&34 20&34&32style=&34fill:rgb(255,255,255)&59 stroke:black&59&32 stroke-width:2&34 /> &10 ;
-
 		  set blue 'posy' + 16 ; 
 		  set red 'limA'    ; 
 		  set elmasi 'red' - 2 ; 
@@ -2956,42 +2975,154 @@ proc/;
  
 
 
-label CALCULATE_ML
- set ref_tree 0 ; 
- set onetocero grptogrp 'ref_tree' 'opt_tree' /'tgtsp' ;
- loop=dd 0 nnodes['opt_tree']
-     set opt_mk_brlen[#dd]  'mk_brlen [ 'onetocero[#dd]']' ; 
- stop
+label CALCULATE_ML /* opt_tree es el arbol a evaluar que tiene el latar. reftree es el arbol original sin el latar sobre el qeu calcule los largos de ramas */
+ 
+set onetocero grptogrp 'ref_tree' 'opt_tree' /'latar' ;
+ 
+ if (!'doing_unlinked')
+   loop=dd 0 nnodes['opt_tree']
+     if (('onetocero[#dd]') != (-1) ) 
+        set opt_mk_brlen[#dd]  'mk_brlen [ 'onetocero[#dd]']' ; 
+     end
+   stop
+ else
+   loop=dd 0 nnodes['opt_tree']
+      loop=po 0 ( 'numchrgrp' -1  ) 
+          if ( ('onetocero[#dd]') != (-1) ) 
+             set grp_opt_mk_brlen[#dd #po]  'grp_mk_brlen [ 'onetocero[#dd]' #po]' ; 
+          end 
+       stop
+   stop
+end
+
+ 
+
  nak- ; 
 
-/* sil-all; quote 'opt_tree' 'tgtsp' ; */ 
- set pos_one anc ['opt_tree' 'tgtsp'] ;
- set pos_cero sister['opt_tree' 'tgtsp'] ; 
- set opt_mk_brlen ['pos_one'] (-1) ;
- set opt_mk_brlen ['pos_cero'] (-1) ;
- set opt_mk_brlen ['tgtsp'] (-1) ;
- set pos_two anc ['opt_tree' 'pos_one']; 
- if ( 'pos_two' != root  )
-  set opt_mk_brlen ['pos_two'] (-1) ;
- end
- report=; 
- lset display brlen ; 
- piwe- ; 
- set elesco fixlik [ 'opt_tree' opt_mk_brlen ] ; 
- report- ; 
+ 
+ set pos_one anc ['opt_tree' 'latar'] ;
+ set pos_cero sister['opt_tree' 'latar'] ; 
+ if (!'doing_unlinked')
+    set opt_mk_brlen ['pos_one'] (-1) ;
+    set opt_mk_brlen ['pos_cero'] (-1) ;
+    set opt_mk_brlen ['latar'] (-1) ;
+    set pos_two anc ['opt_tree' 'pos_one']; 
+    if ( 'pos_two' != root  )
+      set opt_mk_brlen ['pos_two'] (-1) ;
+    end
+else
+   loop=po 0 ( 'numchrgrp' -1  )  
+      set grp_opt_mk_brlen ['pos_one' #po] (-1) ;
+      set grp_opt_mk_brlen ['pos_cero' #po] (-1) ;
+      set grp_opt_mk_brlen ['latar' #po] (-1) ;
+      set pos_two anc ['opt_tree' 'pos_one'] ; 
+      if ( 'pos_two' != root  )
+         set grp_opt_mk_brlen ['pos_two' #po ] (-1) ;
+      end
+   stop
+end
+report=; 
+lset display brlen ; 
+piwe- ; 
+ 
+ 
+  
+if (!'doing_unlinked')
+	    if ('dolist') 
+	       lset display lik ; 
+	       maketable + mk_charscores ;
+	       set elesco fixlik [ 'opt_tree' opt_mk_brlen ] ; 
+	   end
+	   if ('do_jplace' )
+	      lset display brlen ; 
+	   end
+	   report=; 
+	   piwe- ; 
+	   if ('do_jplace' )
+	     maketable + EPA_mk_brlen ;
+	   end  
+	   set elesco fixlik [ 'opt_tree' opt_mk_brlen ] ; 
+	   report-; 
+	   if ('do_jplace' )
+	     set tgt_blen 'EPA_mk_brlen['latar']' ; 
+	     set sis_blen 'EPA_mk_brlen['pos_cero']' ; 
+	   end 
+else
+	   if ('dolist')
+	      faltaaaa
+	   else
+	     set ddi 0 ; 
+	     set elesco 0 ; 
+	     loop=po 0 ( 'numchrgrp'  -1  )  
+	        cc ] . ; cc [ { #po } ;
+		set vani 0 ; 
+		loop=er 0 nchar
+		    if ( isinxgroup[#po #er] ) 
+		      if ( 'listchar[#er]' == 0 ) 
+		        cc ] #er ; 
+		      else
+		        set vani++ ; 
+		      end
+		   end  
+		stop
+	 	piwe- ;
+	 	if ( 'vani' ) 
+	 	     loop=do 0 nnodes[0]
+		     	     set opt_mk_brlen[#do]  'grp_opt_mk_brlen[#do #po]' ; 
+		     stop
+		     set ddi fixlik [ 'opt_tree' opt_mk_brlen ] ;
+	        else
+	 	     set ddi 0  ;  
+	        end
+	 	set elesco 'elesco' + 'ddi' ;
+	    stop
+	    goto ACTIVATE_CHARS ; 
+	  end
+end
+
+
+maketable- ; 
+report- ;
 
 proc/; 
 
 
-label CALCULATE_ML_REF
-         report=; 
-	 lset display brlen ; 
-	 maketable + mk_brlen ; 
-	 piwe- ; 
-	 set green mklik [0] ; 
-	 maketable - ;
-	 report-; 
-	 lset display lik ; 
+label CALCULATE_ML_REF 
+	report=; 
+	lset display brlen ;
+	if (!'doing_unlinked)
+	 	maketable + mk_brlen ; 
+	 	piwe- ;  /* ojo con esto habraia que prenderlo si esta apagado */ 
+	 	set green mklik [0] ; /* aca podria cambiar esto para que pueda hacerlo con el cortado durante el error */ 
+	else
+	   loop=po 0 ( 'numchrgrp' - 1 )
+		   maketable + mk_brlen ; 
+		   cc ] . ; cc [ { #po } ;
+		   set vani 0 ; 
+		   loop=er 0 nchar
+	   	     if ( isinxgroup[#po #er] ) 
+	   	       if ('listchar[#er]' == 0 ) 
+		         cc ] #er ;
+		       else
+	  	          set vani++ ; 
+		       end    
+	  	     end
+	           stop
+	           if ('vani' != 0 )  
+	             piwe- ; 
+	             set ddi mklik [0] ; 
+	              loop=do 0 nnodes[0]
+		        set grp_mk_brlen[#do #po] 'mk_brlen[#do]' ; /* BUG ACA */ 
+ 	             stop
+	           else
+	             set ddi 0 ; 
+	           end 
+	    stop
+   	    goto ACTIVATE_CHARS
+        end
+        maketable - ;
+        report-; 
+        lset display lik ; 
 proc/; 
 
 
@@ -2999,22 +3130,11 @@ proc/;
 label SEARCHES
  
 tvaul < 0 ; 
-
+macfloat 'flot_calc'  ; 
 force/&0; 
 k0 ; 
 constrain =; 
 nak=;  
-
-if ('dolik')
- /* lset speed 0.5 ;*/
- lset speed 0.1 ldelta 0.08 bdelta 0.08 passes 10 10   ;    
- if ('mk_space' )
-    lset nogstatespace ; 
- end
- if ('unlinked' ) 
-    set doing_unlinked 1 ; 
- end
-end
 tt- ; 
 
 if ( ('sensato' == 1 ) )
@@ -3030,17 +3150,12 @@ if ( ('sensato' == 1 ) )
 	      $ ; 
 	   else 
 	       piwe = 'condic[#1]' ;
-	   end 
-	   if (!'dolik')
-		 mu 1 = ho 1 ; 
-		 bb = fillonly ; 
-		 if (ntrees >= 999 )
-		  tch 0.998 ; 
-		 end 
-	   else
-		set coloring 0 ; 
-		goto SPR_LIK_CONSTRAIN ; 
-	   end
+	    end 
+  	     mu 1 = ho 1 ; 
+	    bb = fillonly ; 
+	    if (ntrees >= 999 )
+	      tch 0.998 ; 
+	    end 
 	   reroot  * = 'pavote' ;
 	   if ('guichsensit' == 2 )
 	        if ('doprefix')
@@ -3066,16 +3181,11 @@ if ( ('sensato' == 1 ) )
             hifile close ; 
          end
 else
-    if (!'dolik')
-         mu 10 = ho 3 ; 
+         mu 'RAS_num' = ho 3 ; 
          bb = fillonly ;
          if (ntrees >= 999 )
           tch 0.998 ; 
          end 
-     else
-         set coloring 0 ; 
-         goto SPR_LIK_CONSTRAIN ; 
-     end 
      if (ntrees == 0 ) 
        ttag * 0 ; 
        loop 0 nnodes [0]
@@ -3096,7 +3206,7 @@ else
        stop
     
       reroot  * = 'pavote' ; 
-      ttag & $output_svg bheight 40 legup 10 txtsep 20 fontsize 20 blength 80 color ; 
+      ttag & $output_color bheight 40 legup 10 txtsep 20 fontsize 20 blength 80 color ; 
       ttag & ;
   end
   reroot  * = 'pavote' ; 
@@ -3120,28 +3230,28 @@ proc / ;
 
 label CHAR_SCORES
  
-
 report- ;
-
 if ('dolik')
-  /*lset speed 0.2 ldelta 0.01  bdelta 0.01 passes 30 30  ;  */
-  lset speed 0.1 ldelta 0.08 bdelta 0.08 passes 10 10   ;   
- /* lset speed 0.1 ldelta 0.1  bdelta 0.1 passes 3 3  ;  */
- if ('mk_space' )
-  lset nogstatespace ; 
- end
- if ('unlinked' ) 
-   set doing_unlinked 1 ; 
- end
+	 lset speed 0.05 ldelta 0.01 bdelta 0.01 passes 40 40 ; 
+
+	 if ('mk_space' )
+	     lset nogstatespace ; 
+	 else
+	     lset gstatespace ; 
+	 end
+	 if ('unlinked' ) 
+	   set doing_unlinked 1 ; 
+	 else
+	    set doing_unlinked 0 ; 
+	 end
 end
 
-cc ] . ; 
-loop=ps 0 nchar 
-  if ('listchar[#ps]' == 1 ) 
-  cc [ #ps ; 
-  end 
-stop 
+goto ACTIVATE_CHARS ;
 lset display lik; 
+if ('dolik' && 'estim_ML' ) 
+  goto CALCULATE_ML_REF ; 
+end
+
 
 loop=tr 1 ntrees
   set bran sister [#tr 'tgtsp'] ; 
@@ -3152,46 +3262,61 @@ loop=tr 1 ntrees
   end
   report= ; 
   if ('dolik')
-    if (!'doing_unlinked') 
-       report = ; 
-      /* piwe- ; */
-       maketable + mk_charscores ; 
-       piwe-  ;
-       set dde mklik [#tr] ; 
-       maketable - ;
-       loop=ch 0 nchar
-         set charscore ['bran_ref' #ch] 'mk_charscores [#ch]' ;
-         sil=all ; quote score #ch  'mk_charscores [#ch]' ; sil=all ;    
-       stop 
-          report- ;
-    else
-      loop=po 0 ('numchrgrp'-1)
-          cc ] . ; cc [ {#po} ; 
-          loop=er 0 nchar
-             if ( isinxgroup[#po #er] && 'listchar[#er]' == 0 ) 
-              cc ] #er ; 
-             end
-          stop
-          report=; 
-          piwe-; 
-          maketable + mk_charscores ; 
-          piwe -  ;
-           set dde mklik [#tr] ; 
-          maketable - ;
-          report- ; 
-          loop=ch 0 nchar
-           if (isinxgroup[#po #ch])
-             set charscore ['bran_ref' #ch] 'mk_charscores [#ch]' ; 
-           end 
-         stop 
-       stop 
-       cc ] . ; 
-       loop=ps 0 nchar 
-            if ('listchar[#ps]' == 1 ) 
-             cc [ #ps ; 
-            end 
-      stop 
-    end
+	    if (!'doing_unlinked') 
+		      if (!'estim_ML')
+			      maketable + mk_charscores ; 
+			      piwe -  ;
+			      set dde mklik [#tr] ; 
+			      maketable - ;
+		     	      report- ; 
+		       else
+			       set opt_tree #tr ; 
+			       set ref_tree 0 ; /*SIN QUERY*/
+			       set latar 'tgtsp' ; 
+			       goto CALCULATE_ML ;   
+		       end
+		       loop=ch 0 nchar
+		       	   set charscore ['bran_ref' #ch] 'mk_charscores [#ch]' ;
+		       	   /*sil-all ; quote  'mk_charscores [#ch]' &32  ; sil=all ; */   
+		       stop
+	     else
+		      loop=po 0 ('numchrgrp'-1)
+			  cc ] . ; cc [ {#po} ; 
+			  set van 0 ; 
+			  loop=er 0 nchar
+			     if ( isinxgroup[#po #er] )
+			       if( 'listchar[#er]' == 0 ) 
+			          cc ] #er ; 
+			        else
+			          set van++ ; 
+			        end
+			     end 
+			  stop
+			   report=; 
+			   if ('van') 
+			     piwe-; 
+			     maketable + mk_charscores ; 
+			     piwe -  ;
+			     set dde mklik [#tr] ; 
+			     maketable - ;
+			     loop=ch 0 nchar
+			        if (isinxgroup[#po #ch])
+			            set charscore ['bran_ref' #ch] 'mk_charscores [#ch]' ; 
+			       end 
+			     stop 
+			   else
+			      set dde 0 ;
+			      loop=ch 0 nchar
+			         if (isinxgroup[#po #ch])
+			          set charscore ['bran_ref' #ch] 0 ; 
+			         end 
+			     stop 
+			   end
+                           report- ; 
+			   
+		       stop 
+		       goto ACTIVATE_CHARS ;  
+	    end
   else
        loop=ch 0 nchar
          set charscore ['bran_ref' #ch] score [#tr #ch] ; 
@@ -3199,8 +3324,8 @@ loop=tr 1 ntrees
   end
  report-; 
 stop 
-
-macfloat 10 ; 
+ 
+  
 cc ] . ; 
 loop=ps 0 nchar 
   if ('listchar[#ps]' == 1 ) 
@@ -3237,31 +3362,31 @@ proc/;
 	
 	   
 	  
-	  set red  sister  ['ref_tree' 'eltax'] ;
-	  set pos_cero  anc ['ref_tree' 'red'] ; 
+	  set redo sister  ['ref_tree' 'eltax'] ;
+	  set pos_cero  anc ['ref_tree' 'redo'] ; 
 	  
-	  set blue  sister ['opt_tree' 'eltax'] ;
+	  set bluo  sister ['opt_tree' 'eltax'] ;
 	  set onetocero grptogrp 'ref_tree' 'opt_tree'  ;
 	 /* loop=ee 0 nnodes [ 0] ; 
 	    sil-all; quote #ee 'onetocero[#ee]'; 
 	  stop */
-	  sil=all; quote blue='blue' ;   
-	  set nodo_trans 'onetocero['blue']' ; 
+	  sil=all; quote bluo='bluo' ;   
+	  set nodo_trans 'onetocero['bluo']' ; 
 	  
 	  if ('nodo_trans' != (-1) )
 	    set pos_one anc ['ref_tree' 'nodo_trans'] ; 
 	    set pos_y distnode [ 'ref_tree' 'pos_cero' 'pos_one' ] ;
           else
-           set red  sister   ['opt_tree' 'eltax'] ;
- 	   set pos_cero  anc ['opt_tree' 'red'] ; 
-	   set blue  sister  ['ref_tree' 'eltax'] ;
+           set redo sister   ['opt_tree' 'eltax'] ;
+ 	   set pos_cero  anc ['opt_tree' 'redo'] ; 
+	   set bluo  sister  ['ref_tree' 'eltax'] ;
 	   set onetocero grptogrp  'opt_tree' 'ref_tree' ;
-           set nodo_trans 'onetocero['blue']' ; 
+           set nodo_trans 'onetocero['bluo']' ; 
            set pos_one anc ['opt_tree' 'nodo_trans'] ; 
 	   set pos_y distnode [ 'opt_tree' 'pos_cero' 'pos_one' ] ;
         end
           
-          /*quote: opt_tree 'opt_tree' ref_tree 'ref_tree' red='red' blue='blue' pos_one='pos_one'  pos_cero='pos_cero' nodo_trans 'nodo_trans' eltax 'eltax';  
+          /*quote: opt_tree 'opt_tree' ref_tree 'ref_tree' red='redo' bluo='bluo' pos_one='pos_one'  pos_cero='pos_cero' nodo_trans 'nodo_trans' eltax 'eltax';  
 	  quote: distancia 'pos_y' ; */
 	  if ('pos_y' < 'min_dist') 
 	    set min_dist 'pos_y' ; 
@@ -3284,53 +3409,34 @@ proc/;
 label MULT_WITH_TARGET 
 
 /* scores calculated using the tree rooted with the outgroup */ 
-
+macfloat 'flot_calc' ; 
 set mini 9999999999 ; 
 set maxi 0 ; 
 k 0 ; 
 tt- ; 
-
 tvault<0 ;
 set nds nnodes [0] ;
-if ('dolik')
-   lset speed 0.1 ldelta 0.08 bdelta 0.08 passes 10 10   ;    
-   if ('mk_space' )
-       lset nogstatespace ; 
-   end
-end
 set van 0 ; 
-
-
 
  
 loop=nd 0 (nnodes[0]) 
-        
          k 0 ; 
          tvault<0 ; 
          rer ; 
-
          if ((#nd == root) ||  (#nd == 'tgtsp') || (!isintree [0 #nd]) || (#nd == outgroup))
              continue ; 
          end
          set blue root ; 
          sil=all; edit 0 'blue' 'tgtsp' #nd ; 
-         if (!'dolik')
-                  force/&0; 
-           
-                  k 0 ; 
-                  constrain=;
-                  mu 100 = ho 1 ;
-                  bb = fillonly ; 
-                  if (ntrees >= 999 )
-                   tch 0.998 ; 
-                  end
-                  set esco score[0] ; 
-                  force ;
-         else
-                  set coloring 1 ; 
-                  goto SPR_LIK_CONSTRAIN ; 
-         end
-      
+         force/&0; 
+          k 0 ; 
+          constrain=;
+          mu 'RAS_num' = ho 1 ;
+          bb = fillonly ; 
+          if (ntrees >= 999 )
+            tch 0.998 ; 
+          end
+         set esco score[0] ; 
          set core[#nd] 'esco' ;
          if ('esco' <= 'mini')
                   if ('esco' == 'mini')
@@ -3348,23 +3454,10 @@ loop=nd 0 (nnodes[0])
          end 
          tc 0 ; 
          if ('dolist') 
-             if ('dolik')
-                 report=; 
-                 piwe- ; 
-                 maketable + mk_charscores ; 
-                 piwe- ; 
-                 set dde mklik [0] ; 
-                 maketable - ;
-                 report-; 
-            end
-           report-; 
-           loop=ch 0 nchar
-                 if (!'dolik') 
-                    set charscore [#nd #ch] score [0 #ch] ; 
-                 else 
-                    set charscore [#nd #ch] 'mk_charscores [#ch]' ; 
-                 end
-           stop
+            report-; 
+            loop=ch 0 nchar
+              set charscore [#nd #ch] score [0 #ch] ; 
+            stop
         end
 stop
 
@@ -3419,7 +3512,7 @@ if ('multree' == 0 )
 		  end 
 	  stop
 
-	  ttag &color_query.svg bheight 40 legup 10 fontsize 20 txtsep 20 blength 80 colors ; 
+	  ttag & $output_color bheight 40 legup 10 fontsize 20 txtsep 20 blength 80 colors ; 
 	  
 	  ttag & ;
 	  set did_colorquer 1 ; 
@@ -3451,12 +3544,7 @@ set bestdis 999999999 ;
 set blue 0 ; set red 0 ; 
 
 loop=cnd 0 ( 'nconds'-1 )
-	  cc ] . ; 
-	  loop=ps 0 nchar 
-	     if ('listchar[#ps]' == 1 ) 
-	        cc [ #ps ; 
-	    end 
-	  stop 
+	  goto ACTIVATE_CHARS ; 
 	  loop=yy 0 nchar 
 	     set bak_listchar [#yy] 'listchar [#yy]' ; 
 	  stop 
@@ -3724,13 +3812,13 @@ if ( 'nconds' > 12 )
       set ccc ++ ; 
       macfloat 0 ;
       set ccc 'ccc' ; 
-      macfloat 4 ; 
+      macfloat 'flot_calc' ; 
   end 
   set larama 'larama' + ( ('ccc' - 4 ) * 'sizsq') + 10 ; 
  
   macfloat 0 ; 
   set larama 'larama' ; 
-  macfloat 4 ; 
+  macfloat 'flot_calc' ; 
 end
 
 
@@ -3779,7 +3867,7 @@ loop=cd 0 ('nconds'-1)
                            set ccc ++ ; 
                            macfloat 0 ;
                            set ccc 'ccc' ; 
-                           macfloat 4 ; 
+                           macfloat 'flot_prnt' ; 
                     end 
                     set limA 'ccc' - 1 ; 
                     set limB ('ccc' *2 ) - 1 ; 
@@ -3861,7 +3949,7 @@ loop=cd 0 ('nconds'-1)
 		set micore 'elesco' ; 
 		goto SETTING_COLORS ; 
 	  end
-          macfloat 4 ; 
+          macfloat 'flot_prnt' ;    
           set pos_x ('eti[#nd 0]' - 'eti[anc[0 #nd] 0]')/ 12 + 'eti[anc[0 #nd] 0]' + 'suma_x' ; 
           set pos_y 'eti[#nd 1]' + 4 + 'suma_y'; 
           if (('dosensit' == 1 ) || ('dosensit' == 2 ) ) 
@@ -3925,7 +4013,7 @@ set posx 'dist' -15 ;
   set mit ('span'/2) ; 
   set uncua ( 'span' / 4 ) ;
   set trescua ( (3 * 'span') / 4 ) ;
-  macfloat 2 ; 
+  macfloat 'flot_prnt' ; 
   ttag&+ write<text&32x=&34 10 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 18&34 > 0 </text>&10 ; 
   ttag&+ write<text&32x=&34 160 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 18&34>+ 'uncua' </text> &10 ; 
   ttag&+ write<rect x=&34 158&34&32y=&34 'posx'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
@@ -3935,7 +4023,7 @@ set posx 'dist' -15 ;
   ttag&+ write<rect x=&34 458&34&32y=&34 'posx'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
   ttag&+ write<text&32x=&34 610 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 18&34>+ 'span' </text> &10 ; 
   ttag&+ write<rect x=&34 608&34&32y=&34 'posx'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
-  macfloat 10; 
+  macfloat 'flot_calc'; 
  
 if(!'do_palette')
 	 set dist 'posx' + 10 ; 
@@ -4007,7 +4095,7 @@ loop=cd 0 ('nconds'-1)
            set ccc ++ ; 
            macfloat 0 ;
            set ccc 'ccc' ; 
-           macfloat 4 ; 
+            macfloat 'flot_calc'; 
     end 
     set limA 'ccc' - 1 ; 
     set limB ('ccc' *2 ) - 1 ; 
@@ -4079,7 +4167,6 @@ if (!'dogrpchars' || 'nomeagrupes')
         set bl_name $$character #1 ;
         set pos_x 'star_x' + ('pace_x' * 'ctos' ) ; 
         sil-file; quote <text x=&34 'pos_x'&34 &32y=&34 'pos_y'&34&32 font-size=&34 12&34&32 transform=&34 rotate (-60,'pos_x','pos_y')&34 > #1_$bl_name:30 &32 </text> &10 ; sil=all;
-        macfloat 7 ; 
         set ctos ++ ; 
  stop
 else
@@ -4088,8 +4175,7 @@ else
      if (isinxgroup[#grp #car])
       set bl_name $$character #car ;
       set pos_x 'star_x' + ('pace_x' * 'ctos' ) ; 
-    sil-file; quote <text x=&34 'pos_x'&34 &32y=&34 'pos_y'&34&32 font-size=&34 12&34&32 transform=&34 rotate (-60,'pos_x','pos_y')&34 > Gr #grp Ch #car $bl_name:30 &32 </text> &10 ; sil=all;
-  macfloat 7 ; 
+      sil-file; quote <text x=&34 'pos_x'&34 &32y=&34 'pos_y'&34&32 font-size=&34 12&34&32 transform=&34 rotate (-60,'pos_x','pos_y')&34 > Gr #grp Ch #car $bl_name:30 &32 </text> &10 ; sil=all;
   set ctos ++ ;
   end 
  stop
@@ -4161,187 +4247,91 @@ tt- ;
 
 ttag * 0 ; 
 
-
+sil=all; quote nds 'nds' ; 
+set hermano 99999 ; 
  loop=nd 0 'nds' 
      set ndtran 'trad_nd[#nd]' ; 
-     /*quote: #nd ndtran 'ndtran' hermano 'hermano'  ; */
+     lquote- ; quote: #nd ndtran 'ndtran'   ; 
      if ('ndtran' == (-1) ) 
+        sil=all; quote el nodo #nd ndtran 'ndtran' es -1 ; sil=all; 
         set hermano sister [ 0 #nd] ;   
         continue ;
     end
  stop         
-    
  
+ 
+ 
+sil-all; quote hermano 'hermano' ; 
+set blue nnodes [0]  ; 
+sil-all;  quote nds 'nds' blue 'blue' ; 
 
- 
+
+
+
 /* SVG DE SCORES DE CARACTERES */ 
-
-if (!'dogrpchars' || 'nomeagrupes') 
- loop=tar 0 nchar 
-  set bloque #1 ; 
-  set pos_x 'star_b' + ('pace_x' * 'dde') ;
-  set ctos_sp 0 ; 
-  loop=ods 0 nnodes [0] 
-        set ndtran 'trad_nd[#ods]' ; 
-        if ('ndtran' == (-1) )
-          continue ;  
-        end
-        if ( ('nod' == root ) ||  ('nod' == 'tgtsp') || (!isintree [0 'nod']) ) 
-         continue ; 
-        end 
-        set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ; 
-        if ('besever')
-           set shift 'minis[#1]' ; 
-           set shoft 'maxis[#1]' ; 
-           set span 'maxis[#1]' - 'minis[#1]' ; 
-           set miti 'shift' + ('span'/2) ; 
-           set uncuar 'shift' + ( 'span' / 4 ) ;
-           set trescuar 'shift' + ( (3 * 'span') / 4 ); 
- 	   set mini 'minis[#1]' ; 
-	   set maxi 'maxis[#1]' ;
-	   
-	   set trescuarI 'maxi' + ('maxi'-'uncuar' )  ; 
-	   set mitiI   'maxi' + ('maxi'-'miti' )  ; 
-	   set uncuarI   'maxi' + ('maxi'-'trescuar' )  ;
-	   set shiftI 'maxi' ;
-           set shoftI  'maxi' + ('maxi' - 'mini' )   ;
-	   
-           if ('do_palette')
-                set pace ('span' / 20 ); 
-                sil=all; 
-    	       goto FILL_COLIM ; 
-           end
-        end     
-        
-        if (('maxis[#1]'-'minis[#1]')== 0 )
-          set blue 130 ; 
-          set red 130 ; 
-          set green 130 ; 
-        else
-           if ('minis [#1]' < 'shift' ) 
-             set elsco 'charscore['ndtran' #1]' + ('shift' - 'minis [#1]') ;
-           else
-             set elsco 'charscore['ndtran' #1]' - ('minis [#1]' - 'shift' ) ; 
-           end
-                if (!'do_palette')
-                    set elsco 'shoft' + ('shoft' - 'elsco')  ;     
-                     if ('elsco' < ( 'uncuarI') )   
-	     	        set red   (254 - ( (254-240)  *  (('uncuarI'-'elsco' ) / ( 'uncuarI' - 'shiftI'  ) )) )   ; 
-	     	        set green (240 - ( (240-5)  *    (('uncuarI'-'elsco' ) / ( 'uncuarI' - 'shiftI' ) )) )   ; 
-	     	        set blue  (1 + ( (5-1)  *        (('uncuarI'-'elsco' ) / ( 'uncuarI' - 'shiftI' ) )))    ;   ;   
-	         
-	            else
-	     	        if (( 'elsco' >= 'uncuarI' ) && ( 'elsco' < 'mitiI' ) )   
-	     		   set red   (46 +   ( (254-46)  * (('mitiI' - 'elsco')  / ( 'mitiI' - 'uncuarI') ))) ;
-	     		   set green (182 + ( (240-182)  *  (('mitiI' - 'elsco') / ( 'mitiI' - 'uncuarI') ))) ; 
-	     	     	   set blue  (44  -  ( (44-1)  *    (('mitiI' - 'elsco') / ( 'mitiI' - 'uncuarI') ))) ;
-	     	        else
-	     		   if (( 'elsco' >= 'mitiI' ) && ( 'elsco' < 'trescuarI' ) )   
-	     			set red   ( 18  + ( (46-18)    *  (('trescuarI'-'elsco' ) / ( 'trescuarI' - 'mitiI') ) ))  ;
-	     			set green ( 232 - ( (232-182)  * (('trescuarI'-'elsco') / ( 'trescuarI' - 'mitiI') ) ) );
-	     			set blue  ( 232 - ( (254-44)   * (('trescuarI'-'elsco' ) / ( 'trescuarI' - 'mitiI') ) )  ); 
-	     		    else   /*18,232,232 a 55,55,148*/
-	     		        set red    ( 55  - ( (55-18)  *    (( 'shoftI' - 'elsco' ) / ( 'shoftI' - 'trescuarI' ) ) ))  ;
-	     			set green  ( 55  + ( (232-55)  *   (( 'shoftI' - 'elsco'  ) / ( 'shoftI' - 'trescuarI' ) ) ))  ;
-	     			set blue   ( 148 + ( (232-148)  *  (( 'shoftI' - 'elsco'  ) / ( 'shoftI' - 'trescuarI' ) ) ))  ;
-	     		    end
-	     	       end
-                   end
-                   sil=all; quote uncuarI 'uncuarI' shiftI 'shiftI' shoft 'shoft' elsco 'elsco' mitiI 'mitiI' trescuarI 'trescuarI' red 'red' green 'green' blue 'blue' ; sil=all; 
-                   
-               else
-                 set micore 'elsco' ; 
-                 sil=all; 
-	         goto SETTING_COLORS ; 
-               end
-               lquote- ; 
-	  end 
-          sil-file; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;sil=all;
-          if (( 'charscore['ndtran'  #1]' == 'minis[#1]') && (('maxis[#1]'-'minis[#1]') != 0 )) 
-            set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
-             sil-file; quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; sil=all;
-          end
-          set ctos_sp ++ ;
-         
-          if (#ods == 'hermano' ) 
-	    set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ; 
-            sil-file; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;sil=all;
-            if ( ('charscore['ndtran' #1]' == 'minis[#1]') && ('maxis [#1]' != 'minis[#1]') ) 
-	            set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
-	            
-	            sil-file; quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; sil=all;
-            end
-            set ctos_sp ++ ;
-          end        
-      stop
-     set dde ++ ; 
- stop
  
-else
- loop=grp 0 ('numchrgrp'-1)
-    loop=car 0 nchar
-        if (!isinxgroup[#grp #car])
-          continue ; 
-        end 
-        set bloque #car ; 
-        set pos_x 'star_b' + ('pace_x' * 'dde') ;
-        set ctos_sp 0 ; 
-        if ('besever')
-               set shift 'minis[#car]' ; set shoft 'maxis[#car]' ; 
-               set span 'maxis[#car]' - 'minis[#car]' ; 
-               set miti 'shift' + ('span'/2) ; 
-               set uncuar 'shift' + ( 'span' / 4 ) ;
-               set trescuar 'shift' + ( (3 * 'span') / 4 ); 
-               set mini 'minis[#car]' ; 
-	       set maxi 'maxis[#car]' ;
-	       	   
-	       set trescuarI 'maxi' + ('maxi'-'uncuar' )  ; 
-	       set mitiI   'maxi' + ('maxi'-'miti' )  ; 
-	       set uncuarI   'maxi' + ('maxi'-'trescuar' )  ;
-	       set shiftI 'maxi' ;
-	       set shoftI  'maxi' + ('maxi' - 'mini' )   ;
-	       if ('do_palette')
-	          set pace ('span' / 20 ); 
-	          sil=all; 
-	         goto FILL_COLIM ; 
-              end
-         end
-         loop=nd 0 nnodes [0] 
-           set ndtran 'trad_nd[#nd]' ; 
-	   if ('ndtran' == (-1) )
-	       continue ;  
-           end
-           set nod #nd ;
-           if (('nod' == root ) ||   ('nod' == 'tgtsp') || (!isintree [0 'nod']) ) 
-             continue ; 
-           end 
-           set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ;
-          
-          if (('maxis[#car]'-'minis[#car]')== 0 )
-                  set blue 130 ; 
-                  set red 130 ; 
-                  set green 130 ; 
-          else
-              if ('minis [#car]' < 'shift' ) 
-                   set elsco 'charscore['ndtran' #car]' + ('shift' - 'minis [#car]') ;
-              else
-                   set elsco 'charscore['ndtran' #car]' - ('minis [#car]' - 'shift' ) ; 
-              end 
-              if (!'do_palette')
-                      set elsco 'shoft' + ('shoft' - 'elsco')  ;     
-                    
-		      if ('elsco' < ( 'uncuarI') )  /*240,5,5 a  254,240,1 */ 
+if (!'dogrpchars' || 'nomeagrupes') 
+loop=tar 0 nchar 
+		  set bloque #1 ; 
+		  set pos_x 'star_b' + ('pace_x' * 'dde') ;
+		  set ctos_sp 0 ; 
+		  loop=ods 0 nnodes [0] 
+			set ndtran 'trad_nd[#ods]' ; 
+			if ('ndtran' == (-1) )
+			  continue ;  
+			end
+			if ( (#ods == root ) ||  (#ods == 'tgtsp') || (!isintree [0 #ods]) ) 
+			 continue ; 
+			end 
+					
+			set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ; 
+			if ('besever')
+			   set shift 'minis[#1]' ; 
+			   set shoft 'maxis[#1]' ; 
+			   set span 'maxis[#1]' - 'minis[#1]' ; 
+			   set miti 'shift' + ('span'/2) ; 
+			   set uncuar 'shift' + ( 'span' / 4 ) ;
+			   set trescuar 'shift' + ( (3 * 'span') / 4 ); 
+			   set mini 'minis[#1]' ; 
+			   set maxi 'maxis[#1]' ;
+
+			   set trescuarI 'maxi' + ('maxi'-'uncuar' )  ; 
+			   set mitiI   'maxi' + ('maxi'-'miti' )  ; 
+			   set uncuarI   'maxi' + ('maxi'-'trescuar' )  ;
+			   set shiftI 'maxi' ;
+			   set shoftI  'maxi' + ('maxi' - 'mini' )   ;
+
+			   if ('do_palette')
+				set pace ('span' / 20 ); 
+				sil=all; 
+			       goto FILL_COLIM ; 
+			   end
+			end     
+
+			if (('maxis[#1]'-'minis[#1]')== 0 )
+			  set blue 130 ; 
+			  set red 130 ; 
+			  set green 130 ; 
+			else
+			   if ('minis [#1]' < 'shift' ) 
+			     set elsco 'charscore['ndtran' #1]' + ('shift' - 'minis [#1]') ;
+			   else
+			     set elsco 'charscore['ndtran' #1]' - ('minis [#1]' - 'shift' ) ; 
+			   end
+				if (!'do_palette')
+				    set elsco 'shoft' + ('shoft' - 'elsco')  ;     
+				     if ('elsco' < ( 'uncuarI') )   
 					set red   (254 - ( (254-240)  *  (('uncuarI'-'elsco' ) / ( 'uncuarI' - 'shiftI'  ) )) )   ; 
 					set green (240 - ( (240-5)  *    (('uncuarI'-'elsco' ) / ( 'uncuarI' - 'shiftI' ) )) )   ; 
 					set blue  (1 + ( (5-1)  *        (('uncuarI'-'elsco' ) / ( 'uncuarI' - 'shiftI' ) )))    ;   ;   
 
-		      else
-					if (( 'elsco' >= 'uncuarI' ) && ( 'elsco' < 'mitiI' ) ) /* 254,240,1  a 46,182,44) */ 
+				    else
+					if (( 'elsco' >= 'uncuarI' ) && ( 'elsco' < 'mitiI' ) )   
 					   set red   (46 +   ( (254-46)  * (('mitiI' - 'elsco')  / ( 'mitiI' - 'uncuarI') ))) ;
 					   set green (182 + ( (240-182)  *  (('mitiI' - 'elsco') / ( 'mitiI' - 'uncuarI') ))) ; 
 					   set blue  (44  -  ( (44-1)  *    (('mitiI' - 'elsco') / ( 'mitiI' - 'uncuarI') ))) ;
 					else
-					   if (( 'elsco' >= 'mitiI' ) && ( 'elsco' < 'trescuarI' ) )  /*46,182,44 a 18,232,232*/
+					   if (( 'elsco' >= 'mitiI' ) && ( 'elsco' < 'trescuarI' ) )   
 						set red   ( 18  + ( (46-18)    *  (('trescuarI'-'elsco' ) / ( 'trescuarI' - 'mitiI') ) ))  ;
 						set green ( 232 - ( (232-182)  * (('trescuarI'-'elsco') / ( 'trescuarI' - 'mitiI') ) ) );
 						set blue  ( 232 - ( (254-44)   * (('trescuarI'-'elsco' ) / ( 'trescuarI' - 'mitiI') ) )  ); 
@@ -4351,38 +4341,146 @@ else
 						set blue   ( 148 + ( (232-148)  *  (( 'shoftI' - 'elsco'  ) / ( 'shoftI' - 'trescuarI' ) ) ))  ;
 					    end
 				       end
-		     end
-	     else
-	         set micore 'elsco' ; 
-	         sil=all; 
-	         goto SETTING_COLORS ; 
-	     end 
-	  end 
-          sil-file; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ; sil=file; 
-          if ( ('charscore['ndtran' #car]' == 'minis[#car]') && ('maxis [#car]' != 'minis[#car]') ) 
-               set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
-               sil-file; quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; sil=all;
-          end
-          set ctos_sp ++ ;
-   
-          if (#nd == 'hermano' ) 
-	    set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ; 
-	    sil-file; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;sil=all;
-	    /*sil-file; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb(55,212,23)&34 /> &10 ;sil=all;*/
-	    
-            if ( ('charscore['ndtran' #car]' == 'minis[#car]') && ('maxis [#car]' != 'minis[#car]') ) 
-	          set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
-	          sil-file; quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; sil=all;
-            end
-            set ctos_sp ++ ;
-          end   
-       stop
-       set dde ++ ; 
-  stop
- stop 
+				   end
+				   
+			       else
+				 set micore 'elsco' ; 
+				 sil=all; 
+				 goto SETTING_COLORS ; 
+			       end
+			         
+			       lquote- ; 
+			  end 
+			  
+			  sil-file; quote <rect  x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;sil=all;
+			 
+			  if (( 'charscore['ndtran'  #1]' == 'minis[#1]') && (('maxis[#1]'-'minis[#1]') != 0 )) 
+			    set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
+			     sil-file; quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; sil=all;
+			  end
+			  set ctos_sp ++ ;
+                           
+			  if (#ods == 'hermano' ) 
+			    set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ; 
+			    sil-file; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;sil=all;
+			    if ( ('charscore['ndtran' #1]' == 'minis[#1]') && ('maxis [#1]' != 'minis[#1]') ) 
+				    set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
+
+				    sil-file; quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; sil=all;
+			    end
+			    set ctos_sp ++ ;
+			  end  
+		      stop
+		     set dde ++ ; 
+		 stop
+
+else
+		 loop=grp 0 ('numchrgrp'-1)
+		    loop=car 0 nchar
+			if (!isinxgroup[#grp #car])
+			  continue ; 
+			end 
+			set bloque #car ; 
+			set pos_x 'star_b' + ('pace_x' * 'dde') ;
+			set ctos_sp 0 ; 
+			if ('besever')
+			       set shift 'minis[#car]' ; set shoft 'maxis[#car]' ; 
+			       set span 'maxis[#car]' - 'minis[#car]' ; 
+			       set miti 'shift' + ('span'/2) ; 
+			       set uncuar 'shift' + ( 'span' / 4 ) ;
+			       set trescuar 'shift' + ( (3 * 'span') / 4 ); 
+			       set mini 'minis[#car]' ; 
+			       set maxi 'maxis[#car]' ;
+
+			       set trescuarI 'maxi' + ('maxi'-'uncuar' )  ; 
+			       set mitiI   'maxi' + ('maxi'-'miti' )  ; 
+			       set uncuarI   'maxi' + ('maxi'-'trescuar' )  ;
+			       set shiftI 'maxi' ;
+			       set shoftI  'maxi' + ('maxi' - 'mini' )   ;
+			       if ('do_palette')
+				  set pace ('span' / 20 ); 
+				  sil=all; 
+				 goto FILL_COLIM ; 
+			      end
+			 end
+			 loop=nd 0 nnodes [0] 
+			   set ndtran 'trad_nd[#nd]' ; 
+			   if ('ndtran' == (-1) )
+			       continue ;  
+			   end
+			   set nod #nd ;
+			   if (('nod' == root ) ||   ('nod' == 'tgtsp') || (!isintree [0 'nod']) ) 
+			     continue ; 
+			   end 
+			   set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ;
+
+			   if (('maxis[#car]'-'minis[#car]')== 0 )
+				  set blue 130 ; 
+				  set red 130 ; 
+				  set green 130 ; 
+			  else
+			      if ('minis [#car]' < 'shift' ) 
+				   set elsco 'charscore['ndtran' #car]' + ('shift' - 'minis [#car]') ;
+			      else
+				   set elsco 'charscore['ndtran' #car]' - ('minis [#car]' - 'shift' ) ; 
+			      end 
+			      if (!'do_palette')
+				      set elsco 'shoft' + ('shoft' - 'elsco')  ;     
+
+				      if ('elsco' < ( 'uncuarI') )  /*240,5,5 a  254,240,1 */ 
+							set red   (254 - ( (254-240)  *  (('uncuarI'-'elsco' ) / ( 'uncuarI' - 'shiftI'  ) )) )   ; 
+							set green (240 - ( (240-5)  *    (('uncuarI'-'elsco' ) / ( 'uncuarI' - 'shiftI' ) )) )   ; 
+							set blue  (1 + ( (5-1)  *        (('uncuarI'-'elsco' ) / ( 'uncuarI' - 'shiftI' ) )))    ;   ;   
+
+				      else
+							if (( 'elsco' >= 'uncuarI' ) && ( 'elsco' < 'mitiI' ) ) /* 254,240,1  a 46,182,44) */ 
+							   set red   (46 +   ( (254-46)  * (('mitiI' - 'elsco')  / ( 'mitiI' - 'uncuarI') ))) ;
+							   set green (182 + ( (240-182)  *  (('mitiI' - 'elsco') / ( 'mitiI' - 'uncuarI') ))) ; 
+							   set blue  (44  -  ( (44-1)  *    (('mitiI' - 'elsco') / ( 'mitiI' - 'uncuarI') ))) ;
+							else
+							   if (( 'elsco' >= 'mitiI' ) && ( 'elsco' < 'trescuarI' ) )  /*46,182,44 a 18,232,232*/
+								set red   ( 18  + ( (46-18)    *  (('trescuarI'-'elsco' ) / ( 'trescuarI' - 'mitiI') ) ))  ;
+								set green ( 232 - ( (232-182)  * (('trescuarI'-'elsco') / ( 'trescuarI' - 'mitiI') ) ) );
+								set blue  ( 232 - ( (254-44)   * (('trescuarI'-'elsco' ) / ( 'trescuarI' - 'mitiI') ) )  ); 
+							    else   /*18,232,232 a 55,55,148*/
+								set red    ( 55  - ( (55-18)  *    (( 'shoftI' - 'elsco' ) / ( 'shoftI' - 'trescuarI' ) ) ))  ;
+								set green  ( 55  + ( (232-55)  *   (( 'shoftI' - 'elsco'  ) / ( 'shoftI' - 'trescuarI' ) ) ))  ;
+								set blue   ( 148 + ( (232-148)  *  (( 'shoftI' - 'elsco'  ) / ( 'shoftI' - 'trescuarI' ) ) ))  ;
+							    end
+						       end
+				     end
+			     else
+				 set micore 'elsco' ; 
+				 sil=all; 
+				 goto SETTING_COLORS ; 
+			     end 
+			  end 
+			  sil-file; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ; sil=file; 
+			 
+			  if ( ('charscore['ndtran' #car]' == 'minis[#car]') && ('maxis [#car]' != 'minis[#car]') ) 
+			       set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
+			       sil-file; quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; sil=all;
+			  end
+			  set ctos_sp ++ ;
+
+			  if (#nd == 'hermano' ) 
+			    set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ; 
+			    sil-file; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;sil=all;
+			    /*sil-file; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb(55,212,23)&34 /> &10 ;sil=all;*/
+
+			    if ( ('charscore['ndtran' #car]' == 'minis[#car]') && ('maxis [#car]' != 'minis[#car]') ) 
+				  set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
+				  sil-file; quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; sil=all;
+			    end
+			    set ctos_sp ++ ;
+			  end   
+		       stop
+		       set dde ++ ; 
+		  stop
+		 stop 
 end
  
-
+ 
 
 set star_y 'star_y' + 12 ; 
 set ctos_sp 0 ; 
@@ -4401,12 +4499,11 @@ loop=pp 0 nnodes [0]
         if ( #pp < 'dde'  ) 
            set bl_name $$taxon #pp ;
         else
-           set bl_name $Node #pp ;
+           set bl_name $Branch #pp ;
         end
         sil=all; 
         set pos_y 'star_y' + ('pace_y' * 'ctos_sp' ) ; 
         sil-file; quote <text x=&34 5&34&32y=&34 'pos_y'&34&32 font-size=&34 12&34 > &32 $bl_name:30 </text> &10 ; sil=all;
-        macfloat 7 ; 
         set ctos_sp ++ ;
         if (#1 == 'trad_nd['besnod']' ) 
           set py 'pos_y' - 13 ; 
@@ -4418,11 +4515,10 @@ loop=pp 0 nnodes [0]
        	   if ('tochang' < root ) 
 		set bl_name $$taxon 'tochang' ; 
 	   else
-		 set bl_name $Node 'tochang' ;
+		 set bl_name $Branch 'tochang' ;
 	   end
 	   set pos_y 'star_y' + ('pace_y' * 'ctos_sp' ) ; 
 	   sil-file; quote <text x=&34 5&34&32y=&34 'pos_y'&34&32 font-size=&34 12&34 > &32 $bl_name:30 </text> &10 ; sil=all;
-	   macfloat 7 ; 
 	   set ctos_sp ++ ;
 	   if (#1 == 'trad_nd['besnod']' )
 	        set py 'pos_y' - 13 ; 
@@ -4442,7 +4538,7 @@ stop
  sil-file; 
  if (!'besever')
   set uncua 'uncuar'-'shift' ; set trescua 'trescuar'-'shift' ; set mit 'miti'-'shift' ; set shof 'shoft'-'shift' ; 
-  macfloat 2 ; 
+  macfloat 'flot_prnt'; 
   quote <text&32x=&34 10 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > 0 </text>&10 ; 
   quote <text&32x=&34 110 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34>+ 'uncua' </text> &10 ; 
   quote <rect x=&34 108&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ; 
@@ -4452,7 +4548,7 @@ stop
   quote <rect x=&34 308&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ; 
   quote <text&32x=&34 410 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34>+ 'shof' </text> &10 ; 
   quote <rect x=&34 408&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ; 
-  macfloat 10; 
+  macfloat 'flot_calc'; 
  else
    quote <text&32x=&34 10 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 >Optimal</text>&10 ; 
    quote <text&32x=&34 360 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 >Suboptimal</text> &10 ;
@@ -4536,16 +4632,18 @@ loop=nd 0 nnodes [0]
 	 if (#1 < root ) 
   	    set bl_name $$taxon #1 ;
 	 else
-	    set bl_name $Node #1 ;
+	    set bl_name $Branch #1 ;
 	 end
 	 set nod #1 ;
 	 if (('nod' == root ) ||  ('nod' == 'tgtsp') || (!isintree [0 'nod']) ) 
 	    continue ; 
 	 end
 	 sil-file; quote $bl_name , ; sil=file;
+	  macfloat 'flot_prnt'; 
 	 loop=grp 0 nchar 
 	   sil-file; quote 'charscore['trad_nd[#nd]' #grp]' , ; sil=file;
 	 stop
+	 macfloat 'flot_calc'; 
 	 sil-file; quote &10 ; sil=file;
 	 set nod sister[0 'tochang'] ; 
 	 if (#nd == 'hermano' ) 
@@ -4553,12 +4651,14 @@ loop=nd 0 nnodes [0]
 		   if ('tochang' < root ) 
 		       set bl_name $$taxon 'tochang' ; /*cambiue aca decia #1 ) */
 		   else
-		     set bl_name $Node'tochang' ;
+		     set bl_name $Branch'tochang' ;
 		   end
 		  sil-file; quote $bl_name , ; sil=file;
+		  macfloat 'flot_prnt'; 
 		  loop=grp 0 nchar 
 		     sil-file; quote 'charscore['trad_nd[#nd]' #grp]' , ; sil=file;
 		  stop
+		  macfloat 'flot_calc'; 
 		  sil-file; quote &10 ; sil=file;
         end
 stop 
@@ -4644,24 +4744,28 @@ if ('dogrpchars')
 		     if (#1 < root ) 
 			 set bl_name $$taxon #1 ;
 		      else
-			set bl_name $Node #1 ;
+			set bl_name $Branch #1 ;
 		      end
 		     sil-file; quote $bl_name , ; sil=file;
+		     macfloat 'flot_prnt'; 
 		     loop=grp 0 ('numchrgrp'-1)
 			 sil-file; quote 'grpscore['trad_nd[#nd]'  #grp]' , ; sil=file;
 		     stop
+		     macfloat 'flot_calc'; 
 		     sil-file; quote &10 ; sil=file;
 		     if (#nd == 'hermano' ) 
 		        set tochang sister [ 0 #nd] ; 
 		        if ('tochang' < root ) 
 			 	set bl_name $$taxon 'tochang' ;
 			 else
-				set bl_name $Node 'tochang' ;
+				set bl_name $Branch 'tochang' ;
 		         end
 		         sil-file; quote $bl_name , ; sil=file;
+		         macfloat 'flot_prnt'; 
 		         loop=grp 0 ('numchrgrp'-1)
 			   sil-file; quote 'grpscore['trad_nd[#nd]'  #grp]' , ; sil=file;
 		         stop
+		         macfloat 'flot_calc'; 
 		         sil-file; quote &10 ; sil=file;
 		     end
 	 stop 
@@ -4680,7 +4784,6 @@ if ('dogrpchars')
 		   set bl_name $$xgroup #grp ;
 		   set pos_x 'star_x' + ('pace_x' * 'ctos' ) ;
 		   sil-file; quote <text x=&34 'pos_x'&34 &32y=&34 'pos_y'&34&32 font-size=&34 12&34&32 transform=&34 rotate (-60,'pos_x','pos_y')&34 > $bl_name:30 &32 </text> &10 ; sil=all; 
-		   macfloat 7 ; 
 		   set ctos ++ ; 
 	 stop 
 	 set ctos_sp 0 ;
@@ -4823,11 +4926,10 @@ if ('dogrpchars')
                 if (#1 < root ) 
                          set bl_name $$taxon #1 ;
                         else
-                         set bl_name $Node #1 ;
+                         set bl_name $Branch #1 ;
                 end
                 set pos_y 'star_y' + ('pace_y' * 'ctos_sp' ) ; 
-                SIL-FILE; quote <text x=&34 5&34&32y=&34 'pos_y'&34&32 font-size=&34 12&34 > &32 $bl_name:30 </text> &10 ; SIL=FILE;  
-                macfloat 7 ; 
+                sil-file; quote <text x=&34 5&34&32y=&34 'pos_y'&34&32 font-size=&34 12&34 > &32 $bl_name:30 </text> &10 ; SIL=FILE;  
                 if (#1 == 'trad_nd['besnod]')
                  set py 'pos_y' - 13 ; 
                  SIL-FILE;  quote <rect x=&34 4 &34&32y=&34 'py'&34&32width=&34 'px'&34&32height=&34 17&34&32stroke-width=&34 2&34&32stroke=&34black&34&32fill=&34none&34&32 /> &10 ;SIL=FILE;  
@@ -4838,7 +4940,7 @@ if ('dogrpchars')
                      if ('tochang' < root ) 
 		      set bl_name $$taxon 'tochang' ;
 		   else
-		      set bl_name $Node 'tochang' ;
+		      set bl_name $Branch 'tochang' ;
                    end
                  set pos_y 'star_y' + ('pace_y' * 'ctos_sp' ) ; 
 		 SIL-FILE; quote <text x=&34 5&34&32y=&34 'pos_y'&34&32 font-size=&34 12&34 > &32 $bl_name:30 </text> &10 ; SIL=FILE;  
@@ -4850,7 +4952,7 @@ if ('dogrpchars')
          SIL-FILE;
           if (!'besever')
 		  set uncua 'uncuar'-'shift' ; set trescua 'trescuar'-'shift' ; set mit 'miti'-'shift' ; set shof 'shoft'-'shift' ; 
-		  macfloat 2 ; 
+		  macfloat 'flot_prnt';    
 		  quote <text&32x=&34 10 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > 0 </text>&10 ; 
 		  quote <text&32x=&34 110 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34>+ 'uncua' </text> &10 ; 
 		  quote <rect x=&34 108&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
@@ -4860,7 +4962,7 @@ if ('dogrpchars')
 		  quote <rect x=&34 308&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
 		  quote <text&32x=&34 410 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34>+ 'shof' </text> &10 ; 
 		  quote <rect x=&34 408&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
-		  macfloat 10;  
+		  macfloat 'flot_calc';  
           else
              quote <text&32x=&34 10 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 >Optimal</text>&10 ; 
              quote <text&32x=&34 400 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 >Suboptimal</text> &10 ; 
@@ -5022,10 +5124,8 @@ tt & ;
  
  
  
- 
- 
- sil=all; quote minita 'mini' span 'span_all'; sil=all; 
- 
+
+
 
  
  report- ; 
@@ -5047,7 +5147,7 @@ tt & ;
       end 
       if (!'besever')  
              if ( 'mini_all' == 'maxi_all' ) 
-                 ttag +#1 (0,0,0)/N#no(0) ; 
+                 ttag +#1 (0,0,0)/B#no(0) ; 
                  continue ; 
              end 
              set ccc ('core[#1]'-'mini_all' ) ; 
@@ -5055,23 +5155,23 @@ tt & ;
                    set micore 'mini_all' ;
 		   if ('do_palette')
 		         goto SETTING_COLORS ; 
-		         macfloat 2 ; 
-		         ttag +#1 /N#no('mini_all') ;  
-		         macfloat 10 ; 
+		         macfloat 'flot_prnt' ; 
+		         ttag +#1 /B#no('mini_all') ;  
+		         macfloat 'flot_calc' ;   
                    else
-	  	       macfloat 2 ; 
-		       ttag +#1 (55,55,148)/N#no('mini_all') ;  
-		       macfloat 10 ; 
+	  	       macfloat 'flot_prnt' ;
+		       ttag +#1 (55,55,148)/B#no('mini_all') ;  
+		       macfloat 'flot_calc' ;  
                    end  
              else 
-                       macfloat 2 ; 
-		       ttag +#1 /N#no(+'ccc') ; 
-                       macfloat 10 ;
+                      macfloat 'flot_prnt' ; 
+		      ttag +#1 /B#no(+'ccc') ; 
+                      macfloat 'flot_calc' ;
              end    
       else
-         ttag +#1 (0,0,0)/N#no ;
+         ttag +#1 (0,0,0)/B#no ;
       end
-      macfloat 10 ;
+      macfloat 'flot_calc' ;
   stop
 end
 
@@ -5096,12 +5196,12 @@ if ( 'numchrgrp' > 12 )
       set ccc ++ ; 
       macfloat 0 ;
       set ccc 'ccc' ; 
-      macfloat 4 ; 
+     macfloat 'flot_calc'
   end 
   set larama 'larama' + ( ('ccc' - 4 ) * 'sizsq') + 10 ; 
   macfloat 0 ; 
   set larama 'larama' ; 
-  macfloat 4 ; 
+  macfloat 'flot_calc' ; 
 end
 
 
@@ -5206,7 +5306,7 @@ loop=grp 0 ('numchrgrp'-1)
                     set ccc ++ ; 
                     macfloat 0 ;
                     set ccc 'ccc' ; 
-                   macfloat 4 ; 
+                   macfloat 'flot_calc' ; 
                  end 
                   set limA 'ccc' - 1 ; 
                  set limB ('ccc' * 2 ) - 1 ; 
@@ -5379,7 +5479,7 @@ loop=cd 0 ('numchrgrp'-1)
            set ccc ++ ; 
            macfloat 0 ;
            set ccc 'ccc' ; 
-           macfloat 4 ; 
+           macfloat 'flot_calc' ; 
     end 
     set limA 'ccc' - 1 ; 
     set limB ('ccc' *2 ) - 1 ; 
@@ -5402,7 +5502,10 @@ loop=cd 0 ('numchrgrp'-1)
  ttag &+ write <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 22&34&32height=&34 22&34&32style=&34fill:white&59 stroke:black&34 &32stroke-width=&34 0.1&34 /> &10 ;sil=all ; 
  set dde #cd ;
  set pos_x 'pos_x' + 5 ; set pos_y 'pos_y' + 14 ; 
+ macfloat 'flot_prnt' ;
  ttag &+ write <text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y'&34 &32stroke-width=&34 1&34&32 font-size=&34 14&34  > 'dde' </text>&10 ; 
+ macfloat 'flot_calc' ;
+ 
 stop
 set pos_y 'pos_y' + 30 ; 
 
@@ -5452,11 +5555,14 @@ proc/;
 
 
 label WRITE_BARS 
- set dist 'posx' ;  
+macfloat 'flot_calc' ;
+
+set dist 'posx' ;  
+
  if (!'besever')
     if ('doing_grp_anal')
 	set uncua 'uncuar'-'shift' ; set trescua 'trescuar'-'shift' ; set mit 'miti'-'shift' ; set shof 'shoft'-'shift' ; 
-	macfloat 2 ; 
+	macfloat 'flot_prnt' ;
 	ttag&+ write<text&32x=&34 10 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34 > 0 </text>&10 ; 
 	ttag&+ write<text&32x=&34 160 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> 'uncua' </text> &10 ; 
 	ttag&+ write<rect x=&34 159&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
@@ -5466,10 +5572,10 @@ label WRITE_BARS
 	ttag&+ write<rect x=&34 459&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
 	ttag&+ write<text&32x=&34 610 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> 'shof' </text> &10 ; 
 	ttag&+ write<rect x=&34 608&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
-	macfloat 10;
+	macfloat 'flot_calc' ;
     else
-       set uncua 'uncuar'-'shift' ; set trescua 'trescuar'-'shift' ; set mit 'miti'-'shift' ; set shof 'shoft'-'shift' ; 
-	macfloat 2 ; 
+        set uncua 'uncuar'-'shift' ; set trescua 'trescuar'-'shift' ; set mit 'miti'-'shift' ; set shof 'shoft'-'shift' ; 
+	macfloat 'flot_prnt' ; 
 	ttag&+ write<text&32x=&34 10 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34 > 0 </text>&10 ; 
 	ttag&+ write<text&32x=&34 160 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34>+ 'uncua' </text> &10 ; 
 	ttag&+ write<rect x=&34 159&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
@@ -5479,7 +5585,7 @@ label WRITE_BARS
 	ttag&+ write<rect x=&34 459&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
 	ttag&+ write<text&32x=&34 610 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34>+ 'shof' </text> &10 ; 
 	ttag&+ write<rect x=&34 608&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
-	macfloat 10;
+	macfloat 'flot_calc' ;
      end
  else
    if (!'doing_grp_anal')
@@ -5531,6 +5637,7 @@ proc/;
 label CALCULATE_ERRORS 
 report- ;
 set dde 0 ; 
+macfloat 'flot_calc' ;
 lquote = ; lquote [ ; 
 if ('noda' && 'doing_grp_anal' ) 
     k0 ; 
@@ -5558,10 +5665,9 @@ stop
 set blue 0 ; set red 0 ; set green 0 ; 
 /* recorro todos los arboles, si hay error en algunos pero no en todos entonces es ambiguedad */
 
+  goto MAGIC_FOR_OUT ;    
 
-goto MAGIC_FOR_OUT ;  
 
- 
 loop=tx 0 ntax 
 	 constr - ; 
 	 force ] ; 
@@ -5578,16 +5684,26 @@ loop=tx 0 ntax
 	   continue ; 
 	 end 
 	 prunt 0/#tx ;
-	 force /&0 ;
-	 constrain = ;  
-	 k 0 ; 
-	 mu 3 = h 1 ;
-	 bb ;
+	 if (!'dolik')
+		    force /&0 ;
+		    constrain = ;  
+		    k 0 ; 
+		    mu 1 = h 1 ;
+		    bb ;
+		   
+	 else 
+	     goto CALCULATE_ML_IN_ERROR ;   
+	     
+	 end
+ 
+	 sil=all; quote mejor arbol ; 
+	 tp; 
+	 sil=all; 
 	 if ( ntrees >= 999 )
 	    tch 0.998 ; 
 	 end 
 	 tvault < 0 ;
-	  set ref_tree ntrees ;
+	 set ref_tree ntrees ;
 	 loop=nn 0 ( nnodes['ref_tree'] ) 
 	    set yacambN [#nn] 0 ; set yacambP [#nn] 0 ; 
 	 stop
@@ -5595,12 +5711,12 @@ loop=tx 0 ntax
 	 set nodo $$taxon #tx ; 
 	 goto NODE_DISTANCE ; 
 	 set nodo $$taxon #tx ; 
-	 macfloat 3 ; 
+	 macfloat 'flot_prnt' ; 
 	 sil-file; quote $nodo(#tx)= 'min_dist'/'mean_dist'/'max_dist' &10 ; sil=all; 
+	 macfloat 'flot_calc' ;
 	 set blue 'blue' + 'min_dist' ;
 	 set red 'red' + 'max_dist' ;
 	 set green 'green' + 'mean_dist' ; 
-	 macfloat 7 ; 
 	 set hayigual 0 ; 
 	 if ('doamb')  
 	   loop 0  ( ntrees -1 ) 
@@ -5697,10 +5813,7 @@ sil=all; quote error en nodo 0 'poss [ 0 ]'  ;
 k 0 ; 
 tv < 0 ; 
 
-
 set blue 'blue' / 'sps_inn' ; set red 'red' / 'sps_inn' ;  set green 'green' / 'sps_inn' ; 
-
-
 
 if (!'doing_grp_anal')
  set blues[0] 'blue' ;
@@ -5711,7 +5824,6 @@ else
  set blues['dde'] 'blue' ;
  set reds ['dde'] 'red' ;
  set greens ['dde'] 'green' ;
- 
 end
 
 lquote [ ; 
@@ -5727,10 +5839,11 @@ loop=klm 0 nchar
 stop 
 sil=all; 
 sil-file ; quote &10 ; sil=all ;
+macfloat 'flot_prnt' ;
 if ('guicherr' == 0 ) sil-file; quote Error in placement Avg. Minimum D: 'blue'  &10; sil=all;  end
 if ('guicherr' == 1 ) sil-file; quote Error in placement Avg. Mean D: 'green'  &10; sil=all;  end
 if ('guicherr' == 2 ) sil-file; quote Error in placement Avg. Max D: 'red'  &10; sil=all;  end
-
+macfloat 'flot_calc' ;
 
 
 
@@ -5893,7 +6006,7 @@ stop
 
 lquote- ; 
 
-
+ 
 if('calc_prob')
   goto ERROR_PROBABILITIES ; 
 end
@@ -5908,7 +6021,106 @@ proc/;
 
 
 
+
+
+
+
+
+
+label CALCULATE_ML_IN_ERROR
+
+if('estim_ML') 
+   goto CALCULATE_ML_REF ; /* sin el Query qe seria el pruneado en este caso */
+end 
+
+    cc ] . ; 
+    constrain- ; 
+    rer ; 
+    force/&0; 
+    constrain=; 
+    col none ; 
+    cc ] . ;
+    mu 1 = ho 1 ;
+    bb = fillonly ; 
+    cc [ .  ; 
+    loop=jj 0 nchar 
+       if ( 'listchar[#jj]' == 0 )
+		cc ] #jj ;
+       end  
+    stop
+    set bluee 0 ; 
+    set elmini 99999999 ;
+    tv < 0 ; 
+    set bluee ntrees ;
+    prunt 'bluee'/'prunne' ;
+     set greene 0 ; 
+    loop=yy 0 (ntrees-1) 
+	set opt_tree #yy ;   
+	set ref_tree 'bluee' ;  
+	set latar 'prunne' ; 
+	if ('estim_ML') 
+	   goto CALCULATE_ML ;  
+	else
+  	    if (!'doing_unlinked' ) 
+	        set elesco mklik [#yy]  ;
+	    else
+	      set elesco 0 ; 
+	      
+	      loop=po 0 ( 'numchrgrp' - 1 )
+	       
+	         cc ] . ; cc [ { #po } ;
+	         set rede 0 ; 
+	         loop=er 0 nchar
+	  	    if ( isinxgroup[#po #er]) 
+	  	      if ( 'listchar[#er]' == 0 ) 
+		          cc ] #er ;
+		      else
+		         set rede++ ; 
+		      end 
+		    end
+		 stop
+		 piwe- ; 
+		 
+		 
+		 if ('rede' ) 
+		    set dde mklik [#yy] ; 
+		 else
+  		    set dde 0 ; 
+		 end
+		 set elesco 'elesco' + 'dde' ;
+		   sil=all; quote tiempo 'tiempo' pruned 'prunne' arbol #yy  grupo #po 'elesco'  elmini 'elmini' &10; sil=all; 
+	      stop
+	      goto ACTIVATE_CHARS ;
+	       
+	      sil=all; quote tiempo 'tiempo' pruned 'prunne' arbol #yy 'elesco'  elmini 'elmini' &10; sil=all; 
+	   end
+	end
+	
+	if ('elesco' <= 'elmini')
+		 sil=all; tp #yy; sil=all; 
+		 if ('elesco' < 'elmini' )
+		    set greene 0 ;
+		 else
+		  set greene ++ ;
+		 end
+		 set elmini 'elesco' ; 
+		 macfloat 0 ;
+		 set bestesco ['greene']  #yy ;
+                 macfloat 'flot_calc' ; 
+		 sil=all; quote pruned 'prunne'  en arbol  #yy  subo greene a 'greene' &10; sil=all; 
+       end
+ 
+     stop
+  
+    sil=all; quote green 'greene'  'bestesco [0-'greene']' ;  
+    macfloat 0 ;
+    tch 'bestesco [0-'greene']' ;
+    macfloat 'flot_calc' ;
+  
+proc/; 
+
 label LAUNCH_ERROR_CALCULATION 
+macfloat 'flot_calc' ;
 
 loop=yy 0 nchar 
   set bak_listchar [#yy] 'listchar [#yy]' ; 
@@ -6007,11 +6219,12 @@ if ('doerror_w_grps')
 end
 
 
- macfloat 3 ; 
+ macfloat 'flot_prnt' ; 
  if ('char_anal')
 	   sil-file; quote --------------------- Errors in Placement Summary --------------------- &10; sil=all; 
 	   if ('calc_prob') 
 	     sil-file; quote Dataset ,EP , Probability &10; sil=all; 
+	    
 	    if ('guicherr' ==  0 ) sil-file; quote Complete ,'blues[0]', 'prob[0 0]'  &10; sil=all; end
 	    if ('guicherr' ==  1 ) sil-file; quote Complete ,'greens[0]','prob[0 1]' &10; sil=all; end
 	    if ('guicherr' ==  2 ) sil-file; quote Complete ,'reds[0]',  'prob[0 2 ]' &10; sil=all; end
@@ -6043,6 +6256,9 @@ end
 	 end 
   log/ ; 
 end 
+macfloat 'flot_calc' ;
+
+
   cc [ . ; 
   loop=yy 0 nchar 
      set listchar [#yy] 'bak_listchar [#yy]' ; 
@@ -6062,7 +6278,6 @@ set doing_grp_anal 0 ;
 
  
  
-
 if ('clade_anal') 
 	 log $Los_errors ; 
 	 lquote = ; 
@@ -6087,22 +6302,13 @@ if ('clade_anal')
 	 sil-file; quote &10 ; sil=all; 
 	 k0 ; 
 	 tv < 0  ; 
-	 macfloat 3 ; 
-	 table /3 ; 
-  
-
-
-       
-	 reroot * = 'pavote';  /*  para que quede como el original */ 
- 
-        loop=dd 0 ( nnodes [ 0 ] ) 
+	 reroot * = 'pavote';  
+         loop=dd 0 ( nnodes [ 0 ] ) 
 	         set ndtran 'trad_nd[#dd]' ; 
-	         sil=all; quote Nodo #dd ndtran 'trad_nd[#dd]'  toinv[#dd] 'toinv[#dd]' fp[ndtran] 'false_pos['ndtran']' fn[ndtran] 'false_neg['ndtran']' fp[dd]   'false_pos[#dd]' fn[#dd] 'false_neg[#dd]' ; sil=all; 
-		 sil=all ; quote Nodo #dd 'desroot_noout' 
-		 if ( (#dd == root) || ( #dd == 'tgtsp' ) || (!isintree [0 #dd]) ) 
+	          if ( (#dd == root) || ( #dd == 'tgtsp' ) || (!isintree [0 #dd]) ) 
 		     continue ; 
 		  end
-	          if (#dd !='ogrup' ) 
+	          if (#dd != 'ogrup' ) 
 			  if (#dd == 'desroot_noout' )
 				set ndtran 'trad_nd[sister [ 0 'desroot_noout']]'   ;
 				set erne   'false_pos['ndtran']'  ; 
@@ -6127,32 +6333,32 @@ if ('clade_anal')
 		  if ( #dd <= ntax ) 
 			   set bl_name $$taxon #dd ;
 			   if (('erpo' != 7777777) && ( 'erne' != 7777777) )
-			    set posx 'erpo'/100 ; set posy 'erne'/100 ;                     
-			    sil-file; quote $bl_name,'posx','posy', ; sil=all; 
+			      set posx 'erpo'/100 ; set posy 'erne'/100 ;  macfloat 'flot_prnt' ;                   
+			      sil-file; quote $bl_name,'posx','posy', ; sil=all;  macfloat 'flot_calc' ; 
 			   end
 			   if (('erpo' == 7777777) && ( 'erne' != 7777777))
-				  set posy 'erne'/100 ;  
-				  sil-file; quote $bl_name,NA,'posy', ; sil=all; 
+			 	  set posy 'erne'/100 ;  macfloat 'flot_prnt' ;    
+				  sil-file; quote $bl_name,NA,'posy', ; sil=all; macfloat 'flot_calc' ; 
 			   end
 			   if (('erpo' != 7777777) && ( 'erne' == 7777777))
-				  set posx 'erpo'/100 ;
-				  sil-file; quote $bl_name,'posx', NA , ; sil=all; 
+				  set posx 'erpo'/100 ; macfloat 'flot_prnt' ;    
+				  sil-file; quote $bl_name,'posx', NA , ; sil=all; macfloat 'flot_calc' ; 
 			   end
 			   if (('erpo' == 7777777) && ( 'erne' == 7777777)) 
 				  sil-file; quote $bl_name,NA, NA , ; sil=all; 
 			   end
 		  else
 		       if (('erpo' != 7777777) && ( 'erne' != 7777777)) 
-			     set posx 'erpo'/100 ; set posy 'erne'/100 ;
-				sil-file; quote Nd #dd,'posx','posy', ; sil=all; 
+			     set posx 'erpo'/100 ; set posy 'erne'/100 ; macfloat 'flot_prnt' ;    
+				sil-file; quote Nd #dd,'posx','posy', ; sil=all; macfloat 'flot_calc' ; 
 			   end
 			   if (('erpo' == 7777777) && ( 'erne' != 7777777)) 
-				  set posy 'erne'/100 ;  
-				    sil-file; quote Nd #dd,NA,'posy', ; sil=all; 
+				  set posy 'erne'/100 ;   macfloat 'flot_prnt' ;    
+				    sil-file; quote Nd #dd,NA,'posy', ; sil=all; macfloat 'flot_calc' ; 
 			   end
 			   if (('erpo' != 7777777) && ( 'erne' == 7777777)) 
-			       set posx 'erpo'/100 ;
-			       sil-file; quote Nd #dd, 'posx',NA ,; sil=all; 
+			       set posx 'erpo'/100 ; macfloat 'flot_prnt' ;    
+			       sil-file; quote Nd #dd, 'posx',NA ,; sil=all; macfloat 'flot_calc' ; 
 			   end
 			   if (('erpo' == 7777777) && ( 'erne' == 7777777)) 
 				sil-file; quote Nd #dd,NA, NA , ; sil=all; 
@@ -6162,7 +6368,7 @@ if ('clade_anal')
 		  if ('doerror_w_grps'   )
 			    sil-file ;  
 			    loop=gc 0 ('numchrgrp'-1)
-			      if (#dd !='ogrup') 
+			      if ( #dd != 'ogrup' ) 
 						if (#dd == 'desroot_noout' )
 							set ndtran 'trad_nd[sister [ 0 'desroot_noout'] ]'   ;
 							set erne   'falses_pos['ndtran' #gc]'  ; 
@@ -6180,16 +6386,16 @@ if ('clade_anal')
 				  set erpo 'falses_pos[ 'trad_nd['desroot_noout']' #gc]' ;  
 			      end 
 			       if (('erpo' != 7777777) && ( 'erne' != 7777777)) 
-				     set posx 'erpo'/100 ; set posy 'erne'/100 ;  
-				       quote 'posx','posy',  ; 
+				     set posx 'erpo'/100 ; set posy 'erne'/100 ;  macfloat 'flot_prnt' ;  
+				       quote 'posx','posy',  ; macfloat 'flot_calc' ; 
 				end
 				if (('erpo' == 7777777) && ( 'erne' != 7777777)) 
-				    set posy 'erne'/100 ;
-				     quote NA,'posy', ;  
+				    set posy 'erne'/100 ; macfloat 'flot_prnt' ;  
+				     quote NA,'posy', ; macfloat 'flot_calc' ; 
 				end
 				if (('erpo' != 7777777) && ( 'erne' == 7777777)) 
-				      set posx 'erpo'/100 ;
-				       quote 'posx', NA ,  ;
+				      set posx 'erpo'/100 ; macfloat 'flot_prnt' ;  
+				       quote 'posx', NA ,  ; macfloat 'flot_calc' ;
 				end
 				if (('erpo' == 7777777) && ( 'erne' == 7777777)) 
 				      quote NA, NA , ; 
@@ -6199,9 +6405,6 @@ if ('clade_anal')
 
 		 sil-file; quote &10 ; sil=all; 
 	 stop 
-	 
-	 
-	 macfloat 7;
  	 sil-file ; quote &10 Species sampling for calculation of each subtree / group of characters &10 ; sil=all ; 
 	 sil-file ; quote ,Complete_dataset, Complete_dataset,; sil=all; 
 	 if ('doerror_w_grps'      ) 
@@ -6227,6 +6430,7 @@ if ('clade_anal')
 		  end
 		  set erpo 'sp_pos['ndtran']'  ; 
 		  set erne 'sp_neg['ndtran']' ; 
+		  macfloat 'flot_prnt' ; 
 		  if ( #dd <= ntax ) 
 			      set bl_name $$taxon #dd ;
 			      if ( ('erpo' == 0) && ('erne' == 0) )
@@ -6269,10 +6473,12 @@ if ('clade_anal')
 
 			      end
 		  end
+		  macfloat 'flot_calc' ; 
 		  if ('doerror_w_grps'   )
 			   loop=gc 0 ('numchrgrp'-1)
-				   set erpo 'sp_pos_grp['ndtran' #gc]'  ; 
-				   set erne 'sp_neg_grp['ndtran' #gc]' ; 
+			           set erpo 'sp_pos_grp['ndtran' #gc]'  ; 
+				   set erne 'sp_neg_grp['ndtran' #gc]' ;
+				   macfloat 'flot_prnt' ; 
 				   if ( ('erpo' == 0) && ('erne' == 0) )
 					  sil-file; quote NA,NA, ; sil=all; 
 				   end
@@ -6297,6 +6503,7 @@ if ('clade_anal')
 					sil-file; quote 'erpo','erne', ; sil=all; 
 				     end 
 				   end
+				   macfloat 'flot_calc' ;
 			   stop
 		  end
 		 sil-file; quote &10 ; sil=all; 
@@ -6322,7 +6529,7 @@ proc/;
 
 
 label TEST_SPECIES_CHARSAMPLING 
- 
+ macfloat 'flot_calc' ;
  k0 ; 
  set blue 0 ; set red 0 ;set green 0 ; 
  tv < 0 ; 
@@ -6392,150 +6599,8 @@ proc/;
  
 
 
-
- 
-label SPR_LIK
-report- ;
-set mini 99999 ; 
-set raiz root ;
-
-loop=no 0 (ntax * 2 )
-	 k 0 ;
-	 tv < 0 ;
-	 prunt 0/'prunne' ; 
-	 if ( ( #no == root) || (#no == outgroup) || (!isintree [0 #no] ) )
-	  continue ; 
-	 end
-	 edit 0 'raiz' 'prunne' #no ; 
-	 set elesco 0 ; 
-	 if ('doing_unlinked' && (!'doing_grp_anal')) 
-	   loop=po 0 ('numchrgrp'-1)
-	       cc ] . ; cc [ {#po} ; 
-	       loop=er 0 nchar
-		 if ( isinxgroup[#po #er] && 'listchar[#er]' == 0 ) 
-		   cc ] #er ; 
-		 end
-	       stop 
-	       piwe- ; 
-	       set elesco 'elesco' + mklik [0] ;
-	   stop 
-	   cc [ . ; 
-	   loop=jj 0 nchar 
-	      if ( 'listchar[#jj]' == 0 )
-		cc ] #jj ;
-	      end
-	   stop 
-	 else
-	     piwe-; 
-	    set elesco mklik [0] ; 
-	 end
-	   if ('elesco' < 'mini' )
-	       set mini 'elesco' ; 
-	       tv < . ;
-	       tv - ;
-	       tv > 1 ; 
-	       tv > 0 ; 
-	       k0 ; 
-	  else
-	     if ('elesco' == 'mini' )
-	       tv > 0 ; 
-	     end 
-	  end
-stop 
-k0 ; 
-tv < . ; 
-tc 1. ; 
-tv < 0 ; 
-tv - ;
-set last ntrees ; 
-tv > 'last' ; 
-proc/; 
-
-
-label SPR_LIK_CONSTRAIN
-  
- 
-
-constrain- ; 
-force ] ; 
-force /&0 ; 
-constrain =; 
-mu 1 = wag ; 
-
-sil=all; quote despues de wagner y antes de sprit ; sil=all; 
-
-
-cc [ . ; 
-loop=jj 0 nchar 
-    if ( 'listchar[#jj]' == 0 )
-      cc ] #jj ;
-    end
-stop 
-if (!'doing_unlinked')
-             piwe- ; 
-	    set elesco mklik [0] ; 
-else
-        set elesco 0 ; 
-	loop=po 0 ('numchrgrp'-1)
-	  cc ] . ; cc [ {#po} ;/* vv*/ 
-	  loop=er 0 nchar
-	     if ( isinxgroup[#po #er] && 'listchar[#er]' == 0 ) 
-	       cc ] #er ; 
-	     end
-	  stop 
-	  piwe - ;  
-	  set elesco 'elesco' + mklik [0] ;
-	stop
-	cc [ . ; 
-	loop=jj 0 nchar 
-	  if ( 'listchar[#jj]' == 0 )
-	    cc ] #jj ;
-	  end
-	stop 
-end
-sil=all; quote el score de wagner es 'elesco' ; sil=all; 
-set best 'elesco' ; 
-sprit 0 
-        set dde ++ ; 
-        if (!mono[0]) 
-            continue ;
-        end
-        if (!'doing_unlinked')
-              piwe- ; 
-              set elesco mklik [0] ; 
-        else
-             set elesco 0 ; 
-                 loop=po 0 ('numchrgrp'-1)
-                   cc ] . ; cc [ { #po } ;  
-                    loop=er 0 nchar
-                      if ( ( isinxgroup[ #po #er ] ) && ( 'listchar[#er]' == 0 ) ) 
-                         cc ] #er ; 
-                       end
-                    stop 
-                    piwe-; 
-                    set elesco 'elesco' + mklik [0] ;
-                 stop 
-                 cc [ . ; 
-                 loop=jj 0 nchar 
-                    if ( 'listchar[#jj]' == 0 )
-                       cc ] #jj ;
-                    end
-                stop 
-           end
-           if ( 'elesco' < 'best' )
-              set best 'elesco' ; 
-              resetswap ; 
-           end
-stop
-set posx (ntrees + 1 ) ; 
-sil=all; quote despues de sprit el score es 'best' y la cantidad de arboles es 'posx';  ;  sil=all; 
-
-set esco 'best' ; 
-
-proc/; 
-
 label GENERATE_OUTPUT_STRICT
-macfloat 2 ;
+macfloat 'flot_prnt' ;
 log $output_conditions ; 
 cls ; clb  ;
 lquote = ; 
@@ -6544,7 +6609,7 @@ quote &10 ;
 sil-all ; 
 
 
-quote - Datamatrix read from $input_file&10; 
+quote - Datamatrix read from $input_file&10 ; 
 
 if (!'stricting')
    quote - Reference tree read from $input_treefile &10 ; 
@@ -6552,21 +6617,18 @@ else
    quote - Multiple reference trees read from $input_treefile &10 ; 
 end
 if ('resolved')
- if ('stricting')
-  quote  - WARNING ! At least one input tree with polytomes, randomly resolved before running the analysis &10  ;
-else
-  quote - WARNING ! Reference tree with polytomies, randomly resolved before running the analysis &10  ;
-end
-
+  if ('stricting')
+    quote  - WARNING ! At least one input tree with polytomes, randomly resolved before running the analysis &10  ;
+  else
+    quote - WARNING ! Reference tree with polytomies, randomly resolved before running the analysis &10  ;
+  end
+end 
 if ('domodif') 
    quote - Allowing target species to modify reference tree  &10 ; 
 end
 
  quote - Trees rerooted on Outgroup species &10   ; 
- 
-
-
-sil-all; quote - Target species: $taxon 'tgtsp'&10; sil=all; 
+ quote - Target species: $taxon 'tgtsp'&10; sil=all; 
 
    /* nopiwe 0 = IW , 1 = Multiple Optimality criterion   2= LIKELIHOOD    3 = PARSIMONIA  ; */ 
 
@@ -6600,6 +6662,9 @@ end
      else
          sil-all ; quote &32&32 Different state space for each character &10; sil=all ;
      end
+     if('estim_ML')
+               quote: &32&32 Likelihood scores calculated using fast approximation &10; sil=all; 
+     end
  end
 
 if ('domodif')
@@ -6613,18 +6678,18 @@ if ('domodif')
       sil-all; quote - WARNING! Multiple optimality criteria analysis cannot be run when the option&10&32 &34Allow target species to modify relationships&34  is selected  &10; sil=all;    
   end
 end
-
+quote: - Random seed: 'myseed' &10; 
   
 sil-all; quote - Best trees saved in $output_mpts  file  &10 ; sil=all; 
 
 sil-all; quote - An svg file was generated ($output_svg) showing the optimal position of the target species &10 ; sil=all; 
 
 set tiempo time ; 
-macfloat 3 ; 
 sil-all ; quote - Running time: 'tiempo's &10; sil=all ; 
-macfloat 10 ; 
+macfloat 'flot_calc' ;
 tt- ; 
 log/; 
+sil-all ; 
 proc/; 
 
 
@@ -6632,7 +6697,7 @@ proc/;
 label GENERATE_OUTPUT
 
  
-macfloat 2 ;
+macfloat 'flot_prnt'  ;
 log $output_conditions ; 
 cls ; clb  ;
 lquote = ; 
@@ -6644,7 +6709,7 @@ quote - Reference tree read from $input_treefile&10;
 if ('resolved')
  quote - WARNING ! Input tree with polytomes, randomly resolved before running the analysis &10 ; 
 end 
- 
+
  
 if ( ( 'notarget' )  ) 
    quote - No target species selected &10 ; 
@@ -6700,6 +6765,9 @@ if ('nopiwe' == 1 )
    else
    sil-all ; quote &32&32&32&32 Each character with its own state space &10 ; sil=all ;
    end
+   if('estim_ML')
+          quote: &32&32 Likelihood scores calculated using fast approximation ; sil=all; 
+   end
   end 
   if ('pars_frm_mult')
   sil-all; quote &32&32 Maximum Parsimony &10;sil=all;
@@ -6741,6 +6809,9 @@ if ((!'sensato') && ('nopiwe' != 1) )
      end
      if ('doing_EPA')
        sil-all; quote &32&32 Relative probabilities displayed (EPA approach) ; sil=all; 
+     end
+     if('estim_ML')
+       quote: &32&32 Likelihood scores calculated using fast approximation ; sil=all; 
      end
  end
 end 
@@ -6792,12 +6863,11 @@ if (('dosensit' == 1) || ('dosensit' == 2) && ('sensato' == 1)  )
               if ( 'guichsensit' == 0 )
 		 lquote = ; lquote [ ; 
 		 sil-all; quote - Leave-one-out validation run under different K values in implied weighting : &10 ;sil=all; 
-		 macfloat 2 ; 
 		  sil-all; quote&32&32Setting&32|%32k value |&32Avg. nodal Distance &10;sil=all; 
 		 loop 0 ('nconds'- 1) 
 			sil-all; quote&32&32&32&32&32 #1 &32&32&32|&32&32 'condic[#1]' &32&32&32&32&32&32|&32 'distri[#1]' &10;sil=all; 
 		 stop 
-		 macfloat 7 ; 
+		 
 		 lquote- ; 
 		 if ('multiopt')
 			lquote = ; lquote [ ; 
@@ -6816,7 +6886,7 @@ if (('dosensit' == 1) || ('dosensit' == 2) && ('sensato' == 1)  )
 	     else
 			lquote = ; lquote [; 
 			sil-all ; quote - Leave-one-out validation analysis on settings read from file $setting_file &10 ; sil=all;
-			macfloat 2 ; 
+			 
 			sil-all; quote&32 Avg. nodal Distance &10;sil=all; 
 			loop 0 ('nconds'-1 ) 
 			 sil-all; quote &32Setting #1 = 'distri[#1]' nodes &10;sil=all; 
@@ -6839,25 +6909,31 @@ end
 
 lquote - ; 
 
+quote: - Random seed: 'myseed' ; 
 
-if (('nopiwe' != 1 ) && ('sensato' == 0 )) 
+
+  if (('nopiwe' != 1 ) && ('sensato' == 0 )) 
     if (!'notarget')
         if ('multisp')
            sil-all;  quote - Best tree(s) save in $output_mpts file, including optimal placement of the target and the query species ; sil=all; 
            sil-all; quote - A svg file was generated ( $output_svg ) displaying the scores of placing the target species on each branch of the backbone tree ; sil=all; 
+            if ('did_colorquer'  ) 
+	   	      sil-all; quote - A svg file was generated  ( $output_color ) showing the placement of all query species on the backbone tree ; sil=all;                
+            end
         else
-           sil-all; quote - Best tree(s) save in $output_mpts file, including optimal placement of the target species ; sil=all; 
-	   sil-all; quote - A svg file was generated ( $output_svg ) displaying the scores of placing the target species on each branch of the backbone tree ; sil=all;
-	   if ('did_colorquer'  ) 
-	   sil-all; quote - A svg file was generated  ( &color_query.svg ) showing the placement of all query species on the backbone tree ; sil=all;                
+            sil-all; quote - Best tree(s) save in $output_mpts file, including optimal placement of the target species ; sil=all; 
+	    sil-all; quote - A svg file was generated ( $output_svg ) displaying the scores of placing the target species on each branch of the backbone tree ; sil=all;
         end
-    else
-       sil=all;  quote - Best tree(s) save in $output_mpts file, including optimal placement the query species ; sil=all; 
+   else
+       sil-all;  quote - Best tree(s) save in $output_mpts file, including optimal placement the query species ; sil=all; 
        if ('multree' == 0  ) 
-          sil=all;  quote - A svg file was generated ( $output_svg ) highlighting the optimal position of the query species ; sil=all; 
+          sil-all;  quote - A svg file was generated ( $output_color ) highlighting the optimal position of the query species ; sil=all; 
        end
     end
 end
+if ('do_jplace') 
+  quote: - Results also saved in jplace format ;  
+end 
 
 
 
@@ -6949,9 +7025,8 @@ end
 
 
 set tiempo time ; 
-macfloat 3 ; 
 sil-all ;quote - Running time: 'tiempo's ; sil=all ; 
-macfloat 10 ; 
+macfloat 'flot_calc' ;
 
 if ('offML_char_anal')
   sil-all; quote - WARNING! Error analysis was not run. It is not available for Maximum Likelihood. Analysis not run; sil=all; 
@@ -6979,6 +7054,7 @@ proc/;
 
 label MY_MISSING
 
+macfloat 'flot_calc' ;
  loop=ch 0 nchar
    set sp_char_miss [ #ch] 0 ; 
    if (iscont[#ch] ) 
@@ -7032,7 +7108,7 @@ proc/;
 
 
 label COLORTREE_ERROR
- 
+macfloat 'flot_calc' ; 
 taxc + . ; 
 report- ;
 sil=all; 
@@ -7079,7 +7155,7 @@ set posx 'dist' -15 ;
   set mit ('span'/2) ; 
   set uncua ( 'span' / 4 ) ;
   set trescua ( (3 * 'span') / 4 ) ;
-  macfloat 2 ; 
+
 
 
 
@@ -7112,7 +7188,7 @@ loop=nd 0 nnodes[0]
 		  set pos_y 'posy' + 30 ; 
 		  set ref 'miti' + 'uncu' ; 
 
-		  macfloat 7 ;
+		
 		  ttag &+ write <rect x=&34 'limA'&34&32y=&34 'posy'&34&32width=&34 'px'&34&32height=&34 20&34&32style=&34fill:rgb(255,255,255)&59 stroke:black&59&32 stroke-width:2&34 /> &10 ;
 		  set blue 'posy' + 16 ; 
 		  set red 'limA'    ; 
@@ -7174,19 +7250,15 @@ stop
 set posx 'dist' +70 ; 
 ttag&+ write <text&32x=&34 20 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 28&34 >Bars below branches represent In Subtree Error (ISE) </text>&10 ;
 end 
-
 ttag & ;
-
-
-
 proc/; 
 
+
 label PRINT_ERROR_BARS 
+macfloat 'flot_calc' ;
 silent = file ; 
 lquote = ;
 lquote [ ; 
-tabl /2 ; 
-macfloat 2 ; 
 log $output_errbars ; sil-all; 
 set tot_hig 1600 ; 
 set tot_width 3000 ; 
@@ -7317,27 +7389,33 @@ stop
 
 /* numero maximo */ 
 set green 'ejeY_x' -30 ; 
+macfloat 'flot_prnt' ;
 sil-file ;quote <text x=&34 'green'&34&32y=&34 'ejeY_startY'&34&32  font-size=&34 14&34 > &32 'mass' </text> &10 ;sil=file ;
 sil-file ;quote <line x1=&34 'ejeX_startX'&34&32 y1=&34 'ejeY_startY'&34&32 x2=&34 'ejeX_finX' &34&32 y2=&34 'ejeY_startY'&34&32 stroke=&34 black&34&32 stroke-dasharray=&34 4&34&32 stroke-width=&34 1&34&32/> &10 ; sil=file ;
 
 
-
+macfloat 'flot_calc' ; 
 set interrr ('mass' / 2) ;   
 /* numero intermedio */ 
 set inter_y 'ejeY_startY' + (('ejeX_y' - 'ejeY_startY'  ) / 2) ; 
+macfloat 'flot_prnt' ;
 sil-file ;quote <text x=&34 'green'&34&32y=&34 'inter_y'&34&32  font-size=&34 14&34 > &32 'interrr' </text> &10 ;sil=file ;
+macfloat 'flot_calc' ;
 sil-file ;quote <line x1=&34 'ejeX_startX'&34&32 y1=&34 'inter_y'&34&32 x2=&34 'ejeX_finX' &34&32 y2=&34 'inter_y'&34&32 stroke=&34 black&34&32 stroke-dasharray=&34 4&34&32 stroke-width=&34 1&34&32/> &10 ; sil=file ;
-
 set interrr 'mass'- ('mass' / 4) ;   
 /* numero intermedio */ 
 set inter_y 'ejeY_startY' + (('ejeX_y' - 'ejeY_startY'  ) / 4) ; 
+macfloat 'flot_prnt' ;
 sil-file ;quote <text x=&34 'green'&34&32y=&34 'inter_y'&34&32  font-size=&34 14&34 > &32 'interrr' </text> &10 ;sil=file ;
+macfloat 'flot_calc' ;
 sil-file ;quote <line x1=&34 'ejeX_startX'&34&32 y1=&34 'inter_y'&34&32 x2=&34 'ejeX_finX' &34&32 y2=&34 'inter_y'&34&32 stroke=&34 black&34&32 stroke-dasharray=&34 4&34&32 stroke-width=&34 1&34&32/> &10 ; sil=file ;
 
 set interrr ('mass' - ('mass' * 0.75)) ;   
 /* numero intermedio */ 
 set inter_y 'ejeY_startY' + (('ejeX_y' - 'ejeY_startY'  ) * 0.75) ; 
+macfloat 'flot_prnt' ;
 sil-file ;quote <text x=&34 'green'&34&32y=&34 'inter_y'&34&32  font-size=&34 14&34 > &32 'interrr' </text> &10 ;sil=file ;
+macfloat 'flot_calc' ;
 sil-file ;quote <line x1=&34 'ejeX_startX'&34&32 y1=&34 'inter_y'&34&32 x2=&34 'ejeX_finX' &34&32 y2=&34 'inter_y'&34&32 stroke=&34 black&34&32 stroke-dasharray=&34 4&34&32 stroke-width=&34 1&34&32/> &10 ; sil=file ;
 
 /*numero minimo cero  */ 
@@ -7353,7 +7431,7 @@ proc/;
 
 
 label ERROR_PROBABILITIES
- 
+macfloat 'flot_calc' ;
 loop 0 ((nnodes[0] * ntax) - 1 )
    set distrib[#1] 0 ; 
 stop 
@@ -7453,6 +7531,7 @@ if ('calc_prob')
         loop=ff 0 ('observ')
 	  set total 'distrib[#ff]'+ 'total' ;    
 	stop
+	macfloat 'flot_calc' ;
 	if (!'doing_grp_anal')
 	  set prob [0 'guicherr' ] ('total' / 'iteres') ; 
 	  sil-file; quote Probability= 'prob [0 'guicherr' ]'  &10 ; 
@@ -7461,242 +7540,16 @@ if ('calc_prob')
 	  sil-file; quote Probability= 'prob [ ('cual'+1) 'guicherr' ]'   &10 ; 
 	end
 end 
- 
-
 proc/; 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* ESTO HACE UN WAGNER POR ML LO VOY A REEMPLAZAR POR UN WAGNER MP CONSTRAINED */ 
-/*
-loop=aa 0 ntax
-        force ] ; 
-        constrain - ; 
-        sil=all ; quote antes de definir las constrains randtaxa = 'rand_taxa[#aa]' ; ; 
-       	force; 
-       	sil=all;
-        force /&0 ; 
-        ts * forceado.tre ; s ; ts/; 
-        sil=all ; quote despues de definir las constrains ; 
-	   	force; 
-        constrain = ; 
-         if ( (! 'listax[ 'rand_taxa[#aa]' ]' ) || (('rand_taxa[#aa]' == 'tgtsp') && ('coloring'))  || ( 'rand_taxa[#aa]' == outgroup )  ) 
-            continue ;
-         else
-           taxc + 'rand_taxa[#aa]' ;
-         end 
-         cc ] . ;
-         k0 ;
-         
-         mu 1 = h 1 ;
-         set best 999999999 ; 
-         cc [ . ; 
-         loop=jj 0 nchar 
-            if ( 'listchar[#jj]' == 0 )
-             cc ] #jj ;
-            end
-         stop 
-         loop=tt 0 ntrees 
-                  if (!'doing_unlinked')
-                      piwe- ; 
-                      set elesco mklik [#tt] ; 
-                  else
-                      set elesco 0 ; 
-                      loop=po 0 ('numchrgrp'-1)
-                          cc ] . ; cc [ { #po } ;
-                          loop=er 0 nchar
-                             if ( (isinxgroup[ #po #er ]) && ('listchar[ #er ]' == 0) ) 
-                                cc ] #er ; 
-                             end
-                          stop 
-                          piwe-; 
-                          set elesco 'elesco' + mklik [#tt] ;
-                       stop
-                       cc [ . ; 
-                        loop=jj 0 nchar 
-                           if ( 'listchar[#jj]' == 0 )
-                             cc ] #jj ;
-                          end
-                       stop 
-                  end
-                  if ('elesco' < 'best' ) 
-                     set best 'elesco' ; 
-                     set bespos #tt ; 
-                  end 
-        stop
-        tc 'bespos' ; 
-        reroot ; 
-stop  
- 
-set dde 0 ; 
-taxc + . ; 
-report-; 
-
-tvault <0 ; 
-force ] ;
-force /&1 ; 
-constrain ;
-tc 0 ; 
-*/
-
-
-label  ML_SEARCH_ERROR
-  lset speed 0.05 ldelta 0.01 bdelta 0.01 passes 40 40 ;
- lquote - ; 
- k0 ;
- tv< 0 ; 
- copytree 0 ; 
- prunt 1/ 'prunne' ; 
- set tiempo time ; 
- sil=all; quote antes de cortar eltax 'prunne' tiempo 'tiempo' ; sil=all; 
- goto UPDATE_PRUNNED ; 
- set tiempo time ; 
- sil=all; quote despues  de cortar eltax 'prunne' tiempo 'tiempo'; sil=all; 
- goto CALCULATE_ML_RED ; 
-proc/; 
- 
-  
- 
- label  UPDATE_PRUNNED
-         set full_tree 0 ; 
- 	 set red_tree 1 ; 
- 	 set onetocero grptogrp  'red_tree' 'full_tree'  /'prunne' ;   
- 	 report=; 
- 	 lset display brlen ; 
- 	 piwe-; 
- 	 maketable + mk_brlen ; 
- 	 set pos_x mklik ['full_tree'] ; 
- 	 maketable - ;
- 	 report-; 
- 	 lset display lik ; 
- 	 set cerotoone grptogrp 'full_tree' 'red_tree'  /'prunne' ;  
- 	 loop=yy 0 (nnodes['red_tree'])
- 	    set red_mk_brlen[ #yy ]  'mk_brlen [ 'cerotoone[#yy]']' ; 
- 	 stop
- 	 sil=all ; quote eltax 'prunne' ; sil=all; 
- 	 set ter sister ['full_tree' 'prunne'] ; 
- 	 set pos_one 'onetocero[ 'ter']'  ;  
- 	 set pos_two  anc[ 'red_tree' 'pos_one'] ;
- 	 set pos_cero  sister ['red_tree' 'pos_one' ] ; 
-         /* if ('pos_one' > root)
- 	     set listita deslist[ 'red_tree' 'pos_one'] ; 
-              set pos_tre 'listita[0]' ;  
-              set pos_cua 'listita[1]' ;
-              sil=all; quote pos_tre 'pos_tre' pos_cua 'pos_cua'  ;
-              set red_mk_brlen ['pos_tre'] (-1) ;
- 	    set red_mk_brlen ['pos_cua'] (-1) ;
-          end*/
-          set red_mk_brlen ['pos_one'] (-1) ;
- 	 set red_mk_brlen ['pos_cero'] (-1) ;
- 	 set red_mk_brlen ['pos_two'] (-1) ;
- 	 report=; 
- 	 lset display brlen ; 
- 	 piwe-; 
- 	 maketable + tmp_brlen ; 
- 	 set pos_x fixlik [ 'red_tree' red_mk_brlen ] ; 
- 	 maketable - ; 
- 	 report- ; 
-  	 sil=all;  quote arbol Pruneado 'prunne' fixed : 'pos_x'  ;  sil=all; 
-         quote time 'tiempo' ; sil=all; 
- proc/; 
-  
-  
- 
- label CALCULATE_ML_RED 
-    set mini 9999999 ;
-    constrain - ; 
-    force ] ; 
-    tv > 0  ; /* el 0 es el referencia completo el 1 es en podado que hay qeu borrar despues */ 
-    force /&1 ;
-    constrain =; 
-    k 0 ; 
-    cc ] . ; 
-    mu 1 = h 1 ; 
-    bb; 
-    if ('doing_grp_anal')
-        cc [ {#up} ;
-        loop=er 0 nchar
-          if ( isinxgroup[ #up #er ] ) 
-             if ('listchar[#er]' == 0 ) 
-               cc ] #er ; 
-             end
-          end
-        stop 
-    else
-       cc [ . ; 
-       loop=er 0 nchar
-         if ('listchar[#er]' == 0 ) 
-             cc ] #er ; 
-         end
-       stop
-    end 
-      tv > . ; /* mando todos al vault ahora el 0 es el completo ref el 1 el red y el esto son los completos a probar */ 
-    k 0 ; 
-    tv < . ;
-    set vamos 0 ; 
-    loop=eee 2 ntrees
-       	    set ref_tree 1 ; 
-	    set opt_tree #eee ;  
-	    set onetocero grptogrp 'ref_tree' 'opt_tree' /'prunne' ;
-	    loop=dd 0 (nnodes['opt_tree'])
-	       set opt_mk_brlen[#dd]  'tmp_brlen [ 'onetocero[#dd]']' ; 
-	    stop
-	    set pos_one anc ['opt_tree' 'prunne'] ;
-	    set pos_cero sister['opt_tree' 'prunne'] ; 
-	    set opt_mk_brlen ['pos_one'] (-1) ;
-	    set opt_mk_brlen ['pos_cero'] (-1) ;
-	    set opt_mk_brlen ['prunne'] (-1) ;
-	    set pos_two anc ['opt_tree' 'pos_one']; 
-	    if ( 'pos_two' != root  )
-	       set opt_mk_brlen ['pos_two'] (-1) ;
-	    end
-	    report=; 
-	    lset display brlen ; 
-	    report - ;
-	    piwe-; 
-	    /*set elesco fixlik [ 'opt_tree' opt_mk_brlen ] ;*/
-	    set elesco mklik [ 'opt_tree' ] ; 
-	    sil=all; quote elesco de #eee = 'elesco'; sil=all; 
-	    if ( 'elesco' < 'mini' )
-	       set mini 'elesco' ;
-	       set guichimini [0] #eee ;
-	       set vamos 0 ;
-	    else
-	       if ( 'elesco' == 'mini' )
-	        set guichimini ['vamos'] #eee ;
-	         set vamos ++ ;
-	       end
- 	    end  
-    stop 
-    k 0 ; /* borro todo */ 
-    tv <. ; /* traigo todo de vault */ 
-    tv - ;  /* borr el vault */
-    tv > 0 ; /* mando al vault el completo ref */ 
-    set vamos 'vamos' - 1 ; 
-    macfloat 0 ; 
-    tc 'guichimini [ 0 - 'vamos' &32 ]' ; /* me quedo con el mejor ahora el cero es el ref completo y el 1 es el mejor */ 
-    macfloat 7 ; 
-    sil=all; 
-     tv < 0 ; /* traigo el ref completo del vault y me queda ultimo el ref */ 
- proc/ ; 
- 
  
  label CHECK_STATUS   
-  set doandsense 0 ; 
-  set doandmult 0 ;
-  set doandmusp 0 ; 
-  if ( 'dolist' )
+ macfloat 'flot_calc'   ; 
+  
+ set doandsense 0 ; 
+ set doandmult 0 ;
+ set doandmusp 0 ; 
+ if ( 'dolist' )
 	   if ('sensato'  )
 	      set doandsense 1  ;
 	      set dolist 0 ; 
@@ -7729,9 +7582,12 @@ proc/;
     if ('dolist')
           errmsg * The option /Allow target species to modify relationships/ is not available for Character Analysis ; 
     end
-    
-    
   end
+  
+  
+  
+  
+  
   
   
    /* nopiwe 0 = IW , 1 = Multiple Optimality criterion   2= LIKELIHOOD    3 = PARSIMONIA  ; */ 
@@ -7741,15 +7597,19 @@ proc/;
    /* guichsensit 0 = k values ; 1= maximum Likelihood 2 = archivo settings */
   
 
+
+
+  
+
   
   
   
   if ( 'nopiwe' == 2) 
     set offML_char_anal 0 ; 
-    if ('char_anal' || 'clade_anal')
+    /*if ('char_anal' || 'clade_anal')
       set char_anal 0 ; 
       set offML_char_anal 1 ;  
-    end
+    end*/
     if ('sensato' &&  (  ('dosensit' == 1) || ('dosensit' == 2 ) ) )
          cls;  sil-all;  ra1 ; tplot [ ; k 0 ;cls;
          errmsg * Leave-one-out validation analysis is not available for Maximum Likelihood ; 
@@ -7757,6 +7617,10 @@ proc/;
     if ('multisp') 
             sil-all;  ra1 ; tplot [ ; k 0 ;cls;
             errmsg * Multiple query species analysis is not available for Maximum Likelihood ; 
+    end
+    if ('doerror_w_tgt')
+      sil-all;  ra1 ; tplot [ ; k 0 ;cls;
+        errmsg * Error analyses in Maximum Likelihood cannot be run using the character sampling of target species ; 
     end
   end  
    
@@ -7780,25 +7644,16 @@ proc/;
       proc/; 
    end
   end
-  
-
-
-
-
-
-
-
 proc/; 
  
  
 
 
 label FILL_COLIM  
-  
+ macfloat 'flot_calc'   ;
  loop=ll 0 20
    set colim [#ll] 'mini' + ('pace' * #ll ) ;  
  stop 
-  
 proc/; 
 
 
@@ -7806,8 +7661,8 @@ proc/;
 
 
 label SETTING_COLORS  
-
-set sszz 'maxclr' - 1 ; 
+  macfloat 'flot_calc'   ;
+  set sszz 'maxclr' - 1 ; 
 
 	loop=cl 0 'sszz' 
 	         set shof #1 ; /* set shof #cl ;  */ 
@@ -7831,6 +7686,7 @@ proc/;
 
 
 label SETTING_PALETTE  
+ macfloat 'flot_calc'   ;
 set viridis [ 0 0 ] 240 ; set viridis [ 1 0 ] 249  ; set viridis [ 2 0 ] 33 ;
 set viridis [ 0 1 ] 247 ; set viridis [ 1 1 ] 226 ; set viridis [ 2 1 ] 37 ;
 set viridis [ 0 2 ]  252 ; set viridis [ 1 2 ]  205 ; set viridis [ 2 2 ] 37 ;
@@ -7853,9 +7709,40 @@ set viridis [ 0 18 ] 44 ; set viridis [ 1 18 ] 5 ; set viridis [ 2 18 ] 148 ;
 set viridis [ 0 19 ] 13 ; set viridis [ 1 19 ] 8 ; set viridis [ 2 19 ]  135;
 proc/;
 
+/*
+label SETTING_PALETTE  
+ macfloat 'flot_calc'   ;
+set viridis [ 0 19 ] 240 ; set viridis  [ 0 19 ] 249  ; set viridis [ 0 19 ] 33 ;
+set viridis [ 0 18 ] 247 ; set viridis  [ 0 18 ] 226 ; set viridis  [ 0 18 ] 37 ;
+set viridis [ 0 17 ]  252 ; set viridis [ 0 17 ] 205 ; set viridis  [ 0 17 ] 37 ;
+set viridis [ 0 16 ] 254 ; set viridis  [ 0 16 ] 183 ; set viridis  [ 0 16 ] 45 ;
+set viridis [ 0 15 ] 252 ; set viridis  [ 0 15 ] 163 ; set viridis  [ 0 15 ] 56 ;
+set viridis [ 0 14 ] 247 ; set viridis  [ 0 14 ] 144 ; set viridis  [ 0 14 ] 68 ;
+set viridis [ 0 13 ]  240 ; set viridis [ 0 13 ] 127 ; set viridis  [ 0 13 ] 79  ;
+set viridis [ 0 12 ] 231  ; set viridis [ 0 12 ] 110 ; set viridis  [ 0 12 ] 91 ;
+set viridis [ 0 11 ] 221 ; set viridis  [ 0 11 ] 94 ; set viridis   [ 0 11 ] 102 ;
+set viridis [ 0 10 ] 209 ; set viridis  [ 0 10 ] 78; set viridis    [ 0 10 ] 114;
+set viridis [ 0 9 ]  197 ; set viridis  [ 0 9 ]  64 ; set viridis   [ 0 9 ]  126 ;
+set viridis [ 0 8 ]  182 ; set viridis  [ 0 8 ]  48 ; set viridis   [ 0 8 ]  139 ;
+set viridis [ 0 7 ]  167  ; set viridis [ 0 7 ]  33 ; set viridis   [ 0 7 ]  151 ;
+set viridis [ 0 6 ]  149 ; set viridis  [ 0 6 ]   17; set viridis   [ 0 6 ]  161;
+set viridis [ 0 5 ]   131; set viridis  [ 0 5 ]   5 ; set viridis   [ 0 5 ]  167 ;
+set viridis [ 0 4 ]  110 ; set viridis  [ 0 4 ]   0 ; set viridis   [ 0 4 ]  168 ;
+set viridis [ 0 3 ]  89 ; set viridis   [ 0 3 ]   1; set viridis    [ 0 3 ]  165 ;
+set viridis [ 0 2 ]   67 ; set viridis  [ 0 2 ]   3 ; set viridis   [ 0 2 ]  158 ;
+set viridis [ 0 1 ]  44 ; set viridis   [ 0 1 ]   5 ; set viridis   [ 0 1 ]  148 ;
+set viridis [ 0 0 ]  13 ; set viridis   [ 0 0 ]   8 ; set viridis   [ 0 0 ]  135;
+proc/;
+ */
+
+
+
+
+
 
 
 label MAGIC_FOR_OUT   
+ macfloat 'flot_calc'   ;
 	 constr - ; 
 	 force ] ; 
 	 k0 ; 
@@ -7868,14 +7755,19 @@ label MAGIC_FOR_OUT
 		   proc/; 
 	end 
 	prunt 0/'prevout' ;
-	force /&0 ;
-	constrain = ;  
-	k 0 ; 
-	mu 3 = h 1 ;
-	bb ;
-	if ( ntrees >= 999 )
-	   tch 0.998 ; 
-	end 
+	if (!'dolik')
+   		force /&0 ;
+		constrain = ;  
+		k 0 ; 
+		mu 1 = h 1 ;
+		bb ;
+		if ( ntrees >= 999 )
+		   tch 0.998 ; 
+		end 
+        else	   
+	     goto CALCULATE_ML_IN_ERROR ;   
+        end
+       
 	tvault < 0 ; /* traigo el cero de vaoutl y lo reenraizo */ 
 	rer ; 
 	si=all ; quote prevout 'prevout'  outrut 'outrut ; 
@@ -7885,7 +7777,9 @@ label MAGIC_FOR_OUT
 	set nodo $$taxon 'prevout' ; 
 	goto NODE_DISTANCE ; 
 	set nodo $$taxon 'prevout' ; 
+	macfloat 'flot_prnt'   ;
 	sil-all; quote $nodo('prevout')= 'min_dist'/'mean_dist'/'max_dist' &10 ; sil=all; 
+        macfloat 'flot_calc'   ;
 	set blue 'blue' + 'min_dist' ;
 	set red 'red' + 'max_dist' ;
 	set green 'green' + 'mean_dist' ;
@@ -7915,7 +7809,7 @@ label MAGIC_FOR_OUT
 		    if ('yacambP_out['man_trad']' == 0 ) 
 			   set poss_out ['man_trad'] ++ ;
 			   set yacambP_out['man_trad'] 1 ; 
-			   sil-all; quote 'man_trad' 'poss_out ['man_trad']' ; sil=all;   
+			   sil=all; quote 'man_trad' 'poss_out ['man_trad']' ; sil=all;   
 			  if (outgroup > 10000  ) caaa end   
 		    end
 		   end
@@ -7979,237 +7873,7 @@ out 'prevout' ;
 proc/; 
  
 
-label RUN_STRICT
 
- 
-cls; 
-var: tricto elno ter ela  ele  outi caca arbol opt_nod [2000] rut 
-; 
-
- 
- 
-tt- ; 
-set redsiz 15 ; 
-
-nelsen * /'tgtsp' ; 
-
-loop 0 99 ; 
-     set  opt_nod [#1]   0 ; 
-stop     
-travtree +  ;
-report- ; 
-
-loop=tre 0 (ntrees-1) 
-     set arbol #tre ;
-    /* sil-all; quote ARBOL #tre ; sil=all; */
-     set ter sister[ #tre 'tgtsp'] ; /* ancestro del target en el arbol lupeado */ 
-     set tricto ntrees ; 
-     set nod eqgroup [ #tre  'ter' 'tricto'] ; /* nodo correspondiente en el strict  */ 
-     if ('nod' < 1 ) 
-        /*  sil-all;quote no esta el nodo 'ter' del arbol #tre en el estricto ; sil=all;*/
-          travtree below 'arbol' 'ter' elno
-		   set nod anc [ #tre 'elno'] ;
-		   copytree 'arbol' ; 
-		   set ele ntrees ;  
-		   prunt 'ele'/'tgtsp' ; 
-		   set cual simgroup ['arbol'  'nod'  'ele'] ; 
-		   set noda eqgroup [ 'ele' 'cual' 'tricto'] ; 
-		   /*sil-all; quote cual 'cual' nodo 'nodo noda 'noda' ;   sil=all; */
-		   if ('noda' > root) 
-		     set cestros deslist [ 'tricto'  'noda'] ; 
-		     set caca listsize ; 
-		     /* sil-all;quote caca 'caca' ; */
-		     if ('caca' > 2 ) 
-			set opt_nod ['noda'] 2 ;
-			/* sil-all;quote cambien el valor de optnode aquis para nodo 'noda'  a 2 ; sil=all; */ 
-			 set ela 'ele' - 1; 
-		         tc 0.'ela' ; killtrav ; 
-		    else
-		      set opt_nod ['nod'] 1 ;
-			/* sil-all; quote cambien el valor de optnode aquis para nodo 'nod'  1 ; sil=all;*/ 
-			set ela 'ele' - 1; 
-		         tc 0.'ela' ; killtrav ; 
-		    end 
-		 else
-		   /* sil-all;quote no esta el nodo  'nod'  en el strict ;sil=all;*/
-		 end
-		 set ela 'ele' - 1; 
-		 sil=all ; tc 0.'ela' ; 
-         endtrav
-     else
-	set opt_nod ['nod'] 1 ;
-	/* sil-all;quote cambien el valor de optnode aquis para nodo 'nod' ; sil=all;*/ 
-     end
-stop 
-
-loop 0 nnodes [ntrees] 
-  if ('opt_nod [#1]' != 0  )
-   /* sil-all; quote nodo #1 optimo 'opt_nod [#1]'; sil=All; */
- end
-stop 
- 
-tc / ; 
-
-ttag * 0 ; 
- 
- 
-set nconds  6;  
-if ('nconds'<= 3) 
-  set sizsq 30 ;
-  set alturama 70 ; 
-else
-  set sizsq 24 ;
-end
-set larama 110 ;
-if ( ('nconds' > 3) && ('nconds' < 9) ) 
-   set alturama 100 ; 
-end   
-if ('nconds' >= 9 ) 
-  set alturama 130 ; 
-end 
-if ( 'nconds' > 12 ) 
-  set ccc ( 'nconds' / 3 ) ; 
-  if ('ccc' * 3 < 'nconds' ) 
-      set ccc ++ ; 
-      macfloat 0 ;
-      set ccc 'ccc' ; 
-      macfloat 4 ; 
-  end 
-  set larama 'larama' + ( ('ccc' - 4 ) * 'sizsq') + 10 ; 
- 
-  macfloat 0 ; 
-  set larama 'larama' ; 
-  macfloat 4 ; 
-end
-
- 
-ttag & salimos.svg  xysave eti bheight 'alturama'  legup 15 txtsep 20 bfontsize 20  tfontsize 35 blength 'larama' thickness 4  ; /* bheight 120 */
-
-set outi outgroup ; 
-
-
-loop=cd 0 ('nconds'-1)
-
- 
-         if ('nconds' < 7) 
-                 set limB 5 ;
-                 set limA 2 ; 
-                 set sizsq 30 ;
-         else
-             set sizsq 24 ;
-             if ( 'nconds' < 13)
-               set limB 7 ;
-               set limA 3 ;         
-            else
-               set ccc ( 'nconds' / 3 ) ; 
-                 if ('ccc' * 3 < 'nconds' ) 
-                     set ccc ++ ; 
-                     macfloat 0 ;
-                     set ccc 'ccc' ; 
-                     macfloat 4 ; 
-               end 
-               set limA 'ccc' - 1 ; 
-               set limB ('ccc' *2 ) - 1 ; 
-             end 
-        end 
-        if (#cd > 'limB' ) 
-             set suma_y 'sizsq' * 2 ;
-             set suma_x 'sizsq' * (#cd - ('limB' + 1 )) ;
-        else 
-           if (#cd > 'limA' )
-                     set suma_y 'sizsq' ;
-                     set suma_x 'sizsq' * (#cd - ('limA' + 1 )) ; 
-           else
-                   set suma_x 'sizsq' * #cd ; 
-                    set suma_y 0 ; 
-           end
-        end 
-	loop=no 0 nnodes [ 0] 
-		/* sil-all; quote nodo #no  ;*/ 
-		set rut anc [0 'outi' ] ; 
-		if ( ( #no == 'rut')  ||( #no == 'tgtsp'))
-		  continue 
-		end 
-		/* sil-all; quote nodo #no ;*/
-		  /* set pos_x ('eti[#no 0]' - 'eti[anc[0 #no] 0]')/ 12 + 'eti[anc[0 #no] 0]' - 5  ; 
-		   set pos_y 'eti[#no 1]' + 8  ; */
-		   set pos_x ('eti[#no 0]' - 'eti[anc[0 #no] 0]')/ 12 + 'eti[anc[0 #no] 0]' + 'suma_x' ; 
-		   set pos_y 'eti[#no 1]' + 4 + 'suma_y'; 
-           
-		  if ( 'opt_nod [#no]' == 1) 
-		     ttag &+ write <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 'sizsq'&34&32height=&34 'sizsq'&34&32style=&34fill:red&59 stroke:white&34 /> &10 ;sil=all; 
-		  else
-		    if ( 'opt_nod [#no]' == 2) 
-		        set pos_x 'eti[#no 0]' + ('eti[ #no 0]'/ 12 ) ; 
-		        ttag &+ write <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 'sizsq'&34&32height=&34 'sizsq'&34&32style=&34fill:white&59 stroke:black&34 /> &10 ;sil=all; 
-		     else
-		        ttag &+ write <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 'sizsq'&34&32height=&34 'sizsq'&34&32style=&34fill:white&59 stroke:black&34 /> &10 ;sil=all; 
-		     end 
-		  end
-	stop 
-	
-stop 	
-	
-	
-	 
-	set dist 0 ; 
-	
-	loop 0 (nnodes [0]) 
-	 if ('eti [#1 1]' > 'dist')
-	    set dist 'eti [#1 1]' ; 
-	 end
-	stop 
-	 
-	set posx 'dist' + 230 ; 
-	
-	ttag &+ write <text&32x=&34 120&34 &32 y=&34 'posx'&34 &32stroke-width=&34 1&34&32 font-size=&34 20&34 > Character groups </text>&10 ; 
-	set posx 'posx' - 20 ;
-	
-	loop=cd 0 ('nconds'-1)
-	 if ('nconds' < 7) 
-	  set limB 5 ;
-	  set limA 2 ; 
-	 else
-	  if ( 'nconds' < 13)
-	   set limB 7 ;
-	   set limA 3 ;          
-	  else
-	   set ccc ( 'nconds' / 3 ) ; 
-	         if ('ccc' * 3 < 'nconds' ) 
-	           set ccc ++ ; 
-	           macfloat 0 ;
-	           set ccc 'ccc' ; 
-	           macfloat 4 ; 
-	    end 
-	    set limA 'ccc' - 1 ; 
-	    set limB ('ccc' *2 ) - 1 ; 
-	  end 
-	 end 
-	 if (#cd > 'limB' ) 
-	                 set suma_y 23 * 2 ;
-	                 set suma_x 23 * (#cd - ('limB' + 1 )) ;
-	 else 
-	         if (#cd > 'limA' )
-	                set suma_y 23 ;
-	                set suma_x 23 * (#cd - ('limA' + 1 )) ; 
-	         else
-	                set suma_x 23 * #cd ; 
-	          set suma_y 0 ; 
-	         end
-	 end 
-	 set pos_x 'suma_x' + 20 ;
-	 set pos_y 'suma_y' + 'posx' ;
-	 ttag &+ write <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 22&34&32height=&34 22&34&32style=&34fill:white&59 stroke:black&34 &32stroke-width=&34 0.1&34 /> &10 ;sil=all ; 
-	 set dde #cd ;
-	 set pos_x 'pos_x' + 5 ; set pos_y 'pos_y' + 14 ; 
-	 ttag &+ write <text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y'&34 &32stroke-width=&34 1&34&32 font-size=&34 14&34  > 'dde' </text>&10 ; 
-	stop
-	set pos_y 'pos_y' + 30 ; 
-
-	
-ttag & ; 
-
-proc/; 
 
 
 
@@ -8217,22 +7881,14 @@ proc/;
 
  
 label PLACE_TARGET_WITH_MODIF
+ macfloat 'flot_calc'   ;
 set mini 9999999999 ; 
 set maxi 0 ; 
 k 0 ; 
 tt- ; 
-
-
 tvault<0 ;
 rer ; 
-
 set nds nnodes [0] ;
-if ('dolik')
-   lset speed 0.1 ldelta 0.08 bdelta 0.08 passes 10 10   ;    
-   if ('mk_space' )
-       lset nogstatespace ; 
-   end
-end
 set van 0 ; 
 
  
@@ -8244,19 +7900,6 @@ loop=nd 0 (nnodes[0])
          if ((#nd == root) ||  (#nd == 'tgtsp') || (!isintree [0 #nd]) || (#nd == outgroup) )
              continue ; 
          end
-         
-         /*
-         if (#nd == outgroup ) 
-	 		     loop=xx 0 ntax 
-	 		       if ( (#xx != outgroup) && (isintree [0 #xx]) )   
-	 		          set outcross outgroup ;  
-	 		          outgroup #xx ; 
-	 		          rer ; 
-	 		          endloop ; 
-	 		        end
-	 		    stop 
-	 end
-	 */
          set blue root ; 
          quote: 'blue' 'tgtsp' #nd ;  
          sil=all; 
@@ -8268,7 +7911,7 @@ loop=nd 0 (nnodes[0])
          k 0 ; 
          constrain=;
        
-         mu 300 = h 5  ;/*mu 30 */ 
+         mu 'RAS_num' = h 5  ;/*mu 30 */ 
          bb = fillonly ; 
          if (ntrees >= 999 )
              tch 0.998 ; 
@@ -8277,7 +7920,7 @@ loop=nd 0 (nnodes[0])
          if ('blue' < 'esco' ) 
             set esco 'blue' ; 
          end 
-         quote: nodo #nd esco 'esco' blue 'blue'  ; 
+         sil=all; quote: nodo #nd esco 'esco' blue 'blue'  ; 
          set core[#nd] 'esco' ;
          if ('esco' <= 'mini')
                   if ('esco' == 'mini')
@@ -8298,10 +7941,9 @@ loop=nd 0 (nnodes[0])
                   
                 loop=po 0 ( 'numchrgrp'-1 )
 			  set mini 99999 ;  set maxi 0 ;
-			  /*sil=all ;quote grupo #po ; sil=All; */
 			  cc ] . ; cc [ { #po } ;
 			  loop=er 0 nchar
-			      if ( (isinxgroup[ #po #er ]) && ('listchar[ #er ]' == 0) ) 
+			      if ( ( isinxgroup[ #po #er ] ) && (' listchar[ #er ]' == 0 ) ) 
 				  cc ] #er ; 
 			      end
 			  stop
@@ -8318,29 +7960,15 @@ loop=nd 0 (nnodes[0])
 		          set maxgrpscore[#nd #po] 'maxi' ;
 		          sil=all; quote el score de grupo #po nodo #nd es 'grpscore[#nd #po]' el maxi es 'grpscore[#nd #po]' ; sil=all;  
 	         stop
-	         cc ] . ; 
-	         loop=ps 0 nchar 
-		    if ('listchar[#ps]' == 1 ) 
-		 	cc [ #ps ; 
-		   end 
-	     	 stop 
+	         goto ACTIVATE_CHARS 
 	 end
 stop
-
-quote: mini 'mini' besnod 'besnod' ; 
-
- 
+sil=all; quote: mini 'mini' besnod 'besnod' ; 
 proc/
 ; 
 
-
-
-
-
- 
 label PLACE_TARGET_WITH_MODIF_MULTREES
-
-
+macfloat 'flot_calc'   ;
 set mini 9999999999 ; 
 set maxi 0 ; 
 sil=all; 
@@ -8360,12 +7988,7 @@ end
  
 
 set nds nnodes [0] ;
-if ('dolik')
-   lset speed 0.1 ldelta 0.08 bdelta 0.08 passes 10 10   ;    
-   if ('mk_space' )
-       lset nogstatespace ; 
-   end
-end
+
 set van 0 ; 
 
 set maxi 0 ; 
@@ -8375,7 +7998,6 @@ macreport-;
 tt-; 
 
  
-log saliendo.txt ; 
 
 loop=nd 0 (nnodes[0])
          set tofork 0 ;  
@@ -8408,7 +8030,7 @@ loop=nd 0 (nnodes[0])
          force + [ @0 'ces'  ]  [ @0 'ter'  ] ;   
          k 0 ; 
          constrain=;
-         mu 300 = h 5  ; 
+         mu 'RAS_num' = h 5  ; 
          quote: vta afuera #nd ; 
          set esco score[0] ; 
          if ('blue' < 'esco' ) 
@@ -8440,7 +8062,7 @@ loop=nd 0 (nnodes[0])
               conden/0 .-'nod' 'lis[0-(listsize-1)]'; 
               force=&0;
               constrain=;
-              mu 300 = h 5  ; 
+              mu 'RAS_num' = h 5  ; 
          
 	      set  esco  score[0]  ;
 	      if ('esco' < 'mini')
@@ -8465,24 +8087,15 @@ rer ;
 tt- ; 
 nelsen * /'tgtsp' ; 
 tchoose/ ; 
-
 set nds nnodes [ 0 ] ; 
-
-
 report- ; 
-
-
-
-
 goto PRINT_MULTREES ; 
-
-
 proc/; 
 
 
 
 label DEFINE_POLY_HEIGH 
-
+macfloat 'flot_calc'   ;
 set lis deslist [0 'nod' ] ;
 set dde 99999999999 ;  
 set pos_y 0 ; 
@@ -8498,484 +8111,8 @@ proc/;
 
 
 
-
-
-
-
-label CHAR_SCORES_MODIF
-
-report- ;
-
-if ('dolik')
-  /*lset speed 0.2 ldelta 0.01  bdelta 0.01 passes 30 30  ;  */
-  lset speed 0.1 ldelta 0.08 bdelta 0.08 passes 10 10   ;   
- /* lset speed 0.1 ldelta 0.1  bdelta 0.1 passes 3 3  ;  */
- if ('mk_space' )
-  lset nogstatespace ; 
- end
- if ('unlinked' ) 
-   set doing_unlinked 1 ; 
- end
-end
-
-cc ] . ; 
-loop=ps 0 nchar 
-  if ('listchar[#ps]' == 1 ) 
-  cc [ #ps ; 
-  end 
-stop 
-lset display lik; 
-
-loop=tr 1 ntrees
-  set bran sister [#tr 'tgtsp'] ; 
-  if ('bran' > root)
-    set bran_ref simgroup [#1 'bran' 0 ] ; 
-  else
-    set bran_ref 'bran' ;
-  end
-  report= ; 
-  if ('dolik')
-    if (!'doing_unlinked') 
-       report = ; 
-      /* piwe- ; */
-       maketable + mk_charscores ; 
-       piwe-  ;
-       set dde mklik [#tr] ; 
-       maketable - ;
-       loop=ch 0 nchar
-         set charscore ['bran_ref' #ch] 'mk_charscores [#ch]' ;
-         sil=all ; quote score #ch  'mk_charscores [#ch]' ; sil=all ;    
-       stop 
-          report- ;
-    else
-      loop=po 0 ('numchrgrp'-1)
-          cc ] . ; cc [ {#po} ; 
-          loop=er 0 nchar
-             if ( isinxgroup[#po #er] && 'listchar[#er]' == 0 ) 
-              cc ] #er ; 
-             end
-          stop
-          report=; 
-          piwe-; 
-          maketable + mk_charscores ; 
-          piwe -  ;
-           set dde mklik [#tr] ; 
-          maketable - ;
-          report- ; 
-          loop=ch 0 nchar
-           if (isinxgroup[#po #ch])
-             set charscore ['bran_ref' #ch] 'mk_charscores [#ch]' ; 
-           end 
-         stop 
-       stop 
-       cc ] . ; 
-       loop=ps 0 nchar 
-            if ('listchar[#ps]' == 1 ) 
-             cc [ #ps ; 
-            end 
-      stop 
-    end
-  else
-       loop=ch 0 nchar
-         set charscore ['bran_ref' #ch] score [#tr #ch] ; 
-       stop 
-  end
- report-; 
-stop 
-
-cc ] . ; 
-loop=ps 0 nchar 
-  if ('listchar[#ps]' == 1 ) 
-     cc [ #ps ; 
-  end 
-  set charscore [outgroup #ps] 'charscore [sister[0 outgroup] #ps]' ; 
-stop 
-
-
-proc/; 
- 
- 
-
-
-
-label DOCOLORTABLE_MODIF
-report- ;
-k 0 ; 
-tvault < . ; 
-tc 0 ; 
-
- 
-set star_x 220 ; set star_y 200 ; set pace_x 16 ; set pace_y 17 ; 
-set tot_width (nchar + 1 ) * ('pace_x'+2) + 'star_x' + 250 ; 
-set tot_hig (2 * (ntax + 1) ) * 'pace_y' + 'star_y' + 250 ; 
-
-lquote = ; 
-lquote [ ; 
-silent = all ; 
-report- ; 
- 
-set ctos 0 ; 
-
-
-set pos_y 'star_y' - 2 ; 
-set ctos_sp 0 ;
-set star_b 'star_x' - 10 ; 
-set maxrange 0 ;
-silent = all ;
-set dde 0 ;              
-
-set pivote sister[0 outgroup] ; /* esta es la rama que queda sin tag */ /*New*/
-reroot  * = 'pavote' ; /* pongo el enraizado original */ /*New*/
-nak= ; 
-tt- ; 
-
-ttag * 0 ; 
-
-
- 
-
-     
-  sil=all; quote dogrpchars   'dogrpchars'     numchrgrp 'numchrgrp'  grpscore [0 1]  'grpscore [0 1]'; 
-          
-if ('dogrpchars') 
-	 loop 0 nchar 
-	     set maxis[#1] 0 ; 
-	     set minis[#1] 9999999 ;
-	 stop 
-	 set maxrange 0 ; 
-	 loop 0 ('numchrgrp'-1) 
-	    loop 0 nnodes [0]
-	       if (  (#2 == root ) || (#2 == 'tgtsp') || (!isintree [0 #2]))
-		 continue ; 
-	       end 
-	       if ('grpscore[#2 #1]' < 'minis[#1]' ) 
-		   set minis[#1] 'grpscore[#2 #1]' ; 
-	       else
-		  if ('grpscore[#2 #1]' > 'maxis[#1]' ) 
-		     set maxis[#1] 'grpscore[#2 #1]' ; 
-		  end
-	       end 
-	    stop
-	    if (('maxis[#1]'-'minis[#1]') > 'maxrange')
-	       set maxrange 'maxis[#1]'-'minis[#1]' ;
-	       set shift 'minis[#1]' ; 
-	       set shoft 'maxis[#1]'; 
-	    end 
-	 stop 
-         loop 0 ('numchrgrp'-1) 
-	 	    loop 0 nnodes [0]
-	 	       if (  (#2 == root ) || (#2 == 'tgtsp') || (!isintree [0 #2]))
-	 		 continue ; 
-	 	       end 
-	 	       if ('maxgrpscore[#2 #1]' < 'minis[#1]' ) 
-	 		   set minis[#1] 'maxgrpscore[#2 #1]' ; 
-	 	       else
-	 		  if ('maxgrpscore[#2 #1]' > 'maxis[#1]' ) 
-	 		     set maxis[#1] 'maxgrpscore[#2 #1]' ; 
-	 		  end
-	 	       end 
-	 	    stop
-	 	    if (('maxis[#1]'-'minis[#1]') > 'maxrange')
-	 	       set maxrange 'maxis[#1]'-'minis[#1]' ;
-	 	       set shift 'minis[#1]' ; 
-	 	       set shoft 'maxis[#1]'; 
-	 	    end 
-	 stop 
-
-	 log $grp_scores_tabl ; 
-	 sil-file; 
-	 lquote = ; 
-	 lquote [ ;
-	 quote , ; 
-	 loop=grp 0 ('numchrgrp'-1)
-	     set bl_name $$xgroup #grp ; 
-	     sil-file; quote $bl_name Min/Max, ; sil=file;
-	 stop 
-	 sil-file; quote &10 ; sil=file;
-	 loop=nd 0 nnodes [0] 
-	             set nod #nd ; 
-	              if (#nd == 'tochang' )
-		      	 	       continue ;
-                      end
-		     if (('nod' == root ) ||  ('nod' == 'tgtsp') || (!isintree [0 'nod']) ) 
-		         continue ; 
-		      end
-		     if (#1 < root ) 
-			 set bl_name $$taxon #1 ;
-		      else
-			set bl_name $Node #1 ;
-		      end
-		     sil-file; quote $bl_name , ; sil=file;
-		     loop=grp 0 ('numchrgrp'-1)
-			 sil-file; quote 'grpscore['trad_nd[#nd]'  #grp]'/'maxgrpscore['trad_nd[#nd]'  #grp]', ; sil=file;
-		     stop
-		     sil-file; quote &10 ; sil=file;
-		     set nod sister[0 'tochang'] ; 
-                     if (  #nd  ==  'nod'  )
-	                 if ('tochang' < root ) 
-			 	set bl_name $$taxon 'tochang' ;
-			 else
-				set bl_name $Node 'tochang' ;
-		         end
-		         sil-file; quote $bl_name , ; sil=file;
-		         loop=grp 0 ('numchrgrp'-1)
-			   sil-file; quote 'grpscore['trad_nd[#nd]'  #grp]'/'maxgrpscore['trad_nd[#nd]'  #grp]' , ; sil=file;
-		         stop
-		         sil-file; quote &10 ; sil=file;
-		     end
-	 stop 
-	 sil=file; 
-	 log/; 
-
-
-
-	 log $group_file ; 
-	 lquote [ ; 
-	 lquote =; 
-	 set tot_width 'numchrgrp' * 'pace_x' + 'star_x' + 200 ; 
-	 sil-file; quote <svg width= &34 'tot_width'&34  height=&34 'tot_hig'&34  xmlns=&34 http://www.w3.org/2000/svg&34> &10 ;sil=all; 
-	 set ctos 0 ; 
-	 set pos_y 'star_y' - 2 ; 
-	 loop=grp 0 ('numchrgrp'-1)
-		   set bl_name $$xgroup #grp ;
-		   set pos_x 'star_x' + ('pace_x' * 'ctos' ) ;
-		   sil-file; quote <text x=&34 'pos_x'&34 &32y=&34 'pos_y'&34&32 font-size=&34 12&34&32 transform=&34 rotate (-60,'pos_x','pos_y')&34 > $bl_name:30 &32 </text> &10 ; sil=all; 
-		   macfloat 7 ; 
-		   set ctos ++ ; 
-	 stop 
-	 set ctos_sp 0 ;
-	 set star_b 'star_x' - 10 ; 
-	 set dde 0 ;
-	 if (!'besever')
-		    set span 'maxrange' ; 
-		    set miti 'shift' + ('span'/2) ; 
-		    set uncuar 'shift' + ( 'span' / 4 ) ;
-		    set trescuar 'shift' + ( (3 * 'span') / 4 );
-
-		   set trescuarI 'shoft' + ('shoft'-'uncuar' )  ; 
-		   set mitiI   'shoft' + ('shoft'-'miti' )  ; 
-		   set uncuarI   'shoft' + ('shoft'-'trescuar' )  ;
-		   set shiftI 'shoft' ;
-		   set shoftI  'shoft' + ('shoft' - 'shift' )   ;
-		   set mini 'shift' ; 
-		   set maxi 'shoft' ;  
-		    if ('do_palette')
-			  set mini 'shift' ; 
-			  set pace ('span' / 20 );  
-			  goto FILL_COLIM ; 
-		    end 
-	 end
-         loop=grp 0 ('numchrgrp'-1)
-                set bloque #1 ; 
-                set pos_x 'star_b' + ('pace_x' * 'dde') ;
-                set ctos_sp 0 ;
-                if ('besever') 
-			   set span 'maxis[#grp]' - 'minis[#grp]' ; 
-			   set shift 'minis[#grp]' ; 
-			   set shoft 'maxis[#grp]' ; 
-			   set miti 'shift' + ('span'/2) ; 
-			   set uncuar 'shift' + ( 'span' / 4 ) ;
-			   set trescuar 'shift' + ( (3 * 'span') / 4 );
-                           set mini 'shift' ; 
-                           set maxi 'shoft' ; 
-                           set trescuarI 'maxi' + ('maxi'-'uncuar' )  ; 
-               	           set mitiI   'maxi' + ('maxi'-'miti' )  ; 
-	   	           set uncuarI   'maxi' + ('maxi'-'trescuar' )  ;
-	   	           set shiftI 'maxi' ;
- 	   	           set shoftI  'maxi' + ('maxi' - 'mini' )   ;
-
-			    if ('do_palette')
-				 set mini 'minis[#grp]' ; 
-				 set maxi 'maxis[#grp]' ;  
-				 set pace ('span' / 20 );  
-				 goto FILL_COLIM ;  
-			   end 
-                end 
-                loop=nd 0 nnodes [0] 
-                   set nod #2 ;
-                   if (#nd == 'tochang' )
-		  	continue ;
-                   end
-                   if (('nod' == root ) ||   ('nod' == 'tgtsp') || (!isintree [0 'nod']) ) 
-                     continue ; 
-                   end 
-                   set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ; 
-                   if (('maxis[#grp]'-'minis[#grp]')== 0 )
-                          set blue 130 ; 
-                          set red 130 ; 
-                          set green 130 ; 
-                  else
-                     
-                           if ('minis [#1]' < 'shift' ) 
-                               set elsco 'grpscore['trad_nd[#nd]'  #grp]' + ('shift' - 'minis [#grp]') ;
-                           else
-                               set elsco 'grpscore['trad_nd[#nd]'  #grp]' - ('minis [#grp]' - 'shift' ) ; 
-                           end  
-                           if (!'do_palette') 
-                               set elsco 'shoft' + ('shoft' - 'elsco')  ;     
-                   
-                               if ('elsco' < ( 'uncuarI') )    
- 				    set red   (254 - ( (254-240)  *  (('uncuarI'-'elsco' ) / ( 'uncuarI' - 'shiftI'  ) )) )   ; 
-				    set green (240 - ( (240-5)  *    (('uncuarI'-'elsco' ) / ( 'uncuarI' - 'shiftI' ) )) )   ; 
- 				    set blue  (1 + ( (5-1)  *        (('uncuarI'-'elsco' ) / ( 'uncuarI' - 'shiftI' ) )))    ;       
- 
-  			       else
- 				    if (( 'elsco' >= 'uncuarI' ) && ( 'elsco' < 'mitiI' ) ) /  
-				         set red   (46 +   ( (254-46)  * (('mitiI' - 'elsco')  / ( 'mitiI' - 'uncuarI') ))) ;
-				         set green (182 + ( (240-182)  *  (('mitiI' - 'elsco') / ( 'mitiI' - 'uncuarI') ))) ; 
-				         set blue  (44  -  ( (44-1)  *    (('mitiI' - 'elsco') / ( 'mitiI' - 'uncuarI') ))) ;
-				    else
-				         if (( 'elsco' >= 'mitiI' ) && ( 'elsco' < 'trescuarI' ) )   
-				    	    set red   ( 18  + ( (46-18)    *  (('trescuarI'-'elsco' ) / ( 'trescuarI' - 'mitiI') ) ))  ;
-					    set green ( 232 - ( (232-182)  * (('trescuarI'-'elsco') / ( 'trescuarI' - 'mitiI') ) ) );
-					    set blue  ( 232 - ( (254-44)   * (('trescuarI'-'elsco' ) / ( 'trescuarI' - 'mitiI') ) )  ); 
-				        else    
-					     set red    ( 55  - ( (55-18)  *    (( 'shoftI' - 'elsco' ) / ( 'shoftI' - 'trescuarI' ) ) ))  ;
-					     set green  ( 55  + ( (232-55)  *   (( 'shoftI' - 'elsco'  ) / ( 'shoftI' - 'trescuarI' ) ) ))  ;
-					     set blue   ( 148 + ( (232-148)  *  (( 'shoftI' - 'elsco'  ) / ( 'shoftI' - 'trescuarI' ) ) ))  ;
-				        end
-			            end
-			       end    
-                          else
-                               set micore 'elsco' ; 
-	                       goto SETTING_COLORS ; 
-	                 end 
-                 end 
-                 lquote- ; 
-                 SIL-FILE; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;SIL=FILE ;  
-                  if (('grpscore['trad_nd[#nd]' #grp]' == 'minis[#grp]') && ('maxis[#grp]' != 'minis[#grp]' )) 
-                        set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
-                        SIL-FILE ;    quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; SIL=FILE ; 
-                  end
-                set ctos_sp ++ ;
-                set nod sister[0 'tochang'] ; 
-		if (  #nd  ==  'nod'  )
-	          set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ; 
-                   SIL-FILE; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;SIL=FILE ;  
-                   if (('grpscore['trad_nd[#nd]' #grp]' == 'minis[#grp]') && ('maxis[#grp]' != 'minis[#grp]' )) 
-		       set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
-		       SIL-FILE ;  quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; SIL=FILE ; 
-                   end
-                   set ctos_sp ++ ;
-                  end
-               stop
-              set dde ++ ; 
-         stop
-         set star_y 'star_y' + 12 ; 
-         set ctos_sp 0 ; 
-         set px 'tot_width' - 216 ; 
-         loop 0 nnodes [0]
-                if ( ( #1 == root ) || (#1 == 'tgtsp') || (!isintree [0 #1]) ) 
-                 continue ; 
-                end
-                if (#1 == 'tochang' )
-		 	continue ;
-                end
-                if (#1 < root ) 
-                         set bl_name $$taxon #1 ;
-                        else
-                         set bl_name $Node #1 ;
-                end
-                set pos_y 'star_y' + ('pace_y' * 'ctos_sp' ) ; 
-                SIL-FILE; quote <text x=&34 5&34&32y=&34 'pos_y'&34&32 font-size=&34 12&34 > &32 $bl_name:30 </text> &10 ; SIL=FILE;  
-                macfloat 7 ; 
-                if (#1 == 'trad_nd['besnod]')
-                 set py 'pos_y' - 13 ; 
-                 SIL-FILE;  quote <rect x=&34 4 &34&32y=&34 'py'&34&32width=&34 'px'&34&32height=&34 17&34&32stroke-width=&34 2&34&32stroke=&34black&34&32fill=&34none&34&32 /> &10 ;SIL=FILE;  
-                end 
-                set ctos_sp ++ ;
-                set nod sister[0 'tochang'] ; 
-		if (  #1  ==  'nod'  ) 
-                     if ('tochang' < root ) 
-		      set bl_name $$taxon 'tochang' ;
-		   else
-		      set bl_name $Node 'tochang' ;
-                   end
-                 set pos_y 'star_y' + ('pace_y' * 'ctos_sp' ) ; 
-		 SIL-FILE; quote <text x=&34 5&34&32y=&34 'pos_y'&34&32 font-size=&34 12&34 > &32 $bl_name:30 </text> &10 ; SIL=FILE;  
-                 set ctos_sp ++ ;
-                end 
-         stop
-         set tot_width 'tot_width' - 80 ; 
-         set dist 'pos_y' + 50 ; 
-         SIL-FILE;
-          if (!'besever')
-		  set uncua 'uncuar'-'shift' ; set trescua 'trescuar'-'shift' ; set mit 'miti'-'shift' ; set shof 'shoft'-'shift' ; 
-		  macfloat 2 ; 
-		  quote <text&32x=&34 10 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > 0 </text>&10 ; 
-		  quote <text&32x=&34 110 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34>+ 'uncua' </text> &10 ; 
-		  quote <rect x=&34 108&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
-		  quote <text&32x=&34 210 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34>+ 'mit' </text> &10 ; 
-		  quote <rect x=&34 208&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
-		  quote <text&32x=&34 310 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34>+ 'trescua' </text> &10 ; 
-		  quote <rect x=&34 308&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
-		  quote <text&32x=&34 410 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34>+ 'shof' </text> &10 ; 
-		  quote <rect x=&34 408&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
-		  macfloat 10;  
-          else
-             quote <text&32x=&34 10 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 >Optimal</text>&10 ; 
-             quote <text&32x=&34 400 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 >Suboptimal</text> &10 ; 
-          end 
-         
-  set dist 'pos_y' + 60 ; 
- 
-  if (!'do_palette')
-           quote <defs>&10<linearGradient&32id=&34graa&34&32x1=&34 0&37&34&32y1=&34 0&37&34&32x2=&34 100&37&34&32y2=&34 0&37&34>&10 ; 
-          quote <stop offset=&34 0&37&34&32style=&34stop-color:rgb(254,240,1).,stop-opacity:1&34></stop>&10; 
-          quote <stop offset=&34 100&37&34&32style=&34stop-color:rgb(240,5,5).,stop-opacity:1&34></stop>&10; 
-          quote </linearGradient>&10; 
-          quote </defs>&10;
-          quote <rect x=&34 310&34 &32y=&34 'dist'&34 &32width=&34 100&34&32 height=&34 16&34&32 style=&34fill:url(&35graa)&34 />&10 ;
-          
-          quote <defs>&10<linearGradient&32id=&34grab&34&32x1=&34 0&37&34&32y1=&34 0&37&34&32x2=&34 100&37&34&32y2=&34 0&37&34>&10 ; 
-          quote <stop offset=&34 0&37&34&32style=&34stop-color:rgb(46,182,44) .,stop-opacity:1&34></stop>&10; 
-          quote <stop offset=&34 100&37&34&32style=&34stop-color:rgb(254,240,1).,stop-opacity:1&34></stop>&10; 
-          quote </linearGradient>&10; 
-          quote </defs>&10;
-          quote <rect x=&34 210&34 &32y=&34 'dist'&34 &32width=&34 100&34&32 height=&34 16&34&32 style=&34fill:url(&35grab)&34 />&10 ;
-         
-          quote <defs>&10<linearGradient&32id=&34grac&34&32x1=&34 0&37&34&32y1=&34 0&37&34&32x2=&34 100&37&34&32y2=&34 0&37&34>&10 ; 
-          quote <stop offset=&34 0&37&34&32style=&34stop-color:rgb(18,232,232).,stop-opacity:1&34></stop>&10; 
-          quote <stop offset=&34 100&37&34&32style=&34stop-color:rgb(46,182,44).,stop-opacity:1&34></stop>&10; 
-          quote </linearGradient>&10; 
-          quote </defs>&10;
-          quote <rect x=&34 110&34 &32y=&34 'dist'&34 &32width=&34 100&34&32 height=&34 16&34&32 style=&34fill:url(&35grac)&34 />&10 ;
-         
-          quote <defs>&10<linearGradient&32id=&34grad&34&32x1=&34 0&37&34&32y1=&34 0&37&34&32x2=&34 100&37&34&32y2=&34 0&37&34>&10 ; 
-          quote <stop offset=&34 0&37&34&32style=&34stop-color:rgb(55,55,148).,stop-opacity:1&34></stop>&10; 
-          quote <stop offset=&34 100&37&34&32style=&34stop-color:rgb(18,232,232) .,stop-opacity:1&34></stop>&10; 
-          quote </linearGradient>&10; 
-          quote </defs>&10;
-          quote <rect x=&34 10&34 &32y=&34 'dist'&34 &32width=&34 100&34&32 height=&34 16&34&32 style=&34fill:url(&35grad)&34 />&10 ;
-         
-         
-         set dist 'dist' + 40 ; 
-         quote <text&32x=&34 10 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > *Optimal placement for the partition</text>&10 ;
-         set dist 'dist' + 20 ;
-         quote <text&32x=&34 30 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > Overall optimal placement </text>&10 ;
-         set dist 'dist' - 13 ;
-         quote <rect x=&34 4 &34&32y=&34 'dist'&34&32width=&34 17&34&32height=&34 17&34&32stroke-width=&34 2&34&32stroke=&34black&34&32fill=&34none&34&32 /> &10 ;
-   else
-         set tancia 10 ; 
-         loop=uup 0 19
-             quote <rect x=&34 'tancia'&34 &32y=&34 'dist'&34 &32width=&34 20&34&32 height=&34 20&34&32 style=&34fill:rgb('viridis[0 #uup]','viridis[1 #uup]','viridis[2 #uup]')&34 />&10 ;
-             set tancia 'tancia' + 20 ; 
-         stop 
-   end
-
-   quote </svg> &10 ; 
-   log/; 
-   SIL=FILE; 
- 
-end
-
-
-lquote - ; 
-proc/; 
-
-
-
 LABEL COLORTREE_MULTREE
+macfloat 'flot_calc'   ;
 tg -1 ; 
 tg -0 ; 
  
@@ -8997,10 +8134,14 @@ tv < . ;
 if ('dolik')
     lset speed 0.05 ldelta 0.01 bdelta 0.01 passes 40 40 ;
    if ('mk_space' )
-      lset nogstatespace ; 
-    end
+      lset nogstatespace ;
+   else
+      lset gstatespace ;
+   end
     if ('unlinked' ) 
       set doing_unlinked 1 ; 
+    else
+      set doing_unlinked 0 ; 
     end
 end
 
@@ -9008,15 +8149,22 @@ end
 loop=nd 0  (nnodes ['blue']) 
     set score_poly[ #nd  0 ]  999999999 ; 
     set score_poly[ #nd 1  ]  999999999 ; 
+    set minima_trees [#nd 0] 0 ;
+    set minima_trees [#nd 1]  0;
 stop 
  
 
-loop=tr 0 ('losarboles') 
-       set luptre #tr ; 
-       GOTO CALCULATE_SCORE_ONETREE ; 
-       GOTO GIVE_SCORES_TO_STRICT ; 
+ts *$output_mpts ; 
+
+loop=tr 0 ('losarboles')  
+      set luptre #tr ; 
+       goto CALCULATE_SCORE_ONETREE ; /* calculates mini for each tree */ 
+       goto GIVE_SCORES_TO_STRICT ; 
+       
        k0 ; 
-stop       
+stop     
+ts/ ; 
+
 tv < . ;
 set mini 9999999999 ; 
 set maxi 0 ; 
@@ -9044,26 +8192,15 @@ loop=dd 0 nnodes [ 'tricto' ]
          sil=all ; quote el maxi es ahora 'maxi' por score_poly[#dd 0 ]  ;  
   end
 stop ; 
-
 sil=all; quote el minimo es 'mini' maxi 'maxi' ; 
-
-
-
 tv <. ; 
- set nds nnodes [ntrees ] ; 
- tc / ;   
- 
+set nds nnodes [ntrees ] ; 
+tc / ;   
 goto PRINT_MULTREES ; 
- 
-
 PROC/; 
 
-
-       
-
-
-
-LABEL CALCULATE_SCORE_ONETREE
+label CALCULATE_SCORE_ONETREE
+           macfloat 'flot_calc'   ;
            macreport-; sil=all; 
            k 0 ; 
 	   tv < . ;
@@ -9075,93 +8212,59 @@ LABEL CALCULATE_SCORE_ONETREE
 	   cc ] . ;
 	   mu 1 = ho 1 ;
 	   bb = fillonly ; 
-	   loop=ps 0 nchar 
-	     if ('listchar[#ps]' == 1 ) 
-	       cc [ #ps ; 
-	     end 
-	   stop 
+	   goto ACTIVATE_CHARS ;  
 	   constrain- ; 
-	   macfloat 10 ;
 	   set mini 999999 ; 
 	   set maxi 0 ; 
 	   report- ; 
 	   set sumLik 0 ;
-	   if ('dolik') 
-	     goto CALCULATE_ML_REF ; /*ver*/
+	   if ('dolik' && 'estim_ML') 
+	     goto CALCULATE_ML_REF ;  
 	   end
 	   tv < 'luptre' ; 
 	   set green ntrees ; 
+	   set ref_tree 'green' ; 
+	   set gg 0 ; 
 	   loop=rr 0 (ntrees-1)
-	     set bran sister [#1 'tgtsp'] ; 
-	      if (!'dolik' )  
-	     	set elesco score [#1] ; 
-	      else
-	             
-	     	     set elesco 0 ; 
-	     	     if ( 'doing_unlinked' )
-	     	          loop=po 0 ( 'numchrgrp' - 1 )
-	     	                   cc ] . ; cc [ { #po } ;
-	     	                   loop=er 0 nchar
-	     	                         if ( isinxgroup[#po #er] && 'listchar[#er]' == 0 ) 
-	     	                           cc ] #er ; 
-	     	                         end
-	     	                   stop
-	     	                   piwe- ; 
-	     	                   
-	     	                   set dde mklik [#rr] ; 
-	     	                   set elesco 'elesco' + 'dde' ;
-	     	            stop
-	     	            cc ] . ; 
-	     	            loop=ps 0 nchar 
-	     	               if ('listchar[#ps]' == 1 ) 
-	     	                  cc [ #ps ; 
-	     	               end 
-	     	            stop 
-	     	      else
-	     	           set opt_tree #1 ; 
-	     		   goto CALCULATE_ML ; 
-	     	      end
-	    end 	   
-            if ('bran' > root)
-		     set bran_ref simgroup [ #rr 'bran' 'green' ] ;
-		     set core['bran_ref'] 'elesco' ;
-		     set coras 'elesco' ;
-	    else
-		   set bran_ref 'bran' ;
-		   set core['bran_ref'] 'elesco' ; 
+		goto CALCULATE_TREE_SCORE ; 
+		    if ('bran' > root)
+		         set bran_ref simgroup [ #rr 'bran' 'green' ] ;
+		    else
+		     	   set bran_ref 'bran' ;
+		    end 
+		   set core['bran_ref'] 'elesco' ;
 		   set coras 'elesco' ;
-	    end 
-	   stop
-	   if ('doing_EPA')
-		 set maxi 0 ; 
-		 macfloat 40 ; 
-		 table /10 ; 
-		 set sumLik 0 ; 
-		 set mini_bk 'mini' ; 
-		 set mini 1 ; 
-		 set shift 'mini_bk' - 'mini' ; 
-		 loop=lor 0 nnodes [0] 
-		   if ((#lor == outgroup) || (#lor == root) || (#1 == 'tgtsp' ) || (!isintree [0 #lor]) )
-		     continue ; 
+		   if ('elesco' < 'mini') 
+			set mini 'elesco' ;
+			set gg 0 ; 
+			set besnod 'bran_ref' ; 
+			set bestesco [0] #rr ; 
+			set gg ++ ;  
 		   end
-		   set ladif ('core[#lor]' - 'shift') *(-1) ; 
-		   set core[#lor] (power [ 2.7182818 'ladif' ] * 1000000 ); 
-		   set sumLik 'sumLik' + 'core[#lor]' ; 
-		 stop
-		 loop=lor 0 nnodes [0] 
-		     if ((#lor == outgroup) || (#lor == root) || (#1 == 'tgtsp' ) || (!isintree [0 #lor]) )
-		        continue ; 
-		     end
-		     set core[#lor] (1 - ('core[#lor]' / 'sumLik')) ; 
-		  stop
-		 macfloat 10 ; 
+		   if ('elesco' == 'mini')
+		     set bestesco ['gg'] #rr ; 
+		     set gg ++ ; 
+		   end
+	   stop
+	   set gg 'gg'-1 ; 
+	    macfloat 0  ; 
+	   sil=all ; quote 'bestesco [0-'gg']' ;
+	   tch 'bestesco [0-'gg']' ;
+           save ; 
+           macfloat 'flot_calc' ; 
+           k 0 ; 
+	   tv < . ;
+	   tch 'luptre' ;
+	   if ('doing_EPA')
+	     goto EPA_CALCULATIONS ;  
 	   end 
 	   set van 0 ; 
-	   K0 ; 
+	   K 0 ;
 proc/; 
 
-
+ 
 label GIVE_SCORES_TO_STRICT
+ macfloat 'flot_calc'   ;
  k 0 ; 
  tv < . ;
  set tricto ntrees ; 
@@ -9175,9 +8278,12 @@ label GIVE_SCORES_TO_STRICT
      if ((#nd  == outgroup) || (#nd == root) || ( #nd  == 'tgtsp' ) || ('nod' < 0 ) )
         continue ; 
       end
-     if ('core[#nd]' < 'score_poly['nod'  0 ]' ) 
-          set score_poly['nod'  0 ] 'core[#nd]' ; 
+     if (('core[#nd]' - 'mini') < 'score_poly['nod'  0 ]' ) 
+          set score_poly['nod'  0 ] ('core[#nd]'-'mini') ; 
      end 
+     if ('score_poly['nod'  0 ]' == 0 ) 
+       set minima_trees ['nod' 0]  1 ;  
+     end
  stop
  loop=nd 0  (nnodes ['tricto']) 
     set nod #nd ; 
@@ -9204,12 +8310,15 @@ label GIVE_SCORES_TO_STRICT
 			           /* si-all ; quote el nodo intermedio es 'blue' ; 
 			            if ( ( 'blue' != 'red')  && ('blue' != 'noda') )  */
 			              sil=all;  ; quote red 'red' blue 'blue' noda 'noda' entro con un core de 'core['blue']' y un poly de 'score_poly[ 'nod' 1 ]' ; sil=all;  
-				      if ('core['blue']' < 'score_poly[ 'nod' 1 ]' )
+				      if ( ( 'core['blue']' - 'mini') < 'score_poly[ 'nod' 1 ]' )
 				          sil=all ; quote asigno a 'nod' el score de core[blue] 'core['blue']' blue 'blue' ; 
-		 		          set score_poly['nod' 1 ] 'core['blue']' ; 
+		 		          set score_poly['nod' 1 ] ('core['blue']' - 'mini') ; 
 				      end  
 				    end 
 			   endtrav
+			   if ('score_poly['nod'  1 ]' == 0 ) 
+			       set minima_trees ['nod' 1 ]  1 ;  
+                           end
 	      stop
     end
  stop   
@@ -9223,7 +8332,7 @@ label GIVE_SCORES_TO_STRICT
  
  
  label PRINT_MULTREES
- 
+ macfloat 'flot_calc'   ;
  
  set dde 0 ; 
  set maxi_all 'maxi' ; set mini_all 'mini' ; 
@@ -9240,9 +8349,10 @@ label GIVE_SCORES_TO_STRICT
  set uncuarI   'maxi' + ('maxi'-'trescuar' )  ;
  set maxiI    'maxi' + ('maxi - 'mini' )  ;
  
- macfloat 10 ;
+ 
  set violet 0 ;
- /*sil-file; quote span 'span' miti 'miti' uncuar 'uncuar' trescuar 'trescuar' ; sil=all; */
+ sil=all; quote span 'span' miti 'miti' uncuar 'uncuar' trescuar 'trescuar' ; sil=all; 
+
  if ('do_palette')
    set pace ('span' / 20 );  
    goto FILL_COLIM ; 
@@ -9270,14 +8380,12 @@ loop=no 0 'nds'
  	            set green 55 ;  
  	            set blue  148 ;  
  	     end  
- 	     macfloat 2 ; 
  	     if (!'doing_EPA')
  	       ttag +#1 ('red','green','blue') ;
  	    else
- 	       macfloat 4 ;
  	       ttag +#1 ('red','green','blue') ;
  	    end
- 	    macfloat 10 ; 
+ 
    else
        if ('do_palette')
            set micore 'score_poly[#no 0 ]' ; 
@@ -9308,24 +8416,17 @@ loop=no 0 'nds'
  	     end
  	 
       end	     
-      macfloat 2 ; 
-   
       if (!'doing_EPA') 
+          macfloat 'flot_prnt' ; 
           ttag +#1 ('red','green','blue'); 
       else
-         macfloat 4 ; 
          set posy 1 - 'score_poly[#1 0 ]' ; 
+         macfloat 'flot_prnt' ; 
          ttag +#1 ('red','green','blue') ;
        end
-       macfloat 10 ; 
+       macfloat 'flot_calc' ;  ; 
    end
-   
-   macfloat 10 ;
  stop
- 
- 
- 
- 
  
  if (root   > 50 )
     set larama 160 ; 
@@ -9337,7 +8438,6 @@ loop=no 0 'nds'
  else
    set choram 50 ; 
  end
- 
  
  set red outgroup ; 
  set dientes deslist [0 root] ; 
@@ -9353,7 +8453,7 @@ loop=no 0 'nds'
  ttag & $output_svg xysave eti bheight 'choram' legup 15 txtsep 20 bfontsize 20  tfontsize 35 blength 'larama' thickness 4  colors ; /* bheight 120 */
  
  
- 
+
  
  loop=no 0 'nds'
  set nod #no ; 
@@ -9375,16 +8475,15 @@ loop=no 0 'nds'
  	            set green 55 ;  
  	            set blue  148 ;  
  	     end  
- 	     macfloat 2 ; 
  	     if (!'doing_EPA')
- 	       set color_poly [#1 0] 'red'  ; 
- 	       set color_poly [#1 1] 'green'; 
+ 	        set color_poly [#1 0] 'red'  ; 
+ 	        set color_poly [#1 1] 'green'; 
                 set color_poly [#1 2] 'blue' ; 
  	    else
- 	       macfloat 4 ;
+ 	       macfloat 'flot_prnt' ; 
  	       ttag +#1 ('red','green','blue') ;
  	    end
- 	    macfloat 10 ; 
+ 	    macfloat 'flot_calc' ;  
    else
        if ('do_palette')
            set micore 'score_poly[#no 1 ]' ; 
@@ -9415,7 +8514,6 @@ loop=no 0 'nds'
  	     end
  	 
       end	     
-      macfloat 2 ; 
       if (!'doing_EPA') 
          set color_poly [#1 0] 'red'  ; 
          set color_poly [#1 1] 'green'; 
@@ -9424,8 +8522,6 @@ loop=no 0 'nds'
        end
   
    end
-   
-   macfloat 10 ;
  stop
  
   
@@ -9439,6 +8535,7 @@ loop=no 0 'nds'
  else
      set blue 'dientes[0]' ;
  end
+ 
  loop=no 0 'nds'
  	  set ndtran #no ; 
  	  ttag <#no ; 
@@ -9449,7 +8546,7 @@ loop=no 0 'nds'
  	  set pos_x ('eti[#no 0]' - 'eti[anc[0 #no] 0]')/ 12 + 'eti[anc[0 #no] 0]' - 5  ; 
  	  set pos_y 'eti[#no 1]' - 8  ; 
  	  if ('mini' == 'maxi') 
- 	    ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> Nd'nod'0 </text> &10 ; 
+ 	    ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> B'nod'0 </text> &10 ; 
  	    continue ; 
  	  end
  	  if (#no == outgroup) 
@@ -9457,29 +8554,34 @@ loop=no 0 'nds'
  	  else 
  	     set ccc 'score_poly[#no 0 ]'-'mini' ;   /* set ccc 'core[ #no ]'-'mini' ; */
  	  end
+ 	  if ('do_jplace')
+	   	     set core[#no] 'ccc' ; 
+ 	  end 
  	 if ('ccc' <= 0.00001 )
- 		     macfloat 2 ; 
  		     set pos_y 'pos_y' - 5 ; 
+ 		     macfloat 'flot_prnt' ; 
  		     if (!'doing_EPA')
- 			ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'nod' &32 'mini' </text> &10 ;
+ 			/*ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> B'nod' &32 'mini' </text> &10 ;*/
+ 		       	ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> B'nod'</text> &10 ;
  		     else
- 		       macfloat 4  ;
  		       set blue 1 - 'mini' ; 
- 		       ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'nod' 'blue' </text> &10 ;
+ 		       macfloat 'flot_prnt' ; 
+ 		       /*ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> B'nod' 'blue' </text> &10 ;*/
+ 		       ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> B'nod' </text> &10 ;
  		    end
- 		    macfloat 10 ; 
+ 		    macfloat 'flot_calc' ; 
  	  else
- 	     macfloat 2 ; 
+ 	     macfloat 'flot_prnt' ;
  	     if (!'doing_EPA') 
- 		ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'nod'+'ccc' </text> &10 ;
- 	   else
- 	       macfloat 4  ;
+ 		ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> B'nod'+'ccc' </text> &10 ;
+ 	     else
  	       set posy 1 - 'score_poly[#no 0 ]' ; 
- 	       ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> N'nod' 'posy'  </text> &10 ;
- 	      end
- 	  macfloat 10 ; 
+ 	       macfloat 'flot_prnt' ;
+ 	       ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> B'nod' 'posy'  </text> &10 ;
+ 	     end
+ 	  macfloat 'flot_calc' ; 
  	  end
- 	  macfloat 10 ;
+   macfloat 'flot_calc' ; 
  stop
  
  
@@ -9497,36 +8599,36 @@ loop=no 0 'nds'
  	   end
  	   set ccc 'score_poly ['nod' 1 ]' - 'mini'  ; 
  	   sil=all ;quote score_poly ['nod' 1 ] 'score_poly ['nod' 1 ]'  ; sil=all; 
- 	 
+ 	   if ('do_jplace')
+ 	     set core[#no] 'ccc' ; 
+ 	   end 
  	   ttag <'nod' ; 
  	   set pos_x ('eti[#no 0]' - 'eti[anc[0 #no] 0]')/ 12 + 'eti[anc[0 #no] 0]' - 5  ; 
  	   set pos_y 'eti[#no 1]' + 20  ; 
  	   if ('mini' == 'maxi') 
- 	       ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> PolyN'nod'0 </text> &10 ; 
+ 	       ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> PolN'nod'0 </text> &10 ; 
  	       continue ; 
  	   end
  	   if ('ccc' < 0.0001 )
- 		     macfloat 2 ; 
- 		     if (!'doing_EPA')
+ 		   if (!'doing_EPA')
  		        set pos_y 'pos_y' + 9  ; 
- 		 	ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> PolN'nod' &32 'mini' </text> &10 ;
- 		     else
- 		       macfloat 4  ;
+ 		        macfloat 'flot_prnt' ; 
+ 		 	ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> PolN'nod'    </text> &10 ;
+ 		   else
  		       set blue 1 - 'mini' ; 
- 		       ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> PolN'nod' 'blue' </text> &10 ;
- 		    end
- 		    macfloat 10 ; 
+ 		       ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> PolN'nod'   </text> &10 ;
+ 		   end
  	     else
- 		macfloat 2 ; 
- 		if (!'doing_EPA') 
- 		set pos_y 'pos_y' + 9  ; 
+ 		if (!'doing_EPA')
+ 	  	  macfloat 'flot_prnt' ; 
+ 		  set pos_y 'pos_y' + 9  ; 
  		  ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> PolN'nod'+'ccc' </text> &10 ;
  		else
- 		  macfloat 4  ;
  		  set posy 1 - 'ccc' ; 
+ 		  macfloat 'flot_prnt' ; 
  		  ttag&+ write<text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34> PolN'nod' 'posy'  </text> &10 ;
  		 end
- 	     macfloat 10 ; 
+ 	     macfloat 'flot_calc' ; 
  	  end 
  	  goto DEFINE_POLY_HEIGH ; 
  	  set red 'color_poly[#1 0 ]' ; set green 'color_poly[ #1 1 ]' ; set blue 'color_poly[ #1 2 ]' ; 
@@ -9555,7 +8657,8 @@ loop=no 0 'nds'
    set mit ('span'/2) ; 
    set uncua ( 'span' / 4 ) ;
    set trescua ( (3 * 'span') / 4 ) ;
-   macfloat 2 ; 
+macfloat 'flot_prnt' ; 
+
    ttag&+ write<text&32x=&34 10 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34 > 0 </text>&10 ; 
    if (!'doing_EPA') 
      ttag&+ write<text&32x=&34 160 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34>+'uncua' </text> &10 ; 
@@ -9581,7 +8684,8 @@ loop=no 0 'nds'
      ttag&+ write<text&32x=&34 610 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34>-'span' </text> &10 ; 
    end  
    ttag&+ write<rect x=&34 608&34&32y=&34 'posx'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
-   macfloat 10; 
+
+macfloat 'flot_calc'; 
   
   set dist 'posx' + 10 ; 
  
@@ -9643,14 +8747,10 @@ loop=no 0 'nds'
  	 end
  	 set tancia ('eti [#1 0]' - 'eti [anc[0 #1] 0]' ) / 4 ; 
  	 set posx 'eti [anc[0 #1] 0]' + ('tancia' * 3 )  ;
- 	 if ( ('score_poly[#1 0 ]' - 'mini') < 0.00001 ) /*New*/
- 		   if (#1 == 'besnod' ) /*New*/
+ 	/* if ( ('score_poly[#1 0 ]' - 'mini') < 0.00001 ) New*/
+ 	if ('minima_trees[#1 0 ]' > 0 ) 
  		          ttag &+ write <circle cx=&34 'posx'&34 &32cy=&34 'eti [#1 1]'&34 &32r=&34 9&34&32 fill=&34black&34&32 stroke=&34black&34&32 /> &10 ;
- 		   else
- 		         ttag &+ write <circle cx=&34 'posx'&34 &32cy=&34 'eti [#1 1]'&34 &32r=&34 11&34&32 fill=&34black&34&32 stroke=&34black&34&32 /> &10 ;
- 		   end
- 	           set primero ++ ; 
- 	 end
+        end
  stop 
  
  loop=nd 0 nnodes[0] 
@@ -9660,12 +8760,9 @@ loop=no 0 'nds'
  	 if ( ( #1 < root) && ( 'listax [#nd]' == 1 ) ) 
  	  continue ; 
  	 end
- 	 if (('score_poly[#1 1 ]' - 'mini') < 0.00001 ) /*New*/
- 		   if (#1 == 'besnod' ) /*New*/
- 		          ttag &+ write <circle cx=&34 'eti [#1 0]'&34 &32cy=&34 'eti [#1 1]'&34 &32r=&34 9&34&32 fill=&34black&34&32 stroke=&34black&34&32 /> &10 ;
- 		   else
- 		         ttag &+ write <circle cx=&34  'eti [#1 0]'&34 &32cy=&34 'eti [#1 1]'&34 &32r=&34 11&34&32 fill=&34black&34&32 stroke=&34black&34&32 /> &10 ;
- 		   end
+ 	 /* if (('score_poly[#1 1 ]' - 'mini') < 0.00001 ) */
+ 	 if ( ( 'minima_trees[#1 1 ]' > 0 ) &&  ( nodfork [0 #nd] > 2 )  ) 
+ 	           ttag &+ write <circle cx=&34 'eti [#1 0]'&34 &32cy=&34 'eti [#1 1]'&34 &32r=&34 9&34&32 fill=&34black&34&32 stroke=&34black&34&32 /> &10 ;
  	           set primero ++ ; 
  	 end
  stop 
@@ -9697,8 +8794,322 @@ loop=no 0 'nds'
  
  ttag & ;
  
- 
-
+ if ('do_jplace')  
+    loop=ve 0 nnodes [ 0 ] 
+       set core[#ve] 'score_poly[#1 0 ]' ;  
+    stop
+    goto PNT_JPLACE_TREE ; 
+    goto GENERATE_DOJPLACE ; 
+ end
  
 
 proc/; 
+
+label ACTIVATE_CHARS
+  cc ] . ; 
+  loop=ps 0 nchar 
+     if ('listchar[#ps]' == 1 ) 
+        cc [ #ps ; 
+     end 
+  stop 
+proc/; 
+
+
+
+label PNT_JPLACE_TREE
+
+ macfloat 'flot_calc'; 
+travtree+ ; 
+var: son nat nu did[(2*root)] t at forks[(2*root)] n vlis[(2*root)]   ; 
+set * did 0 ; 
+set t 0 ; /* arbol 0 */  
+sil = all ; 
+lquote = ; 
+lquote[ ; 
+goto = %0 ; 
+
+
+/* CUANDO LUPEE EL OUTPU en los terminales el nodo 1 impreso corresponde al 0 del arbol. Los nodos internos quedan igual */
+/* el codigo de generar el arbol es uno solo y se lo llama de cada funcion. El codigo de los placements lo genera cada fcion y hace un append con el archivo generado */
+log $output_jplace ;  
+quote: {&10&34tree&34: &34  ; 
+loop root nnodes[ 't' ] 
+   goto mkspace #1 ; 
+   stop
+set at root ; 
+quote :(; 
+loop 1 1 
+   if ( 'did[ 'at' ]' >= 'forks[ 'at' ]' ) 
+       /*quote :);    this is the parenthesis that closes an internal node; re-label node as needed *****/
+       
+       quote :):0.1{'at'};   /** this is the parenthesis that closes an internal node; re-label node as needed *****/
+       
+       if ( 'at' == root ) endloop ; end 
+       set at anc[ 't' 'at' ] ; 
+       setloop 1 ; 
+       end 
+   set n '( 'vlis[ 'at' ]' ) [ 'did[ 'at' ]' ]' ; 
+   if ( 'did[ 'at' ]' ) quote :,; end 
+   set did[ 'at' ] ++ ; 
+   if ( 'n' < root )
+       set  nu 'n'+1  ; 
+       quote :$taxon 'n':0.1{'nu'}; /** this is the name of terminal taxa; re-label node as needed *******/
+      
+   else 
+       set at 'n' ; 
+       quote :(; 
+     end 
+   setloop 1 ; 
+   stop
+
+quote :.,&34,&10 ;  
+
+log/ ; 
+proc/; 
+
+
+label mkspace ; 
+set n nodfork[ 't' %1 ] ; 
+set forks[ %1 ] 'n' ;  /** save forking to avoid re-calculations later **/
+var: n%1[ 'n' ] i ; /** could name variables the same, as they're always accessed via vlis, but this seems cleaner... ****/
+set vlis[ %1 ] ( i - ( 'n' ) ) ; 
+set ( 'vlis[ %1 ]' ) deslist[ 't' %1 ] ; 
+var - i ; 
+return= ; 
+
+proc/;
+
+
+label EPA_CALCULATIONS
+		 set maxi 0 ; 
+		 macfloat 40 ; 
+		 table /10 ; 
+		 set sumLik 0 ; 
+		 set mini_bk 'mini' ; 
+		 set mini 1 ; 
+		 set shift 'mini_bk' - 'mini' ; 
+               
+		 loop=lor 0 nnodes [0] 
+		 
+			   if ( (#lor == outgroup) ||  (#lor == root) || (#1 == 'tgtsp' ) || (!isintree [0 #lor]) )   
+			     continue ; 
+			   end
+			   lquote - ; 
+			   set ladif ('core[#lor]' - 'shift') *(-1) ; 
+			   set core[#lor] (power [ 2.7182818 'ladif' ] * 1000000 ); /*ca*/
+			   set sumLik 'sumLik' + 'core[#lor]' ; 
+		 stop
+		 loop=lor 0 nnodes [0] 
+			  if ( (#lor == outgroup) ||  (#lor == root) || (#1 == 'tgtsp' ) || (!isintree [0 #lor]) )   
+			   continue ; 
+			  end
+			  set core[#lor] (1 - ('core[#lor]' / 'sumLik')) ; 
+			  if ('core[#lor]' > 'maxi' ) 
+			   set maxi 'core[#lor]' ; 
+			  end
+		 stop
+		 set mini 'core['besnod']' ; 
+		 macfloat 'flot_calc';  
+proc/; 
+
+label CALCULATE_TREE_SCORE 
+macfloat 'flot_calc'; 
+ set bran sister [#rr 'tgtsp'] ; 
+if (!'dolik' )  
+	set elesco score [#rr] ;
+else
+	set elesco 0 ; 
+	if ( 'doing_unlinked' )
+	   if (!'estim_ML') 
+	        set elesco 0 ; 
+	       
+		loop=po 0 ( 'numchrgrp' - 1 )
+		      cc ] . ; cc [ { #po } ;
+		      set van 0 ; 
+		      loop=er 0 nchar
+			 if ( isinxgroup[#po #er] ) 
+			   if ('listchar[#er]' == 0 ) 
+			      cc ] #er ; 
+			   else
+			     set van++ ; 
+			   end
+			end   
+		      stop
+		      
+		      if ('van' ) 
+		        piwe- ; 
+		        set dde mklik [#rr] ; 
+		      else
+		        set dde 0 ; 
+		      end
+		      set elesco 'elesco' + 'dde' ;
+		      quote:  entre aca ; 
+		stop
+		 
+		goto ACTIVATE_CHARS ;
+	     else 
+		 set opt_tree #rr ; 
+		/* set ref_tree 0 ;  definido antes del llamado de la fcion*/
+		 set latar 'tgtsp' ; 
+		 goto CALCULATE_ML ; 
+	     end
+
+	else
+	   if ('estim_ML') 
+	      set opt_tree #rr ; 
+	      /* set ref_tree 0 ;  definido antes del llamado de la fcion*/
+	      set latar 'tgtsp' ; 
+	      goto CALCULATE_ML ;  
+	   else
+	       if ('do_jplace')
+		   report=; 
+		   lset display brlen ; 
+		   piwe-; 
+		   maketable + EPA_mk_brlen ; 
+		   set elesco mklik [#rr] ; 
+		   maketable - ;
+		   report-; 
+		   lset display lik ;
+		   set pos_cero sister [#rr 'tgtsp'] ; 
+		   set tgt_blen 'EPA_mk_brlen['tgtsp']' ; 
+		   set sis_blen 'EPA_mk_brlen['pos_cero']' ; 
+	       else
+		 set elesco mklik [#rr] ;
+	       end
+	   end
+
+	end
+end 
+proc/; 		    
+
+
+
+
+label GENERATE_DOJPLACE 
+        macfloat 'flot_calc'; 
+        sil-all; 
+        log + $output_jplace ; 
+	lquote = ; 
+	lquote [ ; 
+	quote :&34placements&34: [&10;
+	quote:  {&34p&34:[&10 ; 
+	set son 1 ; 
+	
+	loop=no 0 nnodes[0] 
+		  if ('sisou' == #no ) 
+		      continue ;
+		  end  
+		  if ((#no == root)  || (#no == 'tgtsp') || (!isintree [0 #no]) ) 
+		    continue ; 
+		  end 
+		  if ('stricting') 
+		    set ndtran #no ; 
+		  else
+		     set ndtran 'trad_nd[#no]' ; 
+		  end
+		  set ccc 'core[ 'ndtran' ]' ; 
+		  if (#no >= root)
+		     set nodo #no ; 
+		  else
+		    set nodo #no + 1 ;
+		  end 
+		  if('dolik')
+		     if ('doing_unlinked' || 'stricting')
+		       if ('doing_EPA') 
+		          set blue 1 - 'ccc' ;
+		          macfloat 'flot_prnt'; 
+		          quote: ['nodo',99999,'blue',99999,99999],&10 ; 
+	               else
+	                  macfloat 'flot_prnt'; 
+	                  quote: ['nodo','ccc',999999,99999,99999],&10 ; 
+	               end
+	                macfloat 'flot_calc'; 
+	             else
+                         if('doing_EPA')
+                            set blue 1 - 'ccc' ;
+                             macfloat 'flot_prnt';
+                             quote: ['nodo',99999,'blue','jplacer[2 'ndtran']','jplacer[3 'ndtran']'],&10 ; 
+       	                 else
+       	                     macfloat 'flot_prnt';
+       	                     quote: ['nodo','ccc',99999,'jplacer[2 'ndtran']','jplacer[3 'ndtran']'],&10 ; 
+       	                 end
+       	                 macfloat 'flot_calc';   
+       	             end
+	          else
+	             quote: ['nodo','ccc',99999,99999,99999],&10 ; 
+	          end
+	 stop
+	
+	 set red sister[ 0 'sisou' ]    ; 
+	 /*quote: red vale 'red' y sisu 'sisou' ; */
+	 /*
+	 if (!'doing_EPA) 
+	     set ccc 'core[ 'trad_nd['red']'  ]'-'mini' ; 
+	 else
+	     set ccc 'core[ 'trad_nd['red']'  ]' ;
+         end
+	*/
+	
+	
+	
+         set red sister[ 0 'sisou' ]    ; 
+         set ccc 'core[ 'trad_nd['red']'  ]' ;
+         /*if ('doing_EPA') 
+       	    set ccc (1-'ccc') ; 
+	 end*/
+	 if ('sisou' > root) 
+	      set nod 'sisou' ;
+         else 
+              set nod 'sisou' + 1 ;  
+         end
+         if('dolik') 
+	     if ('doing_unlinked')
+	            if ('doing_EPA') 
+	              /*  set blue 1 - 'ccc' ;
+	                macfloat 'flot_prnt';
+		        quote: ['sisou','nod',99999,'blue',99999,99999]&10 ; */
+	            else
+	                macfloat 'flot_prnt';
+	                quote: ['sisou','nod','ccc',99999,99999,99999]&10 ; 
+	            end 
+	 
+	     else
+	         if ('doing_EPA') 
+	           /*set blue 1 - 'ccc' ;
+	           macfloat 'flot_prnt';
+		   quote: ['nod',99999,'blue','jplacer[2 'trad_nd['red']' ]','jplacer[3 'trad_nd['red']' ]']&10 ; */
+  	        else
+  	           macfloat 'flot_prnt';
+  	           quote: ['nod','ccc',9999,'jplacer[2 'trad_nd['red']' ]','jplacer[3 'trad_nd['red']' ]']&10 ; 
+  	        end  
+  	     end
+  	  else
+	    macfloat 'flot_prnt';
+	    quote: ['nod','ccc',99999,99999,99999]&10; 
+         end
+         macfloat 'flot_calc'; 
+         quote:],&10 ; 
+       	 quote:  &34n&34:[&34$taxon'tgtsp'&34]&10 ; 
+	 quote: }&10; 
+	 quote: ],&10 ;  
+	 if (!'dolik') 
+	      if ('nopiwe' == 0 ) 
+                 quote:&34metadata&34: {&34info&34: &34 Implied Weighting scores included in the likelihood field. Branch lengths and like_weight_ratio not included (99999) &34}, &10 ;  
+              else
+                 quote:&34metadata&34: {&34info&34: &34 Parsimony scores included in the likelihood field. Branch lengths and like_weight_ratio not included (99999) &34}, &10 ; 
+             end 
+         else
+           if ('doing_EPA')
+              quote:&34metadata&34: {&34info&34: &34 likelihood weight_ratio values included in the like_weight_ratio. Likelihood values not included (99999) field &34}, &10 ; 
+           else
+               quote:&34metadata&34: {&34info&34: &34 likelihood scores included in the in the likelihood field &34}, &10 ; 
+           end 
+         end
+         quote: &34version&34: 3, &10; 
+         quote:&34fields&34: [&34edge_num&34,&34likelihood&34,&34like_weight_ratio&34,&34distal_length&34,&34pendant_length&34]&10 ; 
+         quote: }  ;
+log/ ; 
+ 
+proc/; 
+
+ 
