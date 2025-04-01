@@ -1,9 +1,11 @@
 report- ; 
 sil=all; 
-macro - ;
-mxram 400 ; 
+macro=   ;
+mxram 300 ; 
+macro= ;
+macro- ; 
 macro [ 800000 ; 
-macro *20 14929000 ; 
+macro *20 13829000 ; 
 macro = ;                                        
 var - ; 
 xwipe ; 
@@ -37,7 +39,7 @@ set charsize 5000 ;
 
 
 
-set grusize 50; 
+set grusize 32; 
 set nucondis 30 ; 
 set nosize 'taxsize' * 2 ; 
 set + ;
@@ -67,7 +69,7 @@ mybestscore['grusize'] guichsp                  multisp                 shoft
 bl_name[100]            guichval                multree                 sizsq   
 blue                    hayconts          myout[100]            son_uno son_cero        
 bran    haylands        n                       sonamb  
-bran_ref                haytax                  nconds                  sortedchars[4000]       
+bran_ref                haytax                  nconds                       
 ccc                     innewick                nds                     span    
 ces                     input_file[300]         nodo ['nosize']         span_all        
 char_anal               input_treefile[100]     nodo_trans              span_err        
@@ -141,7 +143,7 @@ greens[30]
 mini_bk 
 laprob
 nomeagrupes
-output_conditions [1000] 
+output_conditions [100] 
 elagre 
 resolved 
 blues[30] 
@@ -157,10 +159,7 @@ pos_two  pos_tre pos_cua
 opt_mk_brlen [  'nosize' ] 
 mk_brlen [ 'nosize' ] 
 EPA_mk_brlen [  'nosize' ] 
-largos [ 'nosize' ] 
-red_mk_brlen [ 'nosize' ]  
-tmp_brlen [ 'nosize' ] 
-guichimini ['nosize' ]  listita[2]   full_tree red_tree ter vamos
+ ter vamos
 offML_char_anal doandsense doandmult doandmusp  errandmult errndsense
 bescuare['nosize' 6 ]
 son
@@ -353,9 +352,9 @@ set RAS_num 300 ;
      ra 1 ; tplot [ ; sil-all; k0 ; cls; report =; 
      errmsg This script version handles datasets with 1000 taxa or less. Please contact Santiago Catalano for a modified version. ;     
    end 
-   if ( nchar > 999 ) 
+   if ( nchar > 4999 ) 
        sil=all; report =; k0 ; cls; ra 1 ; tplot [ ; sil-all; 
-       errmsg This script version handles datasets with 1000 characters or less. Please contact Santiago Catalano for a modified version. ;     
+       errmsg This script version handles datasets with 5000 characters or less. Please contact Santiago Catalano for a modified version. ;     
    end
    
   hold 10000/10000 ; 
@@ -2975,7 +2974,7 @@ proc/;
  
 
 
-label CALCULATE_ML /* opt_tree es el arbol a evaluar que tiene el latar. reftree es el arbol original sin el latar sobre el qeu calcule los largos de ramas */
+label CALCULATE_ML /* opt_tree es el arbol a evaluar que tiene el latar. reftree es el arbol original sin el latar sobre el qeu calcule los larg de ramas */
  
 set onetocero grptogrp 'ref_tree' 'opt_tree' /'latar' ;
  
