@@ -4,8 +4,8 @@ macro=   ;
 mxram 300 ; 
 macro= ;
 macro- ; 
-macro [ 800000 ; 
-macro *20 13829000 ; 
+macro [ 700000 ; 
+macro *20 11829000 ; 
 macro = ;                                        
 var - ; 
 xwipe ; 
@@ -35,7 +35,7 @@ nucondis
 nosize ; 
 
 set taxsize 1000 ; 
-set charsize 5000 ;  
+set charsize 4000 ;  
 
 
 
