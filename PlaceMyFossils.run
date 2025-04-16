@@ -6301,7 +6301,7 @@ if ('clade_anal')
 	 sil-file; quote &10 ; sil=all; 
 	 k0 ; 
 	 tv < 0  ; 
-	 reroot * = 'pavote';  
+	 reroot = 'pavote';  
          loop=dd 0 ( nnodes [ 0 ] ) 
 	         set ndtran 'trad_nd[#dd]' ; 
 	          if ( (#dd == root) || ( #dd == 'tgtsp' ) || (!isintree [0 #dd]) ) 
