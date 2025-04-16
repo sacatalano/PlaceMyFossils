@@ -7749,7 +7749,7 @@ label MAGIC_FOR_OUT
 	 out 'outrut' ; 
 	 rer ; 
 	 if ('muymiss_sp['prevout']' == 1 )
-		   set nodo $$taxon #tx ; 
+		   set nodo $$taxon 'prevout' ; 
 		   sil-file; quote $nodo('prevout')= Not analyzed (Missing data > 'limmis' ) &10; sil=all; 
 		   proc/; 
 	end 
