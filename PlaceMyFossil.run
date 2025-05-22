@@ -1160,6 +1160,7 @@ loop=cd 0 ('nconds'-1)
       col none ; 
       cc ] . ;
       mu 1 = ho 1 ;
+       rer ; 
       bb = fillonly ;
       if (ntrees >= 999 )
        tch 0.998 ; 
@@ -2374,6 +2375,7 @@ if ( (!'mult_w_target') && (!'domodif')  )
 	   col none ; 
 	   cc ] . ;
 	   mu 1 = ho 1 ;
+	    rer ; 
 	   bb = fillonly ; 
 	   if (ntrees > 998 )
               tch 0.998 ; 
@@ -3151,6 +3153,7 @@ if ( ('sensato' == 1 ) )
 	       piwe = 'condic[#1]' ;
 	    end 
   	     mu 1 = ho 1 ; 
+  	      rer ; 
 	    bb = fillonly ; 
 	    if (ntrees >= 999 )
 	      tch 0.998 ; 
@@ -3181,6 +3184,7 @@ if ( ('sensato' == 1 ) )
          end
 else
          mu 'RAS_num' = ho 3 ; 
+          rer ; 
          bb = fillonly ;
          if (ntrees >= 999 )
           tch 0.998 ; 
@@ -3431,6 +3435,7 @@ loop=nd 0 (nnodes[0])
           k 0 ; 
           constrain=;
           mu 'RAS_num' = ho 1 ;
+           rer ; 
           bb = fillonly ; 
           if (ntrees >= 999 )
             tch 0.998 ; 
@@ -3614,9 +3619,11 @@ loop=cnd 0 ( 'nconds'-1 )
 		  	   continue ; 
 	          end 
 		  prunt 0/#tx ;
+		  rer ; 
 		  force /&0 ;
 		  constrain = ; 
 		  mu 1 = h 1 ;
+		   rer ; 
 		  bb ; 
 		  tvault < 0 ;
 		  rer ; 
@@ -3734,11 +3741,12 @@ loop=cd 0 ('nconds'-1)
 			continue ; 
 		  end
 		 sil=all; edit 0 'raiz' 'tgtsp' #nd ; 
-		   
+		  rer ;  
 		 force/&0; 
 		 k 0 ; 
 		 constrain=; 
 		 mu 1 = ho 1 ;
+		  rer ; 
 		 bb = fillonly ; 
 		 if (ntrees >= 999 )
 		    tch 0.998 ; 
@@ -5684,6 +5692,7 @@ loop=tx 0 ntax
 	 end 
 	 prunt 0/#tx ;
 	 if (!'dolik')
+	            rer ; 
 		    force /&0 ;
 		    constrain = ;  
 		    k 0 ; 
@@ -5695,8 +5704,7 @@ loop=tx 0 ntax
 	     
 	 end
  
-	 sil=all; quote mejor arbol ; 
-	 tp; 
+	 
 	 sil=all; 
 	 if ( ntrees >= 999 )
 	    tch 0.998 ; 
@@ -6041,6 +6049,7 @@ end
     cc ] . ;
     mu 1 = ho 1 ;
     bb = fillonly ; 
+  
     cc [ .  ; 
     loop=jj 0 nchar 
        if ( 'listchar[#jj]' == 0 )
@@ -7755,10 +7764,12 @@ label MAGIC_FOR_OUT
 	end 
 	prunt 0/'prevout' ;
 	if (!'dolik')
+	        rer ; 
    		force /&0 ;
 		constrain = ;  
 		k 0 ; 
 		mu 1 = h 1 ;
+		rer ; 
 		bb ;
 		if ( ntrees >= 999 )
 		   tch 0.998 ; 
@@ -7911,6 +7922,7 @@ loop=nd 0 (nnodes[0])
          constrain=;
        
          mu 'RAS_num' = h 5  ;/*mu 30 */ 
+         rer ; 
          bb = fillonly ; 
          if (ntrees >= 999 )
              tch 0.998 ; 
@@ -8053,8 +8065,7 @@ loop=nd 0 (nnodes[0])
 	      tc / ;  
               set nod #nd ; 
               set blue root ;
-              sil-all; nak- ; tp ; 
-                quote: 'blue' 'tgtsp' 'nod' ; 
+              
               edit 0 'blue' 'tgtsp' 'nod' ; 
               set red anc [0 'tgtsp'] ;  
               set lis deslist[ 0 'red']; 
@@ -8210,6 +8221,7 @@ label CALCULATE_SCORE_ONETREE
 	   col none ; 
 	   cc ] . ;
 	   mu 1 = ho 1 ;
+	   rer ; 
 	   bb = fillonly ; 
 	   goto ACTIVATE_CHARS ;  
 	   constrain- ; 
