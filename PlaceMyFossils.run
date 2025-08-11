@@ -17,14 +17,16 @@ macfloat 10 ;
 
 /*-------------------------------------------------------
 TNT script:  PlaceMyFossils.run     
-Version:     1.2
-Updated:     2025-05-20                                                                 
+Version:     1.2.1
+Updated:     2025-08-11                                                                 
 Author:      Santiago A. Catalano                                                        
 Mantainer:   Santiago A. Catalano                              
-Depends:     TNT version 1.6
+Depends:     TNT version 1.6 - july 2025
              (Goloboff and Morales, 2023. doi: 10.1111/cla.12524)      
 License:     GNU General Public Licence (3). 
-Citation:    Catalano et al. (2025)    
+Citation:   Santiago A Catalano, Ignacio Escapa, Kelsey D Pugh, Ashley S Hammond, Pablo Goloboff, Sergio Almécija, PlaceMyFossils: 
+            An Integrative Approach to Analyze and Visualize the Phylogenetic Placement of Fossils Using Backbone Trees,
+            Systematic Biology, 2025;, syaf025, https://doi.org/10.1093/sysbio/syaf025 
 ---------------------------------------------------------*/
 
 var: 
@@ -1190,7 +1192,7 @@ loop=cd 0 ('nconds'-1)
             set bran_ref simgroup [ #tr 'bran' 0 ] ;
             if ( !'dolik' )
                      set  core_mult[#cd 'bran_ref'] score [#tr] ;
-           else
+            else
                set core_mult[#cd 'bran_ref'] 0 ; 
                if ('doing_unlinked' )
                    loop=po 0 ('numchrgrp'-1)
@@ -1229,10 +1231,10 @@ loop=cd 0 ('nconds'-1)
         set bran_ref 'bran' ;
         if (!'dolik')
             set core_mult[#cd 'bran_ref'] score [#tr] ; 
-       else
-         set core_mult[#cd 'bran_ref'] 0 ;
-          if ('doing_unlinked' ) 
-                  loop=po 0 ('numchrgrp'-1)
+        else
+           set core_mult[#cd 'bran_ref'] 0 ;
+                if ('doing_unlinked' ) 
+                     loop=po 0 ('numchrgrp'-1)
 			   maketable - ; 
 			   cc ] . ; cc [ {#po} ; 
 			   set van 0 ; 
@@ -1249,27 +1251,27 @@ loop=cd 0 ('nconds'-1)
 			   sil=all; 
 		           if ('van' ) 	
 			     piwe-; 
-			     set blue mklik [ #tr ] ; 
-			   else
-			    set blue 0 ; 
+			      set blue mklik [ #tr ] ; 
+			    else
+			       set blue 0 ; 
 			   end 
 			   sil=all; quote score condicion #cd de arbol #tr nodo 'bran_ref' grupo #po = 'blue'; sil=all; 
 			   set core_mult[#cd 'bran_ref'] 'core_mult[#cd 'bran_ref']' + 'blue' ; 
-		  stop 
-                  cc [ . ; 
-                  loop=jj 0 nchar 
-                     if ( 'listchar[#jj]' == 0 )
+		     stop 
+                     cc [ . ; 
+                     loop=jj 0 nchar 
+                        if ( 'listchar[#jj]' == 0 )
                         cc ] #jj ;
-                     end
-                 stop 
-                 sil=all; quote score condicion #cd total de arbol nodo 'bran_ref' 'core_mult[#cd 'bran_ref']' ; sil=all; 
-         else
-               set ref_tree 0 ; 
-               set latar 'tgtsp' ;
-               goto CALCULATE_ML ; 
-               set core_mult[#cd 'bran_ref'] 'elesco' ;
-          end
-      end
+                         end
+                     stop 
+                     sil=all; quote score condicion #cd total de arbol nodo 'bran_ref' 'core_mult[#cd 'bran_ref']' ; sil=all; 
+               else
+                   set ref_tree 0 ; 
+                   set latar 'tgtsp' ;
+                   set elesco mklik [#tr]; 
+                   set core_mult[#cd 'bran_ref'] 'elesco' ;
+                end
+        end
    end 
    if ('core_mult[#cd 'bran_ref']' < 'mini_mult[#cd]') 
             set mini_mult[#cd] 'core_mult[#cd 'bran_ref']' ; 
@@ -1356,8 +1358,9 @@ stop
  
     
 /* hasta aca cargue todos los scores minimos y maximos.. Ahora tengo que reenraizar y printear */ 
-
+if ( ttags ) 
  reroot  * = 'pavote' ; /* pongo el enraizado original */ /*New*/
+end
 nak= ; 
 tt- ; 
 
@@ -1768,7 +1771,7 @@ if (ntrees == 0 )
 	   set multisp 1 ; 
 	end
 	
-	if ( ('chssp' == 2 ) &&  ('nuabs' > 1 )  ) 
+	if ( ('chssp' == 2 ) &&  ('nuabs' > 1 )  )  /* chssp = 2 -> No additional query species */  
 	   ra1; sil-all; tplot [ ; k 0; tv - ;  cls; 
 	   errmsg The option /No additional query species/ was selected but several species are missing from the tree. Please select the option / Absent in reference tree / or include these species in the reference tree  ;
 	end
@@ -1846,6 +1849,7 @@ if (ntrees == 0 )
 	      end  
 	  stop
 	end
+	 
 	if ('ause' > 1 )
 	   set multisp 1 ; 
 	end
@@ -2602,10 +2606,9 @@ end
 
 set pivote sister[0 outgroup] ; /* esta es la rama que queda sin tag */ /*New*/
 
- 
-
-reroot  * = 'pavote' ; /* pongo el enraizado original */ /*New*/
- 
+if ( ttags )  
+  reroot  * = 'pavote' ; /* pongo el enraizado original */ /*New*/
+end 
  
  
  
@@ -3158,7 +3161,9 @@ if ( ('sensato' == 1 ) )
 	    if (ntrees >= 999 )
 	      tch 0.998 ; 
 	    end 
-	   reroot  * = 'pavote' ;
+	   if ( ttags ) 
+	      reroot  * = 'pavote' ;
+	   end
 	   if ('guichsensit' == 2 )
 	        if ('doprefix')
 		  set cond_string $_Mpts_condic#1..tre ; 
@@ -3189,30 +3194,26 @@ else
          if (ntrees >= 999 )
           tch 0.998 ; 
          end 
-     if (ntrees == 0 ) 
+      if (ntrees == 0 ) 
        ttag * 0 ; 
-       loop 0 nnodes [0]
-           set yes 0 ; 
-	   loop 0 ('nuabs'-1 ) 
-	      if ('nosta[#2]' == #1) 
-	           tt < #1 ; 
-	           ttag +#1 (255,0,0);
-	           set yes 1 ;
-	           endloop ; 
-	      end
-	   stop
-	   if ('yes') 
-	     continue ; 
- 	   end
- 	   tt < #1 ; 
-  	   ttag +#1  (0,0,0); 
+       loop 0 (nnodes [0])
+         if ('listax[#1]') 
+	          tt < #1 ; 
+	          ttag +#1 (255,0,0);
+	  else
+	     tt < #1 ; 
+  	     ttag +#1  (0,0,0);
+	  end
        stop
-    
-      reroot  * = 'pavote' ; 
+      if ( ttags ) 
+         reroot  * = 'pavote' ; 
+      end
       ttag & $output_color bheight 40 legup 10 txtsep 20 fontsize 20 blength 80 color ; 
       ttag & ;
   end
-  reroot  * = 'pavote' ; 
+  if ( ttags ) 
+     reroot  * = 'pavote' ; 
+  end
   ts *$output_mpts ; s ; ts/ ; 
 end
 tt- ;
@@ -3483,37 +3484,29 @@ loop=ps 0 nchar
 stop 
 k 0 ;
  
-if ('multree' == 0 ) 
+if ('multree' == 0 ) /* if there is just a single optimal tree */
 	  p $output_mpts ; 
 	  ttag- ; 
 	  ttag =; 
 	  ttag *0 ; 
 	  loop 0 nnodes [0]
 		  set posy #1 ; 
-		   if (#1 == outgroup )
+		  if (#1 == outgroup )
 		     ttags +'posy' (0,0,0) ; 
 		      continue 
-		   end 
-		   set yes 0 ; 
-		     
-		  
-		   loop 0 ('nuabs'-1 ) 
-			   if ('nosta[#2]' == #1) 
-				    ttag < #1 ; 
-				    ttags +'posy' (255,0,0) ;
-				    set yes 1 ;
-				    endloop ; 
-			   end
-		   stop
-		  if ('yes') 
-		     continue ; 
-		  end
-		  ttag < #1 ; 
-		  ttags +'posy' (0,0,0) ; 
-		  if (#1 == 'tgtsp') 
-		     ttag < #1 ; 
-		     ttags +'posy' (255,0,0) ;
 		  end 
+		  if ('listax[#1]' ) 
+	              ttag < #1 ; 
+		      ttags +'posy' (255,0,0) ;
+		  else
+		    if (#1 == 'tgtsp') 
+		         ttag < #1 ; 
+		         ttags +'posy' (255,0,0) ;
+		     else
+		        ttag < #1 ; 
+		        ttags +'posy' (0,0,0) ; 
+		      end
+		   end 
 	  stop
 
 	  ttag & $output_color bheight 40 legup 10 fontsize 20 txtsep 20 blength 80 colors ; 
@@ -3831,8 +3824,9 @@ end
 
 
 
-
-reroot * = 'pavote' ; 
+if ( ttags ) 
+  reroot * = 'pavote' ; 
+end
 nak= ; 
 tt- ; 
 
@@ -4248,7 +4242,9 @@ end
 set dde 0 ;              
 
 set pivote sister[0 outgroup] ; /* esta es la rama que queda sin tag */ /*New*/
-reroot  * = 'pavote' ; /* pongo el enraizado original */ /*New*/
+if ( ttags ) 
+ reroot  * = 'pavote' ; /* pongo el enraizado original */ /*New*/
+end
 nak= ; 
 tt- ; 
 
@@ -5054,9 +5050,9 @@ report- ;
 k 0 ; 
 tvault < 0 ; 
 
-
-reroot * = 'pavote' ;
-   
+if ( ttags ) 
+ reroot * = 'pavote' ;
+end   
  lquote - ; 
  
  if ( 'trad_nd['desroot_noout']'  == (-1) ) 
@@ -5270,8 +5266,9 @@ nak = ;
 
 
 
-
-reroot  * = 'pavote' ; /* pongo el enraizado original */ /*New*/
+if ( ttags ) 
+  reroot  * = 'pavote' ; /* pongo el enraizado original */ /*New*/
+end
 nak= ;
 tt- ; 
 ttag * 0 ; 
@@ -6310,7 +6307,9 @@ if ('clade_anal')
 	 sil-file; quote &10 ; sil=all; 
 	 k0 ; 
 	 tv < 0  ; 
-	 reroot = 'pavote';  
+	 if ( ttags ) 
+	   reroot = 'pavote';  
+         end
          loop=dd 0 ( nnodes [ 0 ] ) 
 	         set ndtran 'trad_nd[#dd]' ; 
 	          if ( (#dd == root) || ( #dd == 'tgtsp' ) || (!isintree [0 #dd]) ) 
@@ -7122,9 +7121,9 @@ report- ;
 sil=all; 
 k0 ; 
 tvault < 0 ;
-
-reroot  * = 'pavote' ; 
-
+if ( ttags ) 
+  reroot  * = 'pavote' ; 
+end
 set nds nnodes [ 0 ] ; 
 ttag * 0 ;
 loop=nd 0 nnodes[0] 
