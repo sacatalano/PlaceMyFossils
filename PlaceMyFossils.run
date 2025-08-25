@@ -17,7 +17,7 @@ macfloat 10 ;
 
 /*-------------------------------------------------------
 TNT script:  PlaceMyFossils.run     
-Version:     1.2.1
+Version:     1.2.2
 Updated:     2025-08-11                                                                 
 Author:      Santiago A. Catalano                                                        
 Mantainer:   Santiago A. Catalano                              
@@ -567,6 +567,7 @@ if ( 'char_anal' || 'clade_anal'  )
            set char_anal 0 ; 
            set clade_anal 0 ; 
         else
+           
              progress 0 100 Running Error Analysis ;    
              goto LAUNCH_ERROR_CALCULATION ;
              progress/; 
@@ -2116,6 +2117,7 @@ sil=all; quote nosize 'nosize' ;
 
 
 /* esto viene a reemplazar el grptogrp q no anda cdo hay root con mulitples outs */ 
+
 loop 0 (nnodes [0]) 
   set toinv[#1] eqgroup [ 0 #1 1 ] ;
 stop
@@ -2130,7 +2132,7 @@ loop 0 (nnodes[0])
  sil=all; quote NEW toinv[#1] 'toinv[#1]' ; 
 stop
 
-
+ 
  
 set pavote eqgroup [ 0 'pivote' 1 ] ; /*a donde deberia reenraizar el arbol para que quede como el original */ 
 
@@ -2342,23 +2344,25 @@ end
 
 
 set blue 0 ; 
-
-if (!'active') 
- loop 0 nchar
- cc ] . ; 
- if ( 'listchar [#1]' != 0 ) 
-  cc [ #1 ; 
- end
- stop
+ 
+if (!'active')
+    cc ] . ;
+    loop 0 nchar
+       if ( 'listchar [#1]' != 0 ) 
+         ccode [ #1 ;
+      end
+    stop
 else
- loop 0 nchar
- if ( isact[#1] ) 
-  set listchar [#1] 1 ; 
- else
-  set listchar [#1] 0 ; 
- end
- stop
+    loop 0 nchar
+       if ( isact[#1] ) 
+          set listchar [#1] 1 ; 
+       else
+          set listchar [#1] 0 ; 
+       end
+    stop
 end
+
+ 
 proc/; 
 
 
@@ -5808,6 +5812,7 @@ loop=tx 0 ntax
 	        stop     
 	 stop  
 	 set dde ntrees + 1; 
+	
 stop
 
 
@@ -5960,7 +5965,6 @@ stop
 
 set mini_err 999999999999 ; 
 set maxi_err 0 ; 
-
 
 
 
@@ -6127,6 +6131,7 @@ proc/;
 label LAUNCH_ERROR_CALCULATION 
 macfloat 'flot_calc' ;
 
+
 loop=yy 0 nchar 
   set bak_listchar [#yy] 'listchar [#yy]' ; 
 stop 
@@ -6281,8 +6286,8 @@ set doing_grp_anal 0 ;
  
  
 
- 
- 
+
+
 if ('clade_anal') 
 	 log $Los_errors ; 
 	 lquote = ; 
@@ -6310,12 +6315,15 @@ if ('clade_anal')
 	 if ( ttags ) 
 	   reroot = 'pavote';  
          end
+           
+         
          loop=dd 0 ( nnodes [ 0 ] ) 
 	         set ndtran 'trad_nd[#dd]' ; 
 	          if ( (#dd == root) || ( #dd == 'tgtsp' ) || (!isintree [0 #dd]) ) 
 		     continue ; 
 		  end
-	          if (#dd != 'ogrup' ) 
+	          if ( ( #dd != 'ogrup') ||  ( #dd == 999999 ) ) /*  21/8/2025 */ 
+	           
 			  if (#dd == 'desroot_noout' )
 				set ndtran 'trad_nd[sister [ 0 'desroot_noout']]'   ;
 				set erne   'false_pos['ndtran']'  ; 
@@ -6375,59 +6383,58 @@ if ('clade_anal')
 		  if ('doerror_w_grps'   )
 			    sil-file ;  
 			    loop=gc 0 ('numchrgrp'-1)
-			      if ( #dd != 'ogrup' ) 
-						if (#dd == 'desroot_noout' )
-							set ndtran 'trad_nd[sister [ 0 'desroot_noout'] ]'   ;
-							set erne   'falses_pos['ndtran' #gc]'  ; 
-							set erpo   'falses_neg['ndtran' #gc]' ;
-						 else 
-						     if ('toinv[#dd]' == (-1)) 
-							 set erne   'falses_pos['ndtran' #gc]'  ; 
-							 set erpo   'falses_neg['ndtran' #gc]' ;
-						     else
-							  set erpo 'falses_pos['ndtran' #gc]'  ; 
-							  set erne 'falses_neg['ndtran' #gc]' ;
-						     end
-						  end  
-			      else
-				  set erpo 'falses_pos[ 'trad_nd['desroot_noout']' #gc]' ;  
-			      end 
-			       if (('erpo' != 7777777) && ( 'erne' != 7777777)) 
-				     set posx 'erpo'/100 ; set posy 'erne'/100 ;  macfloat 'flot_prnt' ;  
-				       quote 'posx','posy',  ; macfloat 'flot_calc' ; 
-				end
-				if (('erpo' == 7777777) && ( 'erne' != 7777777)) 
-				    set posy 'erne'/100 ; macfloat 'flot_prnt' ;  
-				     quote NA,'posy', ; macfloat 'flot_calc' ; 
-				end
-				if (('erpo' != 7777777) && ( 'erne' == 7777777)) 
-				      set posx 'erpo'/100 ; macfloat 'flot_prnt' ;  
-				       quote 'posx', NA ,  ; macfloat 'flot_calc' ;
-				end
-				if (('erpo' == 7777777) && ( 'erne' == 7777777)) 
-				      quote NA, NA , ; 
-				end
+				       if ( ( #dd != 'ogrup') ||  ( #dd == 999999 ) )   
+							if (#dd == 'desroot_noout' )
+								set ndtran 'trad_nd[sister [ 0 'desroot_noout'] ]'   ;
+								set erne   'falses_pos['ndtran' #gc]'  ; 
+								set erpo   'falses_neg['ndtran' #gc]' ;
+							else 
+							     if ('toinv[#dd]' == (-1)) 
+								 set erne   'falses_pos['ndtran' #gc]'  ; 
+								 set erpo   'falses_neg['ndtran' #gc]' ;
+							     else
+								  set erpo 'falses_pos['ndtran' #gc]'  ; 
+								  set erne 'falses_neg['ndtran' #gc]' ;
+							     end
+							end  
+				       else
+					   set erpo 'falses_pos[ 'trad_nd['desroot_noout']' #gc]' ;  
+				       end 
+				       if (('erpo' != 7777777) && ( 'erne' != 7777777)) 
+					     set posx 'erpo'/100 ; set posy 'erne'/100 ;  macfloat 'flot_prnt' ;  
+					       quote 'posx','posy',  ; macfloat 'flot_calc' ; 
+				       end
+				       if (('erpo' == 7777777) && ( 'erne' != 7777777)) 
+					    set posy 'erne'/100 ; macfloat 'flot_prnt' ;  
+					     quote NA,'posy', ; macfloat 'flot_calc' ; 
+				       end
+				       if (('erpo' != 7777777) && ( 'erne' == 7777777)) 
+					  set posx 'erpo'/100 ; macfloat 'flot_prnt' ;  
+					       quote 'posx', NA ,  ; macfloat 'flot_calc' ;
+				       end
+				       if (('erpo' == 7777777) && ( 'erne' == 7777777)) 
+					      quote NA, NA , ; 
+				       end
 			   stop
 		  end
-
 		 sil-file; quote &10 ; sil=all; 
 	 stop 
  	 sil-file ; quote &10 Species sampling for calculation of each subtree / group of characters &10 ; sil=all ; 
 	 sil-file ; quote ,Complete_dataset, Complete_dataset,; sil=all; 
 	 if ('doerror_w_grps'      ) 
-	  loop=gc 0 ('numchrgrp'-1)
-	   set bl_name $$xgroup #gc ; 
-	   sil-file; quote $bl_name,$bl_name, ;sil=all; 
-	  stop
+	    loop=gc 0 ('numchrgrp'-1)
+	       set bl_name $$xgroup #gc ; 
+	       sil-file; quote $bl_name,$bl_name, ;sil=all; 
+	   stop
 	 end 
 	 sil-file; quote&10 Subtree,ISE,OSE, ; sil=all; 
 	 if ('doerror_w_grps'  ) 
-	  loop=gc 0 ('numchrgrp'-1)
-	   sil-file; quote false_pos,false_neg, ; sil=all; 
-	  stop
+	    loop=gc 0 ('numchrgrp'-1)
+	      sil-file; quote false_pos,false_neg, ; sil=all; 
+	    stop
 	 end 
 	 sil-file; quote &10 ; sil=all; 
-	  loop=dd 0 ( nnodes [ 0 ] )
+	 loop=dd 0 ( nnodes [ 0 ] )
 		  if ( (#dd == outgroup) || (#dd == root) || ( #dd == 'tgtsp' ) || (!isintree [0 #dd]) ) 
 		      continue ; 
 		  end
@@ -6455,23 +6462,23 @@ if ('clade_anal')
 		  else
 			      if ( ('erpo' == 0) && ('erne' == 0) )
 				   sil-file; quote Nd #dd,NA,NA, ; sil=all; 
-				end
-				if ( ('erpo' != 0) && ('erne' == 0) )
+			      end
+			      if ( ('erpo' != 0) && ('erne' == 0) )
 				  if ('toinv[#dd]' == (-1))
 				     sil-file; quote Nd #dd,NA , 'erpo', ; sil=all; 
 				  else
 				     sil-file; quote Nd #dd,'erpo',NA, ; sil=all; 
 				  end
 
-				end
-				if ( ('erpo' == 0) && ('erne' != 0) )
+			      end
+			      if ( ('erpo' == 0) && ('erne' != 0) )
 				  if ('toinv[#dd]' == (-1))
 					 sil-file; quote Nd #dd,'erne',NA, ; sil=all; 
 				  else
 					  sil-file; quote Nd #dd,NA,'erne', ; sil=all; 
 				  end 
-				end
-				if ( ('erpo' != 0) && ('erne' != 0) )
+			      end
+			      if ( ('erpo' != 0) && ('erne' != 0) )
 				  if ('toinv[#dd]' == (-1))
 				     sil-file; quote Nd #dd,'erne','erpo', ; sil=all; 
 				  else
@@ -6526,11 +6533,12 @@ end
  k0 ; 
  taxc + . ; 
  loop=yy 0 nchar 
-  set listchar [#yy] 'bak_listchar [#yy]'; 
+    set listchar [#yy] 'bak_listchar [#yy]'; 
  stop 
  taxc + . ; 
  
 proc/;
+
 
 
 
