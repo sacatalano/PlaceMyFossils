@@ -17,8 +17,8 @@ macfloat 10 ;
 
 /*-------------------------------------------------------
 TNT script:  PlaceMyFossils.run     
-Version:     1.2.2
-Updated:     2025-08-11                                                                 
+Version:     1.2.3
+Updated:     2025-10-01                                                                 
 Author:      Santiago A. Catalano                                                        
 Mantainer:   Santiago A. Catalano                              
 Depends:     TNT version 1.6 - july 2025
@@ -316,7 +316,7 @@ set flot_calc 10 ;
 set estim_ML 0 ; 
 set myseed 1 ;
 set rever_tgtsp 0 ; 
-set RAS_num 300 ; 
+set RAS_num 300 ;  
  SIL=All; 
  warn- ; 
  
@@ -3440,7 +3440,7 @@ loop=nd 0 (nnodes[0])
           k 0 ; 
           constrain=;
           mu 'RAS_num' = ho 1 ;
-           rer ; 
+          rer ; 
           bb = fillonly ; 
           if (ntrees >= 999 )
             tch 0.998 ; 
@@ -3488,7 +3488,7 @@ loop=ps 0 nchar
 stop 
 k 0 ;
  
-if ('multree' == 0 ) /* if there is just a single optimal tree */
+if ('multree' == 0 )  
 	  p $output_mpts ; 
 	  ttag- ; 
 	  ttag =; 
@@ -3503,25 +3503,22 @@ if ('multree' == 0 ) /* if there is just a single optimal tree */
 	              ttag < #1 ; 
 		      ttags +'posy' (255,0,0) ;
 		  else
-		    if (#1 == 'tgtsp') 
+		      if (#1 == 'tgtsp') 
 		         ttag < #1 ; 
 		         ttags +'posy' (255,0,0) ;
-		     else
+		      else
 		        ttag < #1 ; 
 		        ttags +'posy' (0,0,0) ; 
 		      end
-		   end 
+		  end 
 	  stop
-
 	  ttag & $output_color bheight 40 legup 10 fontsize 20 txtsep 20 blength 80 colors ; 
-	  
 	  ttag & ;
 	  set did_colorquer 1 ; 
-	  
-	  
-	  
 end
+ 
 k 0 ; 
+
 proc/; 
  
  
