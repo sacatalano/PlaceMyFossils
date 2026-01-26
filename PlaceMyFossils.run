@@ -17,8 +17,8 @@ macfloat 10 ;
 
 /*-------------------------------------------------------
 TNT script:  PlaceMyFossils.run     
-Version:     1.2.3
-Updated:     2025-10-01                                                                 
+Version:     1.2.4
+Updated:     2026-10-26                                                                 
 Author:      Santiago A. Catalano                                                        
 Mantainer:   Santiago A. Catalano                              
 Depends:     TNT version 1.6 - july 2025
@@ -316,7 +316,7 @@ set flot_calc 10 ;
 set estim_ML 0 ; 
 set myseed 1 ;
 set rever_tgtsp 0 ; 
-set RAS_num 300 ;  
+set RAS_num 100 ; /*300*/   
  SIL=All; 
  warn- ; 
  
@@ -585,9 +585,9 @@ if ( ( ('dosensit' == 1) || ('dosensit' == 2 ) ) && ('sensato' == 1)  )
 end
 
 if ('sensato') 
-quote: entro sensato ; 
+     quote: entro sensato ; 
      if (!'notarget')
-     quote: entro notarget ; 
+          quote: entro notarget ; 
 	  if (('dosensit' == 0) || ('dosensit' == 2 ) ) 
 	      quote: entro en or ; 
 	       if ('multisp' )
@@ -609,7 +609,15 @@ end
 
 if ( 'nopiwe' == 1 ) 
  progress 0 100 Running Multiple Optimality Criteria Analysis;
-   goto COLOR_SENSITIVITY ; 
+  if ('multisp')
+      ra1 ; tplot [ ;  report=; cls; k0 ; 
+         sil-all; errmsg Multiple Optimality Criteria is not yet implemented for multiple query species ;  
+     proc/; 
+    /*      goto SENSIT_MULT_WITH_TARGET ;*/
+    
+  else
+     goto COLOR_SENSITIVITY ; 
+  end  
  progress/; 
 end 
 
@@ -995,8 +1003,6 @@ report- ;
 k 0 ; 
 tvault < 0 ; 
 
-
-
 if ('guichsensit' == 2 )
    hifile open $setting_file ; 
 end
@@ -1352,16 +1358,27 @@ stop
  
   quote:  salida ; sil=all; 
 
- 
- 
- 
-  set pivote sister[0 outgroup] ; /* esta es la rama que queda sin tag */ /*New*/
+ goto PRINT_COLOR_SENSIT ; 
+
+
+proc/; 
+
+
+
+
+label PRINT_COLOR_SENSIT 
+
+set pivote sister[0 outgroup] ; /* esta es la rama que queda sin tag */ /*New*/
  
     
 /* hasta aca cargue todos los scores minimos y maximos.. Ahora tengo que reenraizar y printear */ 
 if ( ttags ) 
+
  reroot  * = 'pavote' ; /* pongo el enraizado original */ /*New*/
+else
+ reroot = 'pavote' ; 
 end
+
 nak= ; 
 tt- ; 
 
@@ -1546,17 +1563,6 @@ loop=cd 0 ('nconds'-1)
 stop
  
 
- 
- 
-
-
-
-
-
-
-
-
-
 log/; 
 
 
@@ -1733,6 +1739,7 @@ if ('guichsensit' == 2 )
 end
 ttag & ; 
 k 0 ; 
+
 proc/; 
 
 
@@ -3717,7 +3724,7 @@ loop=cd 0 ('nconds'-1)
                cc ] #jj ;
             end
          stop 
-         set mini_mult[#cd] 9999999999 ; 
+        set mini_mult[#cd] 9999999999 ; 
 	set maxi_mult[#cd] 0 ; 
 	if ('guichsensit' == 2 )
 		set str_settings hiftext ; 
@@ -3734,7 +3741,7 @@ loop=cd 0 ('nconds'-1)
 		  if ((#nd == root) || (#nd == 'tgtsp') || (!isintree [0 #nd]) || (#nd == outgroup)  )
 			continue ; 
 		  end
-		 sil=all; edit 0 'raiz' 'tgtsp' #nd ; 
+		  sil=all; edit 0 'raiz' 'tgtsp' #nd ; 
 		  rer ;  
 		 force/&0; 
 		 k 0 ; 
@@ -3822,317 +3829,9 @@ if ( 'nconds' > 12 )
   macfloat 'flot_calc' ; 
 end
 
+goto  PRINT_COLOR_SENSIT ; 
 
 
-
-if ( ttags ) 
-  reroot * = 'pavote' ; 
-end
-nak= ; 
-tt- ; 
-
-ttag * 0 ; 
-
-
-loop=nd 0 'nds' 
-   if ( (#nd == root) ||  (#nd == 'tgtsp') || (!isintree [0 #nd]) ) 
-     continue ; 
-   end
-   if ( ('listax[#nd]' == 1) && (#nd < root) )
-     continue ; 
-    end 
-    TT <#nd ; 
-    ttag +#nd /N#nd; 
-stop 
- 
-ttag & $output_sensit xysave eti bheight 'alturama' legup 15 txtsep 20 bfontsize 20 thickness 4  tfontsize 35 blength 'larama' colors ; 
-
-
-
-
- 
-set nds nnodes [0] ; 
-loop=cd 0 ('nconds'-1)
-   sil=all; quote  condition #cd  ; sil=all; 
-   if ('nconds' < 7) 
-                   set limB 5 ;
-                         set limA 2 ; 
-                         set sizsq 30 ;
-                   else
-                    set sizsq 24 ;
-                    if ( 'nconds' < 13)
-                    set limB 7 ;
-                    set limA 3 ;         
-                         else
-                    set ccc ( 'nconds' / 3 ) ; 
-                          if ('ccc' * 3 < 'nconds' ) 
-                           set ccc ++ ; 
-                           macfloat 0 ;
-                           set ccc 'ccc' ; 
-                           macfloat 'flot_prnt' ; 
-                    end 
-                    set limA 'ccc' - 1 ; 
-                    set limB ('ccc' *2 ) - 1 ; 
-                    
-                    
-                    end 
-                         end 
-                         if (#cd > 'limB' ) 
-                                 set suma_y 'sizsq' * 2 ;
-                                 set suma_x 'sizsq' * (#cd - ('limB' + 1 )) ;
-                         else 
-                         if (#cd > 'limA' )
-                                set suma_y 'sizsq' ;
-                                set suma_x 'sizsq' * (#cd - ('limA' + 1 )) ; 
-                         else
-                                set suma_x 'sizsq' * #cd ; 
-                          set suma_y 0 ; 
-                         end
-         end 
-         set span 'maxi_mult[#cd]' - 'mini_mult[#cd]' ; 
-         set miti 'mini_mult[#cd]' + ('span'/2) ; 
-         set uncuar 'mini_mult[#cd]' + ( 'span' / 4 ) ;
-         set trescuar 'mini_mult[#cd]' + ( (3 * 'span') / 4 );
-         set mini 'mini_mult[#cd]' ; 
-         set maxi 'maxi_mult[#cd]' ; 
-	 if ('do_palette')
-  	            set pace ('span' / 20 );  
-	   	    goto FILL_COLIM ; 
-        end
-        set trescuarI 'maxi' + ('maxi'-'uncuar' )  ; 
-	set mitiI   'maxi' + ('maxi'-'miti' )  ; 
-	set uncuarI   'maxi' + ('maxi'-'trescuar' )  ;
-	set maxiI    'maxi' + ('maxi - 'mini' )  ;
-
-
-         loop=nd 0 'nds' 
-              if ( #nd == 'tochang' )
-	            continue
-              end
-              if ( (#nd == root) ||   (#nd == 'tgtsp') || (!isintree [0 #nd]) )
-                    continue ; 
-               end
-              if (#nd < root) 
-                 if ('listax[#nd]' == 1 ) 
-                  continue ; 
-                 end
-              end 
-              set ndtran 'trad_nd[#nd]' ; 
-          if ('mini_mult[#cd]' == 'maxi_mult[#cd]') 
-              set red 130 ; set blue 130 ;set green 130 ; 
-          else 
-  	      set elesco 'core_mult[#cd 'ndtran' ]'  ;
-    	  end  
-          if (!'do_palette')
-                       set elsco   'maxi' + ('maxi' -'core_mult[#cd 'ndtran' ]' ) ; 
-  		       if ('elsco' < ( 'uncuarI') ) ; /*240,5,5 a  254,240,1 */ 
-		 		      set red   (254 - ( (254-240)  *  (( 'uncuarI' - 'elsco') / ( 'mitiI' - 'uncuarI') )) )   ; 
-		 		      set green (240 - ( (240-5)  *   (('uncuarI' - 'elsco') / ( 'mitiI' - 'uncuarI') )) )   ; 
-		 		      set blue  (1 +   ( (5-1)  *     (('uncuarI' - 'elsco') / ( 'mitiI' - 'uncuarI') )))    ;   ;   
-		 	      else
-		 		     if (( 'elsco' >= 'uncuarI' ) && ( 'elsco' < 'mitiI' ) ) /* 254,240,1  a 46,182,44) */ 
-		 			set red   (46 +   ( (254-46)  * (('mitiI' - 'elsco')  / ( 'mitiI' - 'uncuarI') ))) ;
-		 			set green (182 + ( (240-182)  *  (('mitiI' - 'elsco') / ( 'mitiI' - 'uncuarI') ))) ; 
-		 			set blue  (44  -  ( (44-1)  *    (('mitiI' - 'elsco') / ( 'mitiI' - 'uncuarI') ))) ;
-		 		    else
-		 			 if (( 'elsco' >= 'mitiI' ) && ( 'elsco' < 'trescuarI' ) )  /*46,182,44 a 18,232,232*/
-		 				set red   ( 18  + ( (46-18)    *  (('trescuarI'-'elsco' ) / ( 'trescuarI' - 'mitiI') ) ))  ;
-		 				set green ( 232 - ( (232-182)  * (('trescuarI'-'elsco') / ( 'trescuarI' - 'mitiI') ) ) );
-		 				set blue  ( 232 - ( (254-44)   * (('trescuarI'-'elsco' ) / ( 'trescuarI' - 'mitiI') ) )  ); 
-		 			 else   /*18,232,232 a 55,55,148*/
-		 				set red    ( 55  - ( (55-18)  *    (( 'maxiI' - 'elsco' ) / ( 'maxiI' - 'trescuarI' ) ) ))  ;
-		 				set green  ( 55  + ( (232-55)  *   (( 'maxiI' - 'elsco'  ) / ( 'maxiI' - 'trescuarI' ) ) ))  ;
-		 				set blue   ( 148 + ( (232-148)  *  (('maxiI' - 'elsco'  ) / ( 'maxiI' - 'trescuarI' ) ) ))  ;
-		 
-		 			     end
-		 		    end
-	     end
-	  else
-		set micore 'elesco' ; 
-		goto SETTING_COLORS ; 
-	  end
-          macfloat 'flot_prnt' ;    
-          set pos_x ('eti[#nd 0]' - 'eti[anc[0 #nd] 0]')/ 12 + 'eti[anc[0 #nd] 0]' + 'suma_x' ; 
-          set pos_y 'eti[#nd 1]' + 4 + 'suma_y'; 
-          if (('dosensit' == 1 ) || ('dosensit' == 2 ) ) 
-                 if (#cd == 'bescond') 
-                    set redsiz 'sizsq' - 2 ; 
-                    ttag &+ write <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 'redsiz'&34&32height=&34 'sizsq'&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;sil=all; 
-                 else
-                  ttag &+ write <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 'sizsq'&34&32height=&34 'sizsq'&34&32style=&34fill:rgb('red','green','blue')&59 stroke:none&34 /> &10 ;sil=all; 
-                 end
-         else
-           ttag &+ write <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 'sizsq'&34&32height=&34 'sizsq'&34&32style=&34fill:rgb('red','green','blue')&59 stroke:none&34 /> &10 ;sil=all; 
-         end
-         set pos_y 'pos_y' + 22 ;   /*set pos_y 'pos_y' + 15 ; */
-         set pos_x 'pos_x' + 15 ;    /*set pos_x 'pos_x' + 3 ; */
-         if ('core_mult[#cd 'ndtran']' == 'mini_mult[#cd]') 
-           ttag &+ write <text x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32 font-size=&34 12&34&32 > * </text> &10 ; 
-         end 
-         set nod sister [0 'tochang' ] ; 
-         if (#nd == 'nod' )
-              set pos_x ('eti['tochang' 0]' - 'eti[anc[0 'tochang'] 0]')/ 12 + 'eti[anc[0 'tochang'] 0]' + 'suma_x' ; 
-              set pos_y 'eti['tochang' 1]' + 4 + 'suma_y'; 
-             if (('dosensit' == 1 ) || ('dosensit' == 2 ) ) 
-	        if (#cd == 'bescond') 
-	            set redsiz 'sizsq' - 2 ; 
-	            ttag &+ write <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 'redsiz'&34&32height=&34 'sizsq'&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;sil=all; 
-	        else
-	           ttag &+ write <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 'sizsq'&34&32height=&34 'sizsq'&34&32style=&34fill:rgb('red','green','blue')&59 stroke:none&34 /> &10 ;sil=all; 
-	        end
-	    else
-	          ttag &+ write <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 'sizsq'&34&32height=&34 'sizsq'&34&32style=&34fill:rgb('red','green','blue')&59 stroke:none&34 /> &10 ;sil=all; 
-            end
-            set pos_y 'pos_y' + 22 ;   /*set pos_y 'pos_y' + 15 ; */
-            set pos_x 'pos_x' + 15 ;    /*set pos_x 'pos_x' + 3 ; */
-            if ('core_mult[#cd 'ndtran']' == 'mini_mult[#cd]') 
-	         ttag &+ write <text x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32 font-size=&34 12&34&32 > * </text> &10 ; 
-            end 
-        end 
-    stop
-stop
-
-
-set dist 0 ; 
-loop 0 (nnodes [0]) 
- if ('eti [#1 1]' > 'dist')
- set dist 'eti [#1 1]' ; 
- end
-stop 
-
-set dist 'dist' + 80 ; 
-set posx 'dist' - 30 ; 
-lquote [ ; 
-ttag&+ write <text&32x=&34 10 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 18&34 > Optimal</text>&10 ; 
-set posx 'dist' -15 ; 
-
-
- 
-  
-  set span 'maxi' - 'mini' ; 
-  set shift 'mini' ; 
-  set shoft 'maxi' ; 
-  set mit ('span'/2) ; 
-  set uncua ( 'span' / 4 ) ;
-  set trescua ( (3 * 'span') / 4 ) ;
-  macfloat 'flot_prnt' ; 
-  ttag&+ write<text&32x=&34 10 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 18&34 > 0 </text>&10 ; 
-  ttag&+ write<text&32x=&34 160 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 18&34>+ 'uncua' </text> &10 ; 
-  ttag&+ write<rect x=&34 158&34&32y=&34 'posx'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
-  ttag&+ write<text&32x=&34 310 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 18&34>+ 'mit' </text> &10 ; 
-  ttag&+ write<rect x=&34 308&34&32y=&34 'posx'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
-  ttag&+ write<text&32x=&34 460 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 18&34>+ 'trescua' </text> &10 ; 
-  ttag&+ write<rect x=&34 458&34&32y=&34 'posx'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
-  ttag&+ write<text&32x=&34 610 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 18&34>+ 'span' </text> &10 ; 
-  ttag&+ write<rect x=&34 608&34&32y=&34 'posx'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
-  macfloat 'flot_calc'; 
- 
-if(!'do_palette')
-	 set dist 'posx' + 10 ; 
-	 	 ttag&+ write <defs>&10<linearGradient&32id=&34graa&34&32x1=&34 0&37&34&32y1=&34 0&37&34&32x2=&34 100&37&34&32y2=&34 0&37&34>&10 ; 
-	 	 ttag&+ write <stop offset=&34 0&37&34&32style=&34stop-color:rgb(254,240,1).,stop-opacity:1&34></stop>&10; 
-	 	 ttag&+ write <stop offset=&34 100&37&34&32style=&34stop-color:rgb(240,5,5).,stop-opacity:1&34></stop>&10; 
-	 	 ttag&+ write </linearGradient>&10; 
-	 	 ttag&+ write </defs>&10;
-	 	 ttag&+ write <rect x=&34 460&34 &32y=&34 'dist'&34 &32width=&34 150&34&32 height=&34 30&34&32 style=&34fill:url(&35graa)&34 />&10 ;
-	 
-	 	 ttag&+ write <defs>&10<linearGradient&32id=&34grab&34&32x1=&34 0&37&34&32y1=&34 0&37&34&32x2=&34 100&37&34&32y2=&34 0&37&34>&10 ; 
-	 	 ttag&+ write <stop offset=&34 0&37&34&32style=&34stop-color:rgb(46,182,44).,stop-opacity:1&34></stop>&10; 
-	 	 ttag&+ write <stop offset=&34 100&37&34&32style=&34stop-color:rgb(254,240,1).,stop-opacity:1&34></stop>&10; 
-	 	 ttag&+ write </linearGradient>&10; 
-	 	 ttag&+ write </defs>&10;
-	 	 ttag&+ write <rect x=&34 310&34 &32y=&34 'dist'&34 &32width=&34 150&34&32 height=&34 30&34&32 style=&34fill:url(&35grab)&34 />&10 ;
-	 
-	 	 ttag&+ write <defs>&10<linearGradient&32id=&34grac&34&32x1=&34 0&37&34&32y1=&34 0&37&34&32x2=&34 100&37&34&32y2=&34 0&37&34>&10 ; 
-	 	 ttag&+ write <stop offset=&34 0&37&34&32style=&34stop-color:rgb(18,232,232) .,stop-opacity:1&34></stop>&10; 
-	 	 ttag&+ write <stop offset=&34 100&37&34&32style=&34stop-color:rgb(46,182,44).,stop-opacity:1&34></stop>&10; 
-	 	 ttag&+ write </linearGradient>&10; 
-	 	 ttag&+ write </defs>&10;
-	 	 ttag&+ write <rect x=&34 160&34 &32y=&34 'dist'&34 &32width=&34 150&34&32 height=&34 30&34&32 style=&34fill:url(&35grac)&34 />&10 ;
-	 
-	 	 ttag&+ write <defs>&10<linearGradient&32id=&34grad&34&32x1=&34 0&37&34&32y1=&34 0&37&34&32x2=&34 100&37&34&32y2=&34 0&37&34>&10 ; 
-	 	 ttag&+ write <stop offset=&34 0&37&34&32style=&34stop-color:rgb(55,55,148).,stop-opacity:1&34></stop>&10; 
-	 	 ttag&+ write <stop offset=&34 100&37&34&32style=&34stop-color:rgb(18,232,232).,stop-opacity:1&34></stop>&10; 
-	 	 ttag&+ write </linearGradient>&10; 
-	 	 ttag&+ write </defs>&10;
-	 	 ttag&+ write <rect x=&34 10&34 &32y=&34 'dist'&34 &32width=&34 150&34&32 height=&34 30&34&32 style=&34fill:url(&35grad)&34 />&10 ;
-
-else
-   set tancia 10 ; 
-      loop=uup 0 19
-        ttag&+ write <rect x=&34 'tancia'&34 &32y=&34 'dist'&34 &32width=&34 30&34&32 height=&34 30&34&32 style=&34fill:rgb('viridis[0 #uup]','viridis[1 #uup]','viridis[2 #uup]')&34 />&10 ;
-        set tancia 'tancia' + 30 ; 
-      stop   
-end
-
-
-set posx ('posx' + 70) ; 
-set tgtname $$taxon 'tgtsp' ; 
-ttag&+ write <text&32x=&34 10 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34 >Target Species=&32 $tgtname </text>&10 ; 
-if ( ('dosensit' == 1 ) || ('dosensit' == 2 ))
- set posx 'posx' + 25 ; 
- ttag &+ write <rect x=&34 5&34&32y=&34 'posx' &34&32width=&34 16&34&32height=&34 16&34&32style=&34fill:white&59 stroke:black&34 /> &10 ;sil=all; 
- set posx 'posx' + 20 ; 
- ttag&+ write <text&32x=&34 30 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34 >Condition selected by Leave-one-out validation approach</text>&10 ; 
-end
-set posx 'posx' + 25 ; 
-ttag&+ write <text&32x=&34 10 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 16&34 > * </text>&10 ; 
-set posx 'posx' + 5 ; 
-ttag&+ write <text&32x=&34 30 &34 &32 y=&34 'posx' &34 &32stroke-width=&34 1&34&32 font-size=&34 20&34 > Optimal placement for that setting </text>&10 ; 
-set posx 'posx' + 50 ;
-ttag &+ write <text&32x=&34 10 &34 &32 y=&34 'posx'&34 &32stroke-width=&34 1&34&32 font-size=&34 20&34 > Settings </text>&10 ; 
-
-set posx 'posx' +10 ; 
-loop=cd 0 ('nconds'-1)
- if ('nconds' < 7) 
-  set limB 5 ;
-  set limA 2 ; 
- else
-  if ( 'nconds' < 13)
-   set limB 7 ;
-   set limA 3 ;          
-  else
-   set ccc ( 'nconds' / 3 ) ; 
-         if ('ccc' * 3 < 'nconds' ) 
-           set ccc ++ ; 
-           macfloat 0 ;
-           set ccc 'ccc' ; 
-            macfloat 'flot_calc'; 
-    end 
-    set limA 'ccc' - 1 ; 
-    set limB ('ccc' *2 ) - 1 ; 
-  end 
- end 
- if (#cd > 'limB' ) 
-                 set suma_y 23 * 2 ;
-                 set suma_x 23 * (#cd - ('limB' + 1 )) ;
-         else 
-         if (#cd > 'limA' )
-                set suma_y 23 ;
-                set suma_x 23 * (#cd - ('limA' + 1 )) ; 
-         else
-                set suma_x 23 * #cd ; 
-          set suma_y 0 ; 
-         end
-         end 
- set pos_x 'suma_x' + 5 ;
- set pos_y 'suma_y' + 'posx' ;
- ttag &+ write <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 22&34&32height=&34 22&34&32style=&34fill:white&59 stroke:black&34 /> &10 ;sil=all ; 
- set dde #cd ;
- set pos_x 'pos_x' + 5 ; set pos_y 'pos_y' + 14 ; 
- ttag &+ write <text&32x=&34 'pos_x' &34 &32 y=&34 'pos_y'&34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > 'dde' </text>&10 ; 
-stop
- 
-if ('guichsensit' == 2 )
- hifile close ;
-end
-
-ttag & ; 
-naked=; 
- 
- 
-
-k 0 ; 
 proc/; 
 
  
