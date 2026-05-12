@@ -17,8 +17,8 @@ macfloat 10 ;
 
 /*-------------------------------------------------------
 TNT script:  PlaceMyFossils.run     
-Version:     1.2.4
-Updated:     2026-10-26                                                                 
+Version:     1.2.5
+Updated:     2026-5-12                                                                 
 Author:      Santiago A. Catalano                                                        
 Mantainer:   Santiago A. Catalano                              
 Depends:     TNT version 1.6 - july 2025
@@ -26,7 +26,7 @@ Depends:     TNT version 1.6 - july 2025
 License:     GNU General Public Licence (3). 
 Citation:   Santiago A Catalano, Ignacio Escapa, Kelsey D Pugh, Ashley S Hammond, Pablo Goloboff, Sergio Almécija, PlaceMyFossils: 
             An Integrative Approach to Analyze and Visualize the Phylogenetic Placement of Fossils Using Backbone Trees,
-            Systematic Biology, 2025;, syaf025, https://doi.org/10.1093/sysbio/syaf025 
+            Systematic Biology, 2025; 74(4), 672-684, https://doi.org/10.1093/sysbio/syaf025 
 ---------------------------------------------------------*/
 
 var: 
@@ -1026,6 +1026,7 @@ if ('nopiwe' == 1 )
     end
 end
 if ('dolik')
+    lset perturb 10 10 ; 
     set blue 0 ; set red 0 ; 
     lset speed 0.05 ldelta 0.01 bdelta 0.01 passes 40 40 ;
     if ( 'unlinked_sensit' ) 
@@ -1112,6 +1113,7 @@ loop=cd 0 ('nconds'-1)
 	     end
 	     if ('doing_mk_frm_mult') 
 		 set dolik 1 ; 
+		 
 	     end
 	     if ('doing_pars_frm_mult') 
 		  set dolik 0 ; 
@@ -1122,7 +1124,7 @@ loop=cd 0 ('nconds'-1)
 	     end
      else
 	      if ( !'dolik' )
-			if ('guichsensit' == 2 )
+	       	if ('guichsensit' == 2 )
 			     set str_settings hiftext ; 
 			     quote ncond 'nconds' ; 
 			      quote condicion #cd string $str_settings ; 
@@ -1131,7 +1133,8 @@ loop=cd 0 ('nconds'-1)
 			    piwe = 'condic[#cd]' ; 
 			end
 	      else     /* sensit en ML */ 
-		     if ('reduced_mk_sens' )
+		lset perturb 10 10 ;
+		if ('reduced_mk_sens' )
 			     if ('space_sensit')
 			       if (#cd == 0 ) 
 				 lset nogstatespace ; 
@@ -1200,6 +1203,7 @@ loop=cd 0 ('nconds'-1)
             if ( !'dolik' )
                      set  core_mult[#cd 'bran_ref'] score [#tr] ;
             else
+               lset perturb 10 10 ;
                set core_mult[#cd 'bran_ref'] 0 ; 
                if ('doing_unlinked' )
                    loop=po 0 ('numchrgrp'-1)
@@ -1239,6 +1243,7 @@ loop=cd 0 ('nconds'-1)
         if (!'dolik')
             set core_mult[#cd 'bran_ref'] score [#tr] ; 
         else
+           lset perturb 10 10 ;
            set core_mult[#cd 'bran_ref'] 0 ;
                 if ('doing_unlinked' ) 
                      loop=po 0 ('numchrgrp'-1)
@@ -3105,6 +3110,7 @@ proc/;
 label CALCULATE_ML_REF 
 	report=; 
 	lset display brlen ;
+	lset perturb 10 10 ;
 	if (!'doing_unlinked)
 	 	maketable + mk_brlen ; 
 	 	piwe- ;  /* ojo con esto habraia que prenderlo si esta apagado */ 
@@ -3263,6 +3269,7 @@ end
 
 goto ACTIVATE_CHARS ;
 lset display lik; 
+
 if ('dolik' && 'estim_ML' ) 
   goto CALCULATE_ML_REF ; 
 end
@@ -3277,6 +3284,7 @@ loop=tr 1 ntrees
   end
   report= ; 
   if ('dolik')
+            lset perturb 10 10 ;
 	    if (!'doing_unlinked') 
 		      if (!'estim_ML')
 			      maketable + mk_charscores ; 
@@ -5732,6 +5740,8 @@ proc/;
 
 
 label CALCULATE_ML_IN_ERROR
+
+lset perturb 10 10 ;
 
 if('estim_ML') 
    goto CALCULATE_ML_REF ; /* sin el Query qe seria el pruneado en este caso */
@@ -8633,6 +8643,7 @@ if (!'dolik' )
 	set elesco score [#rr] ;
 else
 	set elesco 0 ; 
+	lset perturb 10 10 ;
 	if ( 'doing_unlinked' )
 	   if (!'estim_ML') 
 	        set elesco 0 ; 
