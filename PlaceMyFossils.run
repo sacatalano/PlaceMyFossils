@@ -17,8 +17,8 @@ macfloat 10 ;
 
 /*-------------------------------------------------------
 TNT script:  PlaceMyFossils.run     
-Version:     1.2.5
-Updated:     2026-5-12                                                                 
+Version:     1.2.6
+Updated:     2026-5-13                                                                 
 Author:      Santiago A. Catalano                                                        
 Mantainer:   Santiago A. Catalano                              
 Depends:     TNT version 1.6 - july 2025
@@ -51,7 +51,7 @@ macreport - ;
  
 var:
 addchar                 elesco   eltax          maxi_mult['nucondis']           ptos    van tokill 
-alto[7]                 elmasi                  maxis['charsize']               px      van_lbl['nosize']
+alto[7]                 elmasi                  maxisa['charsize']               px      van_lbl['nosize']
 altotot                 elmini                  maxrange                py      violet
 alturama                elsco                   minblue                 query   whichwt
 ancho[7]                esco                    mini                    r       yacambN['nosize']
@@ -59,7 +59,7 @@ anchotot                eti[('taxsize'*2) 2]    mini_all                raiz    
 ause                    etiqueta                mini_err                rango   yes
 bak_listchar ['charsize'] back_maxi['grusize']          false_neg['nosize']             mini_err_grp['grusize'] red     
 back_mini['grusize']            falses_neg['nosize' 'grusize']  mini_mult['nucondis']   ref max_dist    
-back_score['nosize' 'grusize']  falses_pos['nosize' 'grusize']  minis['charsize']               ref_tree
+back_score['nosize' 'grusize']  falses_pos['nosize' 'grusize']  minisa['charsize']               ref_tree
 bescond                 false_pos['nosize']             mit                     ris     
 besever                 green                   miti                    round   
 besnod                  group_file[100]         miti_all                savempts        
@@ -3899,8 +3899,8 @@ silent = all ;
 
 
  loop 0 nchar 
-   set maxis[#1] 0 ; 
-   set minis[#1] 9999999 ;
+   set maxisa[#1] 0 ; 
+   set minisa[#1] 9999999 ;
  stop 
  set maxrange 0 ; 
  loop 0 nchar 
@@ -3908,18 +3908,18 @@ silent = all ;
       if (  (#2 == root ) || (#2 == 'tgtsp') || (!isintree [0 #2]) )
          continue ; 
       end 
-      if ('charscore[#2 #1]' < 'minis[#1]' ) 
-       set minis[#1] 'charscore[#2 #1]' ; 
+      if ('charscore[#2 #1]' < 'minisa[#1]' ) 
+       set minisa[#1] 'charscore[#2 #1]' ; 
       else
-       if ('charscore[#2 #1]' > 'maxis[#1]' ) 
-        set maxis[#1] 'charscore[#2 #1]' ; 
+       if ('charscore[#2 #1]' > 'maxisa[#1]' ) 
+        set maxisa[#1] 'charscore[#2 #1]' ; 
        end
      end
    stop
-   if (('maxis[#1]'-'minis[#1]') > 'maxrange')
-     set maxrange 'maxis[#1]'-'minis[#1]' ; 
-     set shift 'minis[#1]' ; 
-     set shoft 'maxis[#1]' ; 
+   if (('maxisa[#1]'-'minisa[#1]') > 'maxrange')
+     set maxrange 'maxisa[#1]'-'minisa[#1]' ; 
+     set shift 'minisa[#1]' ; 
+     set shoft 'maxisa[#1]' ; 
    end 
  stop 
  
@@ -3997,14 +3997,14 @@ loop=tar 0 nchar
 					
 			set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ; 
 			if ('besever')
-			   set shift 'minis[#1]' ; 
-			   set shoft 'maxis[#1]' ; 
-			   set span 'maxis[#1]' - 'minis[#1]' ; 
+			   set shift 'minisa[#1]' ; 
+			   set shoft 'maxisa[#1]' ; 
+			   set span 'maxisa[#1]' - 'minisa[#1]' ; 
 			   set miti 'shift' + ('span'/2) ; 
 			   set uncuar 'shift' + ( 'span' / 4 ) ;
 			   set trescuar 'shift' + ( (3 * 'span') / 4 ); 
-			   set mini 'minis[#1]' ; 
-			   set maxi 'maxis[#1]' ;
+			   set mini 'minisa[#1]' ; 
+			   set maxi 'maxisa[#1]' ;
 
 			   set trescuarI 'maxi' + ('maxi'-'uncuar' )  ; 
 			   set mitiI   'maxi' + ('maxi'-'miti' )  ; 
@@ -4019,15 +4019,15 @@ loop=tar 0 nchar
 			   end
 			end     
 
-			if (('maxis[#1]'-'minis[#1]')== 0 )
+			if (('maxisa[#1]'-'minisa[#1]')== 0 )
 			  set blue 130 ; 
 			  set red 130 ; 
 			  set green 130 ; 
 			else
-			   if ('minis [#1]' < 'shift' ) 
-			     set elsco 'charscore['ndtran' #1]' + ('shift' - 'minis [#1]') ;
+			   if ('minisa [#1]' < 'shift' ) 
+			     set elsco 'charscore['ndtran' #1]' + ('shift' - 'minisa [#1]') ;
 			   else
-			     set elsco 'charscore['ndtran' #1]' - ('minis [#1]' - 'shift' ) ; 
+			     set elsco 'charscore['ndtran' #1]' - ('minisa [#1]' - 'shift' ) ; 
 			   end
 				if (!'do_palette')
 				    set elsco 'shoft' + ('shoft' - 'elsco')  ;     
@@ -4065,7 +4065,7 @@ loop=tar 0 nchar
 			  
 			  sil-file; quote <rect  x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;sil=all;
 			 
-			  if (( 'charscore['ndtran'  #1]' == 'minis[#1]') && (('maxis[#1]'-'minis[#1]') != 0 )) 
+			  if (( 'charscore['ndtran'  #1]' == 'minisa[#1]') && (('maxisa[#1]'-'minisa[#1]') != 0 )) 
 			    set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
 			     sil-file; quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; sil=all;
 			  end
@@ -4074,7 +4074,7 @@ loop=tar 0 nchar
 			  if (#ods == 'hermano' ) 
 			    set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ; 
 			    sil-file; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;sil=all;
-			    if ( ('charscore['ndtran' #1]' == 'minis[#1]') && ('maxis [#1]' != 'minis[#1]') ) 
+			    if ( ('charscore['ndtran' #1]' == 'minisa[#1]') && ('maxisa [#1]' != 'minisa[#1]') ) 
 				    set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
 
 				    sil-file; quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; sil=all;
@@ -4095,13 +4095,13 @@ else
 			set pos_x 'star_b' + ('pace_x' * 'dde') ;
 			set ctos_sp 0 ; 
 			if ('besever')
-			       set shift 'minis[#car]' ; set shoft 'maxis[#car]' ; 
-			       set span 'maxis[#car]' - 'minis[#car]' ; 
+			       set shift 'minisa[#car]' ; set shoft 'maxisa[#car]' ; 
+			       set span 'maxisa[#car]' - 'minisa[#car]' ; 
 			       set miti 'shift' + ('span'/2) ; 
 			       set uncuar 'shift' + ( 'span' / 4 ) ;
 			       set trescuar 'shift' + ( (3 * 'span') / 4 ); 
-			       set mini 'minis[#car]' ; 
-			       set maxi 'maxis[#car]' ;
+			       set mini 'minisa[#car]' ; 
+			       set maxi 'maxisa[#car]' ;
 
 			       set trescuarI 'maxi' + ('maxi'-'uncuar' )  ; 
 			       set mitiI   'maxi' + ('maxi'-'miti' )  ; 
@@ -4125,15 +4125,15 @@ else
 			   end 
 			   set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ;
 
-			   if (('maxis[#car]'-'minis[#car]')== 0 )
+			   if (('maxisa[#car]'-'minisa[#car]')== 0 )
 				  set blue 130 ; 
 				  set red 130 ; 
 				  set green 130 ; 
 			  else
-			      if ('minis [#car]' < 'shift' ) 
-				   set elsco 'charscore['ndtran' #car]' + ('shift' - 'minis [#car]') ;
+			      if ('minisa [#car]' < 'shift' ) 
+				   set elsco 'charscore['ndtran' #car]' + ('shift' - 'minisa [#car]') ;
 			      else
-				   set elsco 'charscore['ndtran' #car]' - ('minis [#car]' - 'shift' ) ; 
+				   set elsco 'charscore['ndtran' #car]' - ('minisa [#car]' - 'shift' ) ; 
 			      end 
 			      if (!'do_palette')
 				      set elsco 'shoft' + ('shoft' - 'elsco')  ;     
@@ -4168,7 +4168,7 @@ else
 			  end 
 			  sil-file; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ; sil=file; 
 			 
-			  if ( ('charscore['ndtran' #car]' == 'minis[#car]') && ('maxis [#car]' != 'minis[#car]') ) 
+			  if ( ('charscore['ndtran' #car]' == 'minisa[#car]') && ('maxisa [#car]' != 'minisa[#car]') ) 
 			       set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
 			       sil-file; quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; sil=all;
 			  end
@@ -4179,7 +4179,7 @@ else
 			    sil-file; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;sil=all;
 			    /*sil-file; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb(55,212,23)&34 /> &10 ;sil=all;*/
 
-			    if ( ('charscore['ndtran' #car]' == 'minis[#car]') && ('maxis [#car]' != 'minis[#car]') ) 
+			    if ( ('charscore['ndtran' #car]' == 'minisa[#car]') && ('maxisa [#car]' != 'minisa[#car]') ) 
 				  set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
 				  sil-file; quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; sil=all;
 			    end
@@ -4408,8 +4408,8 @@ if ('dogrpchars')
 	     stop 
 	 stop 
 	 loop 0 nchar 
-	     set maxis[#1] 0 ; 
-	     set minis[#1] 9999999 ;
+	     set maxisa[#1] 0 ; 
+	     set minisa[#1] 9999999 ;
 	 stop 
 	 set maxrange 0 ; 
 	 loop 0 ('numchrgrp'-1) 
@@ -4417,18 +4417,18 @@ if ('dogrpchars')
 	       if (  (#2 == root ) || (#2 == 'tgtsp') || (!isintree [0 #2]))
 		 continue ; 
 	       end 
-	       if ('grpscore[#2 #1]' < 'minis[#1]' ) 
-		   set minis[#1] 'grpscore[#2 #1]' ; 
+	       if ('grpscore[#2 #1]' < 'minisa[#1]' ) 
+		   set minisa[#1] 'grpscore[#2 #1]' ; 
 	       else
-		  if ('grpscore[#2 #1]' > 'maxis[#1]' ) 
-		     set maxis[#1] 'grpscore[#2 #1]' ; 
+		  if ('grpscore[#2 #1]' > 'maxisa[#1]' ) 
+		     set maxisa[#1] 'grpscore[#2 #1]' ; 
 		  end
 	       end 
 	    stop
-	    if (('maxis[#1]'-'minis[#1]') > 'maxrange')
-	       set maxrange 'maxis[#1]'-'minis[#1]' ;
-	       set shift 'minis[#1]' ; 
-	       set shoft 'maxis[#1]'; 
+	    if (('maxisa[#1]'-'minisa[#1]') > 'maxrange')
+	       set maxrange 'maxisa[#1]'-'minisa[#1]' ;
+	       set shift 'minisa[#1]' ; 
+	       set shoft 'maxisa[#1]'; 
 	    end 
 	 stop 
 
@@ -4524,9 +4524,9 @@ if ('dogrpchars')
                 set pos_x 'star_b' + ('pace_x' * 'dde') ;
                 set ctos_sp 0 ;
                 if ('besever') 
-			   set span 'maxis[#grp]' - 'minis[#grp]' ; 
-			   set shift 'minis[#grp]' ; 
-			   set shoft 'maxis[#grp]' ; 
+			   set span 'maxisa[#grp]' - 'minisa[#grp]' ; 
+			   set shift 'minisa[#grp]' ; 
+			   set shoft 'maxisa[#grp]' ; 
 			   set miti 'shift' + ('span'/2) ; 
 			   set uncuar 'shift' + ( 'span' / 4 ) ;
 			   set trescuar 'shift' + ( (3 * 'span') / 4 );
@@ -4539,8 +4539,8 @@ if ('dogrpchars')
  	   	           set shoftI  'maxi' + ('maxi' - 'mini' )   ;
 
 			    if ('do_palette')
-				 set mini 'minis[#grp]' ; 
-				 set maxi 'maxis[#grp]' ;  
+				 set mini 'minisa[#grp]' ; 
+				 set maxi 'maxisa[#grp]' ;  
 				 set pace ('span' / 20 );  
 				 goto FILL_COLIM ;  
 			   end 
@@ -4555,12 +4555,12 @@ if ('dogrpchars')
                      continue ; 
                    end 
                    set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ;
-                   set green 'maxis[#grp]'-'minis[#grp]' ;
+                   set green 'maxisa[#grp]'-'minisa[#grp]' ;
                    set blue 0 ; 
                    if ('green' == 0 ) 
                     set blue  1  ;  
                    else
-                       if (  ('green'/'maxis[#grp]') < 0.0001  ) 
+                       if (  ('green'/'maxisa[#grp]') < 0.0001  ) 
                           set blue 1 ; 
                        end
                    end
@@ -4570,10 +4570,10 @@ if ('dogrpchars')
                           set green 130 ; 
                   else
                      
-                           if ('minis [#1]' < 'shift' ) 
-                               set elsco 'grpscore['trad_nd[#nd]'  #grp]' + ('shift' - 'minis [#grp]') ;
+                           if ('minisa [#1]' < 'shift' ) 
+                               set elsco 'grpscore['trad_nd[#nd]'  #grp]' + ('shift' - 'minisa [#grp]') ;
                            else
-                               set elsco 'grpscore['trad_nd[#nd]'  #grp]' - ('minis [#grp]' - 'shift' ) ; 
+                               set elsco 'grpscore['trad_nd[#nd]'  #grp]' - ('minisa [#grp]' - 'shift' ) ; 
                            end  
                            if (!'do_palette') 
                                set elsco 'shoft' + ('shoft' - 'elsco')  ;     
@@ -4607,7 +4607,7 @@ if ('dogrpchars')
                  end 
                  lquote- ; 
                  SIL-FILE; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;SIL=FILE ;  
-                  if (('grpscore['trad_nd[#nd]' #grp]' == 'minis[#grp]') && ('maxis[#grp]' != 'minis[#grp]' )) 
+                  if (('grpscore['trad_nd[#nd]' #grp]' == 'minisa[#grp]') && ('maxisa[#grp]' != 'minisa[#grp]' )) 
                         set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
                         SIL-FILE ;    quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; SIL=FILE ; 
                   end
@@ -4615,7 +4615,7 @@ if ('dogrpchars')
                 if (#nd == 'hermano' ) 
 	          set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ; 
                    SIL-FILE; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;SIL=FILE ;  
-                   if (('grpscore['trad_nd[#nd]' #grp]' == 'minis[#grp]') && ('maxis[#grp]' != 'minis[#grp]' )) 
+                   if (('grpscore['trad_nd[#nd]' #grp]' == 'minisa[#grp]') && ('maxisa[#grp]' != 'minisa[#grp]' )) 
 		       set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
 		       SIL-FILE ;  quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; SIL=FILE ; 
                    end
@@ -4773,10 +4773,10 @@ end
 /* ESTO ES PARA COLOREO DEL ARBOL DE ACUERDO A ERROR IN GROUP HAY QUE CHEQUEARLO TOO */ 
 if ('doing_grp_anal')
  loop=gr 0 ('numchrgrp'-1)
-     set back_maxi [#gr ] 'maxis[#gr]' ; 
-     set back_mini [#gr ] 'minis[ #gr]' ;
-     set maxis [#gr] 'maxi_err_grp[#gr]' ;
-     set minis [#gr] 'mini_err_grp[#gr]' ;
+     set back_maxi [#gr ] 'maxisa[#gr]' ; 
+     set back_mini [#gr ] 'minisa[ #gr]' ;
+     set maxisa [#gr] 'maxi_err_grp[#gr]' ;
+     set minisa [#gr] 'mini_err_grp[#gr]' ;
      loop=nd 0 (nnodes [0] )
        set nod 'trad_nd[#nd]' ;  
        set back_score [#nd #gr ] 'grpscore[#nd #gr]' ;
@@ -4919,8 +4919,8 @@ end
 set nds nnodes [0] ; 
 
 loop 0 ( 'numchrgrp'-1 ) 
-  set minis[#1] 9999999 ;
-  set maxis[#1] 0 ; 
+  set minisa[#1] 9999999 ;
+  set maxisa[#1] 0 ; 
 stop 
 set maxrange 0 ; 
 
@@ -4932,18 +4932,18 @@ loop=fs 0 ('numchrgrp'-1)
 		 if ( (#tq== root ) || (#tq== 'tgtsp') || (!isintree [0 #tq]) )
 		  continue ; 
 		 end 
-		 if ('grpscore[#tq #fs]' < 'minis[#fs]' ) 
-		  set minis[#fs] 'grpscore[#tq #fs]' ; 
+		 if ('grpscore[#tq #fs]' < 'minisa[#fs]' ) 
+		  set minisa[#fs] 'grpscore[#tq #fs]' ; 
 		 else
-		  if ('grpscore[#tq #fs]' > 'maxis[#fs]' ) 
-		   set maxis[#fs] 'grpscore[#tq #fs]' ; 
+		  if ('grpscore[#tq #fs]' > 'maxisa[#fs]' ) 
+		   set maxisa[#fs] 'grpscore[#tq #fs]' ; 
 		  end
 		 end
 	 stop
-	 if ( ( 'maxis[#fs]' - 'minis[#fs]') > 'maxrange' )
-	  set maxrange 'maxis[#fs]' - 'minis[#fs]' ; 
-	  set shift 'minis[#fs]' ; 
-	  set shoft 'maxis[#fs]' ; 
+	 if ( ( 'maxisa[#fs]' - 'minisa[#fs]') > 'maxrange' )
+	  set maxrange 'maxisa[#fs]' - 'minisa[#fs]' ; 
+	  set shift 'minisa[#fs]' ; 
+	  set shoft 'maxisa[#fs]' ; 
 	 end 
 stop 
 
@@ -5037,9 +5037,9 @@ loop=grp 0 ('numchrgrp'-1)
               end
          end 
          if ('besever') 
-                  set shift 'minis[#grp]' ; 
-                  set shoft 'maxis[#grp]' ; 
-                  set span 'maxis[#grp]' - 'minis[#grp]' ; 
+                  set shift 'minisa[#grp]' ; 
+                  set shoft 'maxisa[#grp]' ; 
+                  set span 'maxisa[#grp]' - 'minisa[#grp]' ; 
                   set miti 'shift' + ('span'/2) ; 
                   set uncuar 'shift' + ( 'span' / 4 ) ;
                   set trescuar 'shift' + ( (3 * 'span') / 4 );
@@ -5071,7 +5071,7 @@ loop=grp 0 ('numchrgrp'-1)
                end
                set pos_x ('eti[#nd 0]' - 'eti[anc[0 #nd] 0]')/ 12 + 'eti[anc[0 #nd] 0]' + 'suma_x' ; 
                set pos_y 'eti[#nd 1]' + 4 + 'suma_y'; 
-               if (('maxis[#grp]'-'minis[#grp]') < 0.000000001 )
+               if (('maxisa[#grp]'-'minisa[#grp]') < 0.000000001 )
                       set blue 130 ; 
                       set red 130 ; 
                       set green 130 ; 
@@ -5080,16 +5080,16 @@ loop=grp 0 ('numchrgrp'-1)
 			      set red 0 ; set green 0 ; set blue 0 ; 
 			   else 
 				     if ( (#nd == 'tochang') && ('doing_grp_anal' )) 
-				             if ('minis [#grp]' < 'shift' ) 
-						  set elsco 'magic[#grp]' + ('shift' - 'minis [#grp]') ;
+				             if ('minisa [#grp]' < 'shift' ) 
+						  set elsco 'magic[#grp]' + ('shift' - 'minisa [#grp]') ;
 					       else
-						 set elsco 'magic[#grp]'  - ('minis [#grp]' - 'shift' ) ; 
+						 set elsco 'magic[#grp]'  - ('minisa [#grp]' - 'shift' ) ; 
 					       end 
 				     else
-				            if ('minis [#grp]' < 'shift' ) 
-				     		 set elsco 'grpscore['ndtran' #grp]' + ('shift' - 'minis [#grp]') ;
+				            if ('minisa [#grp]' < 'shift' ) 
+				     		 set elsco 'grpscore['ndtran' #grp]' + ('shift' - 'minisa [#grp]') ;
 				     	    else
-				     		 set elsco 'grpscore['ndtran' #grp]' - ('minis [#grp]' - 'shift' ) ; 
+				     		 set elsco 'grpscore['ndtran' #grp]' - ('minisa [#grp]' - 'shift' ) ; 
 					    end 
 				     end 
 				     if (!'do_palette')
@@ -5127,7 +5127,7 @@ loop=grp 0 ('numchrgrp'-1)
            set pos_y 'pos_y' + 22 ; 
            set pos_x 'pos_x' + 11 ; 
            
-          if ( ('grpscore['ndtran' #grp]' == 'minis[#grp]') && (!( ('maxis[#grp]'-'minis[#grp]') < 0.000000001 ) ) ) 
+          if ( ('grpscore['ndtran' #grp]' == 'minisa[#grp]') && (!( ('maxisa[#grp]'-'minisa[#grp]') < 0.000000001 ) ) ) 
               set dde 'pos_y'  ;
               set ctos 'pos_x'  ; 
               if (!'doing_grp_anal')
@@ -5149,7 +5149,7 @@ loop=grp 0 ('numchrgrp'-1)
               ttag &+ write <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 'sizsq'&34&32height=&34 'sizsq'&34&32style=&34fill:rgb('red','green','blue')&59 stroke:white&34 /> &10 ;sil=all; 
 	      set pos_y 'pos_y' + 22 ; 
 	      set pos_x 'pos_x' + 11 ; 
-	      if ( ('grpscore['ndtran' #grp]' == 'minis[#grp]') && (!( ('maxis[#grp]'-'minis[#grp]') < 0.000000001 ) ) )                 
+	      if ( ('grpscore['ndtran' #grp]' == 'minisa[#grp]') && (!( ('maxisa[#grp]'-'minisa[#grp]') < 0.000000001 ) ) )                 
 			  set dde 'pos_y'  ;
 			  set ctos 'pos_x'  ; 
 			  if ('numchrgrp' > 6 ) 
@@ -5250,8 +5250,8 @@ ttag & ;
 if ('doing_grp_anal')
  loop 0 nnodes [0]
  loop=gr 0 ('numchrgrp'-1)
-  set minis [ #gr ] 'back_mini [#gr ]' ;
-  set maxis [ #gr ] 'back_maxi [#gr ]' ;
+  set minisa [ #gr ] 'back_mini [#gr ]' ;
+  set maxisa [ #gr ] 'back_maxi [#gr ]' ;
   loop=nd 0 ('nnodes [0] )
    set grpscore[#nd #gr] 'back_score [#nd #gr ]' ;
   stop 
