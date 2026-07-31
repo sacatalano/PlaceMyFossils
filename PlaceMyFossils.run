@@ -6792,7 +6792,7 @@ macfloat 'flot_calc' ;
      if (islmark[#ch])
              set ptos 0 ; 
              loop=ll 0 lmnpoints[#ch]
-              if (lmxcoord [#ch #ll 0 'guichsp'] == -10000001 ) 
+              if (lmxcoord [#ch #ll 0 'guichsp'] ==   (-1000001 )) 
                 set ptos ++ ; 
               end
              stop 
