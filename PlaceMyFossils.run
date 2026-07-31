@@ -17,11 +17,11 @@ macfloat 10 ;
 
 /*-------------------------------------------------------
 TNT script:  PlaceMyFossils.run     
-Version:     1.2.6
-Updated:     2026-5-13                                                                 
+Version:     1.2.7
+Updated:     2026-7-31                                                                 
 Author:      Santiago A. Catalano                                                        
 Mantainer:   Santiago A. Catalano                              
-Depends:     TNT version 1.6 - july 2025
+Depends:     TNT version 1.6 - may 2026
              (Goloboff and Morales, 2023. doi: 10.1111/cla.12524)      
 License:     GNU General Public Licence (3). 
 Citation:   Santiago A Catalano, Ignacio Escapa, Kelsey D Pugh, Ashley S Hammond, Pablo Goloboff, Sergio Almécija, PlaceMyFossils: 
