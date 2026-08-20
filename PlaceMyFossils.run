@@ -17,8 +17,8 @@ macfloat 10 ;
 
 /*-------------------------------------------------------
 TNT script:  PlaceMyFossils.run     
-Version:     1.2.7
-Updated:     2026-7-31                                                                 
+Version:     1.2.8
+Updated:     2026-8-20                                                                 
 Author:      Santiago A. Catalano                                                        
 Mantainer:   Santiago A. Catalano                              
 Depends:     TNT version 1.6 - may 2026
@@ -1174,8 +1174,8 @@ loop=cd 0 ('nconds'-1)
       mu 1 = ho 1 ;
        rer ; 
       bb = fillonly ;
-      if (ntrees >= 999 )
-       tch 0.998 ; 
+      if (ntrees >= 9999 )
+       tch 0.9998 ; 
       end 
       cc [ . ; 
       loop=jj 0 nchar 
@@ -2029,8 +2029,11 @@ if (!'stricting')
     tv > 0 ;  /* ACA SE MANDA A VAULT EL ARBOL Q SE USAR DE ACA EN MAS   */ 
     k 0 ; 
 else
-   tv > . ; 
-   k0 ;  
+      out 0 ; 
+      reroot ; /* 20/8/2026 */ 
+      tv - ; 
+      tv > . ;
+      k0 ;  
 end
 
 tv < 0 ; 
@@ -6348,7 +6351,8 @@ if ('domodif')
    quote - Allowing target species to modify reference tree  &10 ; 
 end
 
- quote - Trees rerooted on Outgroup species &10   ; 
+ quote - Outgroup set to the first species in the dataset ($blue), mandatory when working with multiple reference trees &10;
+ quote - Trees rerooted on Outgroup species &10; 
  quote - Target species: $taxon 'tgtsp'&10; sil=all; 
 
    /* nopiwe 0 = IW , 1 = Multiple Optimality criterion   2= LIKELIHOOD    3 = PARSIMONIA  ; */ 
