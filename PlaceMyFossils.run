@@ -17,8 +17,8 @@ macfloat 10 ;
 
 /*-------------------------------------------------------
 TNT script:  PlaceMyFossils.run     
-Version:     1.2.8
-Updated:     2026-8-20                                                                 
+Version:     1.2.9
+Updated:     2026-8-25                                                                 
 Author:      Santiago A. Catalano                                                        
 Mantainer:   Santiago A. Catalano                              
 Depends:     TNT version 1.6 - may 2026
@@ -3965,7 +3965,7 @@ sil=all; quote nds 'nds' ;
 set hermano 99999 ; 
  loop=nd 0 'nds' 
      set ndtran 'trad_nd[#nd]' ; 
-     lquote- ; quote: #nd ndtran 'ndtran'   ; 
+     lquote- ; quote #nd ndtran 'ndtran'   ; 
      if ('ndtran' == (-1) ) 
         sil=all; quote el nodo #nd ndtran 'ndtran' es -1 ; sil=all; 
         set hermano sister [ 0 #nd] ;   
@@ -3975,9 +3975,9 @@ set hermano 99999 ;
  
  
  
-sil-all; quote hermano 'hermano' ; 
+sil=all; quote hermano 'hermano' ; 
 set blue nnodes [0]  ; 
-sil-all;  quote nds 'nds' blue 'blue' ; 
+sil=all;  quote nds 'nds' blue 'blue' ; 
 
 
 
@@ -4219,7 +4219,7 @@ loop=pp 0 nnodes [0]
         set pos_y 'star_y' + ('pace_y' * 'ctos_sp' ) ; 
         sil-file; quote <text x=&34 5&34&32y=&34 'pos_y'&34&32 font-size=&34 12&34 > &32 $bl_name:30 </text> &10 ; sil=all;
         set ctos_sp ++ ;
-        if (#1 == 'trad_nd['besnod']' ) 
+        if ('trad_nd[#1]' == 'besnod' ) 
           set py 'pos_y' - 13 ; 
           sil-file; quote <rect x=&34 4 &34&32y=&34 'py'&34&32width=&34 'px'&34&32height=&34 17&34&32stroke-width=&34 2&34&32stroke=&34black&34&32fill=&34none&34&32 /> &10 ;sil=all;
         end
@@ -4380,375 +4380,380 @@ log/;
  
   
   
- /* SVG DE SCORES DE GRUPOS DE CARACTERES */ 
+  /* SVG DE SCORES DE GRUPOS DE CARACTERES */ 
+  
+   sil=all; quote dogrpchars   'dogrpchars'     numchrgrp 'numchrgrp'  grpscore [0 1]  'grpscore [0 1]'; 
+           
+ if ('dogrpchars') 
+ 	  if (!'domodif' )
+ 		  loop 0 'numchrgrp' 
+ 		      set mybestscore [#1] 99999999 ; 
+ 		      loop 0 nnodes [0 ] 
+ 			set grpscore [#2 #1] 0 ; 
+ 		      stop 
+ 		  stop
+ 		  loop=nd 0 nnodes [0]
+ 		     loop=car 0 nchar
+ 			set coras 'charscore[#nd #car]' ; 
+ 			 loop=grp 0 'numchrgrp' 
+ 			    if (isinxgroup[#grp #car])
+ 			      set grpscore [#nd #grp] 'grpscore [#nd #grp]' + 'coras' ;
+ 			    end
+ 			 stop
+ 		     stop 
+ 		 stop
+ 	 end 	 
+ 	 loop=grp 0 ('numchrgrp'-1) 
+ 	       loop=nd 0 nnodes [0] 
+ 		 if ('grpscore [#nd #grp]' < 'mybestscore [#grp]')
+ 		   set mybestscore [#grp] 'grpscore [#nd #grp]' ; 
+ 		end
+ 	     stop 
+ 	 stop 
+ 	 loop 0 nchar 
+ 	     set maxisa[#1] 0 ; 
+ 	     set minisa[#1] 9999999 ;
+ 	 stop 
+ 	 set maxrange 0 ; 
+ 	 loop 0 ('numchrgrp'-1) 
+ 	    loop 0 nnodes [0]
+ 	       if (  (#2 == root ) || (#2 == 'tgtsp') || (!isintree [0 #2]))
+ 		 continue ; 
+ 	       end 
+ 	       if ('grpscore[#2 #1]' < 'minisa[#1]' ) 
+ 		   set minisa[#1] 'grpscore[#2 #1]' ; 
+ 	       else
+ 		  if ('grpscore[#2 #1]' > 'maxisa[#1]' ) 
+ 		     set maxisa[#1] 'grpscore[#2 #1]' ; 
+ 		  end
+ 	       end 
+ 	    stop
+ 	    if (('maxisa[#1]'-'minisa[#1]') > 'maxrange')
+ 	       set maxrange 'maxisa[#1]'-'minisa[#1]' ;
+ 	       set shift 'minisa[#1]' ; 
+ 	       set shoft 'maxisa[#1]'; 
+ 	    end 
+ 	 stop 
  
-  sil=all; quote dogrpchars   'dogrpchars'     numchrgrp 'numchrgrp'  grpscore [0 1]  'grpscore [0 1]'; 
-          
-if ('dogrpchars') 
-	  if (!'domodif' )
-		  loop 0 'numchrgrp' 
-		      set mybestscore [#1] 99999999 ; 
-		      loop 0 nnodes [0 ] 
-			set grpscore [#2 #1] 0 ; 
-		      stop 
-		  stop
-		  loop=nd 0 nnodes [0]
-		     loop=car 0 nchar
-			set coras 'charscore[#nd #car]' ; 
-			 loop=grp 0 'numchrgrp' 
-			    if (isinxgroup[#grp #car])
-			      set grpscore [#nd #grp] 'grpscore [#nd #grp]' + 'coras' ;
-			    end
-			 stop
-		     stop 
-		 stop
-	 end 	 
-	 loop=grp 0 ('numchrgrp'-1) 
-	       loop=nd 0 nnodes [0] 
-		 if ('grpscore [#nd #grp]' < 'mybestscore [#grp]')
-		   set mybestscore [#grp] 'grpscore [#nd #grp]' ; 
-		end
-	     stop 
-	 stop 
-	 loop 0 nchar 
-	     set maxisa[#1] 0 ; 
-	     set minisa[#1] 9999999 ;
-	 stop 
-	 set maxrange 0 ; 
-	 loop 0 ('numchrgrp'-1) 
-	    loop 0 nnodes [0]
-	       if (  (#2 == root ) || (#2 == 'tgtsp') || (!isintree [0 #2]))
-		 continue ; 
-	       end 
-	       if ('grpscore[#2 #1]' < 'minisa[#1]' ) 
-		   set minisa[#1] 'grpscore[#2 #1]' ; 
-	       else
-		  if ('grpscore[#2 #1]' > 'maxisa[#1]' ) 
-		     set maxisa[#1] 'grpscore[#2 #1]' ; 
-		  end
-	       end 
-	    stop
-	    if (('maxisa[#1]'-'minisa[#1]') > 'maxrange')
-	       set maxrange 'maxisa[#1]'-'minisa[#1]' ;
-	       set shift 'minisa[#1]' ; 
-	       set shoft 'maxisa[#1]'; 
-	    end 
-	 stop 
-
-
-	 log $grp_scores_tabl ; 
-	 sil-file; 
-	 lquote = ; 
-	 lquote [ ;
-	 quote , ; 
-	 loop=grp 0 ('numchrgrp'-1)
-	     set bl_name $$xgroup #grp ; 
-	     sil-file; quote $bl_name , ; sil=file;
-	 stop 
-	 sil-file; quote &10 ; sil=file;
-	 loop=nd 0 nnodes [0] 
-	             set nod #nd ; 
-	             set ndtran 'trad_nd[#nd]' ; 
-	     	     if ('ndtran' == (-1) )
-		          continue ;  
-                     end
-		     if (('nod' == root ) ||  ('nod' == 'tgtsp') || (!isintree [0 'nod']) ) 
-		         continue ; 
-		      end
-		     if (#1 < root ) 
-			 set bl_name $$taxon #1 ;
-		      else
-			set bl_name $Branch #1 ;
-		      end
-		     sil-file; quote $bl_name , ; sil=file;
-		     macfloat 'flot_prnt'; 
-		     loop=grp 0 ('numchrgrp'-1)
-			 sil-file; quote 'grpscore['trad_nd[#nd]'  #grp]' , ; sil=file;
-		     stop
-		     macfloat 'flot_calc'; 
-		     sil-file; quote &10 ; sil=file;
-		     if (#nd == 'hermano' ) 
-		        set tochang sister [ 0 #nd] ; 
-		        if ('tochang' < root ) 
-			 	set bl_name $$taxon 'tochang' ;
-			 else
-				set bl_name $Branch 'tochang' ;
-		         end
-		         sil-file; quote $bl_name , ; sil=file;
-		         macfloat 'flot_prnt'; 
-		         loop=grp 0 ('numchrgrp'-1)
-			   sil-file; quote 'grpscore['trad_nd[#nd]'  #grp]' , ; sil=file;
-		         stop
-		         macfloat 'flot_calc'; 
-		         sil-file; quote &10 ; sil=file;
-		     end
-	 stop 
-	 sil=file; 
-	 log/; 
-
-
-	 log $group_file ; 
-	 lquote [ ; 
-	 lquote =; 
-	 set tot_width 'numchrgrp' * 'pace_x' + 'star_x' + 200 ; 
-	 sil-file; quote <svg width= &34 'tot_width'&34  height=&34 'tot_hig'&34  xmlns=&34 http://www.w3.org/2000/svg&34> &10 ;sil=all; 
-	 set ctos 0 ; 
-	 set pos_y 'star_y' - 2 ; 
-	 loop=grp 0 ('numchrgrp'-1)
-		   set bl_name $$xgroup #grp ;
-		   set pos_x 'star_x' + ('pace_x' * 'ctos' ) ;
-		   sil-file; quote <text x=&34 'pos_x'&34 &32y=&34 'pos_y'&34&32 font-size=&34 12&34&32 transform=&34 rotate (-60,'pos_x','pos_y')&34 > $bl_name:30 &32 </text> &10 ; sil=all; 
-		   set ctos ++ ; 
-	 stop 
-	 set ctos_sp 0 ;
-	 set star_b 'star_x' - 10 ; 
-	 set dde 0 ;
-	 if (!'besever')
-		    set span 'maxrange' ; 
-		    set miti 'shift' + ('span'/2) ; 
-		    set uncuar 'shift' + ( 'span' / 4 ) ;
-		    set trescuar 'shift' + ( (3 * 'span') / 4 );
-
-		   set trescuarI 'shoft' + ('shoft'-'uncuar' )  ; 
-		   set mitiI   'shoft' + ('shoft'-'miti' )  ; 
-		   set uncuarI   'shoft' + ('shoft'-'trescuar' )  ;
-		   set shiftI 'shoft' ;
-		   set shoftI  'shoft' + ('shoft' - 'shift' )   ;
-		   set mini 'shift' ; 
-		   set maxi 'shoft' ;  
-		    if ('do_palette')
-			  set mini 'shift' ; 
-			  set pace ('span' / 20 );  
-			  goto FILL_COLIM ; 
-		    end 
-	 end
-         loop=grp 0 ('numchrgrp'-1)
-                set bloque #1 ; 
-                set pos_x 'star_b' + ('pace_x' * 'dde') ;
-                set ctos_sp 0 ;
-                if ('besever') 
-			   set span 'maxisa[#grp]' - 'minisa[#grp]' ; 
-			   set shift 'minisa[#grp]' ; 
-			   set shoft 'maxisa[#grp]' ; 
-			   set miti 'shift' + ('span'/2) ; 
-			   set uncuar 'shift' + ( 'span' / 4 ) ;
-			   set trescuar 'shift' + ( (3 * 'span') / 4 );
-                           set mini 'shift' ; 
-                           set maxi 'shoft' ; 
-                           set trescuarI 'maxi' + ('maxi'-'uncuar' )  ; 
-               	           set mitiI   'maxi' + ('maxi'-'miti' )  ; 
-	   	           set uncuarI   'maxi' + ('maxi'-'trescuar' )  ;
-	   	           set shiftI 'maxi' ;
- 	   	           set shoftI  'maxi' + ('maxi' - 'mini' )   ;
-
-			    if ('do_palette')
-				 set mini 'minisa[#grp]' ; 
-				 set maxi 'maxisa[#grp]' ;  
-				 set pace ('span' / 20 );  
-				 goto FILL_COLIM ;  
-			   end 
-                end 
-                loop=nd 0 nnodes [0] 
-                   set nod #2 ;
-                   set ndtran 'trad_nd[#nd]' ; 
-		   if ('ndtran' == (-1) )
-		         continue ;  
-                   end
-                   if (('nod' == root ) ||   ('nod' == 'tgtsp') || (!isintree [0 'nod']) ) 
-                     continue ; 
-                   end 
-                   set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ;
-                   set green 'maxisa[#grp]'-'minisa[#grp]' ;
-                   set blue 0 ; 
-                   if ('green' == 0 ) 
-                    set blue  1  ;  
-                   else
-                       if (  ('green'/'maxisa[#grp]') < 0.0001  ) 
-                          set blue 1 ; 
-                       end
-                   end
-                   if ('blue' )
-                          set blue 130 ; 
-                          set red 130 ; 
-                          set green 130 ; 
-                  else
-                     
-                           if ('minisa [#1]' < 'shift' ) 
-                               set elsco 'grpscore['trad_nd[#nd]'  #grp]' + ('shift' - 'minisa [#grp]') ;
-                           else
-                               set elsco 'grpscore['trad_nd[#nd]'  #grp]' - ('minisa [#grp]' - 'shift' ) ; 
-                           end  
-                           if (!'do_palette') 
-                               set elsco 'shoft' + ('shoft' - 'elsco')  ;     
-                   
-                               if ('elsco' < ( 'uncuarI') )    
- 				    set red   (254 - ( (254-240)  *  (('uncuarI'-'elsco' ) / ( 'uncuarI' - 'shiftI'  ) )) )   ; 
-				    set green (240 - ( (240-5)  *    (('uncuarI'-'elsco' ) / ( 'uncuarI' - 'shiftI' ) )) )   ; 
- 				    set blue  (1 + ( (5-1)  *        (('uncuarI'-'elsco' ) / ( 'uncuarI' - 'shiftI' ) )))    ;       
  
-  			       else
- 				    if (( 'elsco' >= 'uncuarI' ) && ( 'elsco' < 'mitiI' ) ) /  
-				         set red   (46 +   ( (254-46)  * (('mitiI' - 'elsco')  / ( 'mitiI' - 'uncuarI') ))) ;
-				         set green (182 + ( (240-182)  *  (('mitiI' - 'elsco') / ( 'mitiI' - 'uncuarI') ))) ; 
-				         set blue  (44  -  ( (44-1)  *    (('mitiI' - 'elsco') / ( 'mitiI' - 'uncuarI') ))) ;
-				    else
-				         if (( 'elsco' >= 'mitiI' ) && ( 'elsco' < 'trescuarI' ) )   
-				    	    set red   ( 18  + ( (46-18)    *  (('trescuarI'-'elsco' ) / ( 'trescuarI' - 'mitiI') ) ))  ;
-					    set green ( 232 - ( (232-182)  * (('trescuarI'-'elsco') / ( 'trescuarI' - 'mitiI') ) ) );
-					    set blue  ( 232 - ( (254-44)   * (('trescuarI'-'elsco' ) / ( 'trescuarI' - 'mitiI') ) )  ); 
-				        else    
-					     set red    ( 55  - ( (55-18)  *    (( 'shoftI' - 'elsco' ) / ( 'shoftI' - 'trescuarI' ) ) ))  ;
-					     set green  ( 55  + ( (232-55)  *   (( 'shoftI' - 'elsco'  ) / ( 'shoftI' - 'trescuarI' ) ) ))  ;
-					     set blue   ( 148 + ( (232-148)  *  (( 'shoftI' - 'elsco'  ) / ( 'shoftI' - 'trescuarI' ) ) ))  ;
-				        end
-			            end
-			       end    
-                          else
-                               set micore 'elsco' ; 
-	                       goto SETTING_COLORS ; 
-	                 end 
+ 	 log $grp_scores_tabl ; /*  TABLA DE TEXTO este esta bien */
+ 	 sil-file; 
+ 	 lquote = ; 
+ 	 lquote [ ;
+ 	 quote , ; 
+ 	 loop=grp 0 ('numchrgrp'-1)
+ 	     set bl_name $$xgroup #grp ; 
+ 	     sil-file; quote $bl_name , ; sil=file;
+ 	 stop 
+ 	 sil-file; quote &10 ; sil=file;
+ 	 loop=nd 0 nnodes [0] 
+ 	             set nod #nd ; 
+ 	             set ndtran 'trad_nd[#nd]' ; 
+ 	     	     if ('ndtran' == (-1) )
+ 		          continue ;  
+                      end
+ 		     if (('nod' == root ) ||  ('nod' == 'tgtsp') || (!isintree [0 'nod']) ) 
+ 		         continue ; 
+ 		      end
+ 		     if (#1 < root ) 
+ 			 set bl_name $$taxon #1 ;
+ 		      else
+ 			set bl_name $Branch #1 ;
+ 		      end
+ 		     sil-file; quote $bl_name , ; sil=file;
+ 		     macfloat 'flot_prnt'; 
+ 		     loop=grp 0 ('numchrgrp'-1)
+ 			 sil-file; quote 'grpscore['trad_nd[#nd]'  #grp]' , ; sil=file;
+ 		     stop
+ 		     macfloat 'flot_calc'; 
+ 		     sil-file; quote &10 ; sil=file;
+ 		     if (#nd == 'hermano' ) 
+ 		        set tochang sister [ 0 #nd] ; 
+ 		        if ('tochang' < root ) 
+ 			 	set bl_name $$taxon 'tochang' ;
+ 			 else
+ 				set bl_name $Branch 'tochang' ;
+ 		         end
+ 		         sil-file; quote $bl_name , ; sil=file;
+ 		         macfloat 'flot_prnt'; 
+ 		         loop=grp 0 ('numchrgrp'-1)
+ 			   sil-file; quote 'grpscore['trad_nd[#nd]'  #grp]' , ; sil=file;
+ 		         stop
+ 		         macfloat 'flot_calc'; 
+ 		         sil-file; quote &10 ; sil=file;
+ 		     end
+ 	 stop 
+ 	 sil=file; 
+ 	 log/; 
+ 
+ 
+ 	 log $group_file ;  
+ 	 lquote [ ; 
+ 	 lquote =; 
+ 	 set tot_width 'numchrgrp' * 'pace_x' + 'star_x' + 200 ; 
+ 	 sil-file; quote <svg width= &34 'tot_width'&34  height=&34 'tot_hig'&34  xmlns=&34 http://www.w3.org/2000/svg&34> &10 ;sil=all; 
+ 	 set ctos 0 ; 
+ 	 set pos_y 'star_y' - 2 ; 
+ 	 loop=grp 0 ('numchrgrp'-1)
+ 		   set bl_name $$xgroup #grp ;
+ 		   set pos_x 'star_x' + ('pace_x' * 'ctos' ) ;
+ 		   sil-file; quote <text x=&34 'pos_x'&34 &32y=&34 'pos_y'&34&32 font-size=&34 12&34&32 transform=&34 rotate (-60,'pos_x','pos_y')&34 > $bl_name:30 &32 </text> &10 ; sil=all; 
+ 		   set ctos ++ ; 
+ 	 stop 
+ 	 set ctos_sp 0 ;
+ 	 set star_b 'star_x' - 10 ; 
+ 	 set dde 0 ;
+ 	 if (!'besever')
+ 		    set span 'maxrange' ; 
+ 		    set miti 'shift' + ('span'/2) ; 
+ 		    set uncuar 'shift' + ( 'span' / 4 ) ;
+ 		    set trescuar 'shift' + ( (3 * 'span') / 4 );
+ 
+ 		   set trescuarI 'shoft' + ('shoft'-'uncuar' )  ; 
+ 		   set mitiI   'shoft' + ('shoft'-'miti' )  ; 
+ 		   set uncuarI   'shoft' + ('shoft'-'trescuar' )  ;
+ 		   set shiftI 'shoft' ;
+ 		   set shoftI  'shoft' + ('shoft' - 'shift' )   ;
+ 		   set mini 'shift' ; 
+ 		   set maxi 'shoft' ;  
+ 		    if ('do_palette')
+ 			  set mini 'shift' ; 
+ 			  set pace ('span' / 20 );  
+ 			  goto FILL_COLIM ; 
+ 		    end 
+ 	 end
+          loop=grp 0 ('numchrgrp'-1)
+                 set bloque #grp ; 
+                 set pos_x 'star_b' + ('pace_x' * 'dde') ;
+                 set ctos_sp 0 ;
+                 if ('besever') 
+ 			   set span 'maxisa[#grp]' - 'minisa[#grp]' ; 
+ 			   set shift 'minisa[#grp]' ; 
+ 			   set shoft 'maxisa[#grp]' ; 
+ 			   set miti 'shift' + ('span'/2) ; 
+ 			   set uncuar 'shift' + ( 'span' / 4 ) ;
+ 			   set trescuar 'shift' + ( (3 * 'span') / 4 );
+                            set mini 'shift' ; 
+                            set maxi 'shoft' ; 
+                            set trescuarI 'maxi' + ('maxi'-'uncuar' )  ; 
+                	           set mitiI   'maxi' + ('maxi'-'miti' )  ; 
+ 	   	           set uncuarI   'maxi' + ('maxi'-'trescuar' )  ;
+ 	   	           set shiftI 'maxi' ;
+  	   	           set shoftI  'maxi' + ('maxi' - 'mini' )   ;
+ 
+ 			    if ('do_palette')
+ 				 set mini 'minisa[#grp]' ; 
+ 				 set maxi 'maxisa[#grp]' ;  
+ 				 set pace ('span' / 20 );  
+ 				 goto FILL_COLIM ;  
+ 			   end 
                  end 
-                 lquote- ; 
-                 SIL-FILE; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;SIL=FILE ;  
+                 loop=nd 0 nnodes [0] 
+                    set nod #nd ;
+                    set ndtran 'trad_nd[#nd]' ; 
+ 		   if ('ndtran' == (-1) )
+ 		         continue ;  
+                    end
+                    if (('nod' == root ) ||   ('nod' == 'tgtsp') || (!isintree [0 'nod']) ) 
+                      continue ; 
+                    end 
+                    set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ;
+                    set green 'maxisa[#grp]'-'minisa[#grp]' ;
+                    set blue 0 ; 
+                    if ('green' == 0 ) 
+                     set blue  1  ;  
+                    else
+                        if (  ('green'/'maxisa[#grp]') < 0.0001  ) 
+                           set blue 1 ; 
+                        end
+                    end
+                    if ('blue' )
+                           set blue 130 ; 
+                           set red 130 ; 
+                           set green 130 ; 
+                   else
+                      
+                            if ('minisa [#1]' < 'shift' ) 
+                                set elsco 'grpscore['trad_nd[#nd]'  #grp]' + ('shift' - 'minisa [#grp]') ;
+                            else
+                                set elsco 'grpscore['trad_nd[#nd]'  #grp]' - ('minisa [#grp]' - 'shift' ) ; 
+                            end  
+                            if (!'do_palette') 
+                                set elsco 'shoft' + ('shoft' - 'elsco')  ;     
+                    
+                                if ('elsco' < ( 'uncuarI') )    
+  				    set red   (254 - ( (254-240)  *  (('uncuarI'-'elsco' ) / ( 'uncuarI' - 'shiftI'  ) )) )   ; 
+ 				    set green (240 - ( (240-5)  *    (('uncuarI'-'elsco' ) / ( 'uncuarI' - 'shiftI' ) )) )   ; 
+  				    set blue  (1 + ( (5-1)  *        (('uncuarI'-'elsco' ) / ( 'uncuarI' - 'shiftI' ) )))    ;       
+  
+   			       else
+  				    if (( 'elsco' >= 'uncuarI' ) && ( 'elsco' < 'mitiI' ) ) /  
+ 				         set red   (46 +   ( (254-46)  * (('mitiI' - 'elsco')  / ( 'mitiI' - 'uncuarI') ))) ;
+ 				         set green (182 + ( (240-182)  *  (('mitiI' - 'elsco') / ( 'mitiI' - 'uncuarI') ))) ; 
+ 				         set blue  (44  -  ( (44-1)  *    (('mitiI' - 'elsco') / ( 'mitiI' - 'uncuarI') ))) ;
+ 				    else
+ 				         if (( 'elsco' >= 'mitiI' ) && ( 'elsco' < 'trescuarI' ) )   
+ 				    	    set red   ( 18  + ( (46-18)    *  (('trescuarI'-'elsco' ) / ( 'trescuarI' - 'mitiI') ) ))  ;
+ 					    set green ( 232 - ( (232-182)  * (('trescuarI'-'elsco') / ( 'trescuarI' - 'mitiI') ) ) );
+ 					    set blue  ( 232 - ( (254-44)   * (('trescuarI'-'elsco' ) / ( 'trescuarI' - 'mitiI') ) )  ); 
+ 				        else    
+ 					     set red    ( 55  - ( (55-18)  *    (( 'shoftI' - 'elsco' ) / ( 'shoftI' - 'trescuarI' ) ) ))  ;
+ 					     set green  ( 55  + ( (232-55)  *   (( 'shoftI' - 'elsco'  ) / ( 'shoftI' - 'trescuarI' ) ) ))  ;
+ 					     set blue   ( 148 + ( (232-148)  *  (( 'shoftI' - 'elsco'  ) / ( 'shoftI' - 'trescuarI' ) ) ))  ;
+ 				        end
+ 			            end
+ 			       end    
+                           else
+                                set micore 'elsco' ; 
+ 	                       goto SETTING_COLORS ; 
+ 	                 end 
+                  end 
+                  lquote- ; 
+                
+                  SIL-FILE; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;SIL=FILE ;  
+                
                   if (('grpscore['trad_nd[#nd]' #grp]' == 'minisa[#grp]') && ('maxisa[#grp]' != 'minisa[#grp]' )) 
-                        set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
-                        SIL-FILE ;    quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; SIL=FILE ; 
+                         set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
+                         SIL-FILE ;    quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; SIL=FILE ; 
                   end
-                set ctos_sp ++ ;
-                if (#nd == 'hermano' ) 
-	          set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ; 
-                   SIL-FILE; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;SIL=FILE ;  
-                   if (('grpscore['trad_nd[#nd]' #grp]' == 'minisa[#grp]') && ('maxisa[#grp]' != 'minisa[#grp]' )) 
-		       set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
-		       SIL-FILE ;  quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; SIL=FILE ; 
-                   end
-                   set ctos_sp ++ ;
+                  set ctos_sp ++ ;
+                   
+                  if (#nd == 'hermano' ) 
+ 	              set pos_y 'star_y' + ('pace_y' * 'ctos_sp') ; 
+                       SIL-FILE; quote <rect x=&34 'pos_x'&34&32y=&34 'pos_y'&34&32width=&34 15&34&32height=&34 15&34&32style=&34fill:rgb('red','green','blue')&34 /> &10 ;SIL=FILE ;  
+                       if (('grpscore['trad_nd[#nd]' #grp]' == 'minisa[#grp]') && ('maxisa[#grp]' != 'minisa[#grp]' )) 
+ 		           set px 'pos_x' + 2 ; set py 'pos_y' + 16 ; 
+ 		           SIL-FILE ;  quote <text x=&34 'px'&34&32y=&34 'py'&34&32 font-size=&34 16&34&32 > &32* </text> &10 ; SIL=FILE ; 
+                       end
+                       set ctos_sp ++ ;
                   end
-               stop
-              set dde ++ ; 
-         stop
-         set star_y 'star_y' + 12 ; 
-         set ctos_sp 0 ; 
-         set px 'tot_width' - 216 ; 
-         loop 0 nnodes [0]
-                if ( ( #1 == root ) || (#1 == 'tgtsp') || (!isintree [0 #1]) ) 
-                 continue ; 
-                end
-                if (#1 == 'tochang' )
-		 	continue ;
-                end
-                if (#1 < root ) 
-                         set bl_name $$taxon #1 ;
-                        else
-                         set bl_name $Branch #1 ;
-                end
-                set pos_y 'star_y' + ('pace_y' * 'ctos_sp' ) ; 
-                sil-file; quote <text x=&34 5&34&32y=&34 'pos_y'&34&32 font-size=&34 12&34 > &32 $bl_name:30 </text> &10 ; SIL=FILE;  
-                if (#1 == 'trad_nd['besnod]')
-                 set py 'pos_y' - 13 ; 
-                 SIL-FILE;  quote <rect x=&34 4 &34&32y=&34 'py'&34&32width=&34 'px'&34&32height=&34 17&34&32stroke-width=&34 2&34&32stroke=&34black&34&32fill=&34none&34&32 /> &10 ;SIL=FILE;  
-                end 
-                set ctos_sp ++ ;
-                set nod sister[0 'tochang'] ; 
-		if (  #1  ==  'nod'  ) 
-                     if ('tochang' < root ) 
-		      set bl_name $$taxon 'tochang' ;
-		   else
-		      set bl_name $Branch 'tochang' ;
-                   end
+                stop
+               set dde ++ ; 
+          stop
+          set star_y 'star_y' + 12 ; 
+          set ctos_sp 0 ; 
+          set px 'tot_width' - 216 ; 
+          quote besnod 'besnod' / trad_nd[besnod] 'trad_nd['besnod']' ; 
+          loop=oo 0 nnodes [0] /* aca se imprimen los nombres de las spp y nodos */  
+                 if ( ( #oo == root ) || (#oo == 'tgtsp') || (!isintree [0 #oo]) ) 
+                  continue ; 
+                 end
+                set ndtran 'trad_nd[#oo]' ; 
+                if ('ndtran' == (-1) )
+ 	          continue ;  
+                 end
+                 if (#1 < root ) 
+                          set bl_name $$taxon #1 ;
+                         else
+                          set bl_name $Branch #1 ;
+                 end
                  set pos_y 'star_y' + ('pace_y' * 'ctos_sp' ) ; 
-		 SIL-FILE; quote <text x=&34 5&34&32y=&34 'pos_y'&34&32 font-size=&34 12&34 > &32 $bl_name:30 </text> &10 ; SIL=FILE;  
+                 sil-file; quote <text x=&34 5&34&32y=&34 'pos_y'&34&32 font-size=&34 12&34 > &32 $bl_name:30 </text> &10 ; SIL=FILE;  
+                 if ('ndtran' == 'besnod')
+                     set py 'pos_y' - 13 ; 
+                     SIL-FILE;  quote <rect x=&34 4 &34&32y=&34 'py'&34&32width=&34 'px'&34&32height=&34 17&34&32stroke-width=&34 2&34&32stroke=&34black&34&32fill=&34none&34&32 /> &10 ;SIL=FILE;  
+                 end 
                  set ctos_sp ++ ;
-                end 
-         stop
-         set tot_width 'tot_width' - 80 ; 
-         set dist 'pos_y' + 50 ; 
-         SIL-FILE;
-          if (!'besever')
-		  set uncua 'uncuar'-'shift' ; set trescua 'trescuar'-'shift' ; set mit 'miti'-'shift' ; set shof 'shoft'-'shift' ; 
-		  macfloat 'flot_prnt';    
-		  quote <text&32x=&34 10 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > 0 </text>&10 ; 
-		  quote <text&32x=&34 110 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34>+ 'uncua' </text> &10 ; 
-		  quote <rect x=&34 108&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
-		  quote <text&32x=&34 210 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34>+ 'mit' </text> &10 ; 
-		  quote <rect x=&34 208&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
-		  quote <text&32x=&34 310 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34>+ 'trescua' </text> &10 ; 
-		  quote <rect x=&34 308&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
-		  quote <text&32x=&34 410 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34>+ 'shof' </text> &10 ; 
-		  quote <rect x=&34 408&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
-		  macfloat 'flot_calc';  
-          else
-             quote <text&32x=&34 10 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 >Optimal</text>&10 ; 
-             quote <text&32x=&34 400 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 >Suboptimal</text> &10 ; 
-          end 
-         
-  set dist 'pos_y' + 60 ; 
- 
-  if (!'do_palette')
-           quote <defs>&10<linearGradient&32id=&34graa&34&32x1=&34 0&37&34&32y1=&34 0&37&34&32x2=&34 100&37&34&32y2=&34 0&37&34>&10 ; 
-          quote <stop offset=&34 0&37&34&32style=&34stop-color:rgb(254,240,1).,stop-opacity:1&34></stop>&10; 
-          quote <stop offset=&34 100&37&34&32style=&34stop-color:rgb(240,5,5).,stop-opacity:1&34></stop>&10; 
-          quote </linearGradient>&10; 
-          quote </defs>&10;
-          quote <rect x=&34 310&34 &32y=&34 'dist'&34 &32width=&34 100&34&32 height=&34 16&34&32 style=&34fill:url(&35graa)&34 />&10 ;
+               	if (#oo == 'hermano' ) 
+               	     set tochang sister [ 0 #oo] ; 
+                        if ('tochang' < root ) 
+ 		        set bl_name $$taxon 'tochang' ;
+ 		      else
+ 		          set bl_name $Branch 'tochang' ;
+                        end
+                     set pos_y 'star_y' + ('pace_y' * 'ctos_sp' ) ; 
+ 		    SIL-FILE; quote <text x=&34 5&34&32y=&34 'pos_y'&34&32 font-size=&34 12&34 > &32 $bl_name:30 </text> &10 ; SIL=FILE;  
+                     set ctos_sp ++ ;
+                 end 
+          stop
+          set tot_width 'tot_width' - 80 ; 
+          set dist 'pos_y' + 50 ; 
+          SIL-FILE;
+           if (!'besever')
+ 		  set uncua 'uncuar'-'shift' ; set trescua 'trescuar'-'shift' ; set mit 'miti'-'shift' ; set shof 'shoft'-'shift' ; 
+ 		  macfloat 'flot_prnt';    
+ 		  quote <text&32x=&34 10 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > 0 </text>&10 ; 
+ 		  quote <text&32x=&34 110 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34>+ 'uncua' </text> &10 ; 
+ 		  quote <rect x=&34 108&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
+ 		  quote <text&32x=&34 210 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34>+ 'mit' </text> &10 ; 
+ 		  quote <rect x=&34 208&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
+ 		  quote <text&32x=&34 310 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34>+ 'trescua' </text> &10 ; 
+ 		  quote <rect x=&34 308&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
+ 		  quote <text&32x=&34 410 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34>+ 'shof' </text> &10 ; 
+ 		  quote <rect x=&34 408&34&32y=&34 'dist'&34&32width=&34 2&34&32height=&34 10&34&32style=&34fill:black&34 /> &10 ;
+ 		  macfloat 'flot_calc';  
+           else
+              quote <text&32x=&34 10 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 >Optimal</text>&10 ; 
+              quote <text&32x=&34 400 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 >Suboptimal</text> &10 ; 
+           end 
           
-          quote <defs>&10<linearGradient&32id=&34grab&34&32x1=&34 0&37&34&32y1=&34 0&37&34&32x2=&34 100&37&34&32y2=&34 0&37&34>&10 ; 
-          quote <stop offset=&34 0&37&34&32style=&34stop-color:rgb(46,182,44) .,stop-opacity:1&34></stop>&10; 
-          quote <stop offset=&34 100&37&34&32style=&34stop-color:rgb(254,240,1).,stop-opacity:1&34></stop>&10; 
-          quote </linearGradient>&10; 
-          quote </defs>&10;
-          quote <rect x=&34 210&34 &32y=&34 'dist'&34 &32width=&34 100&34&32 height=&34 16&34&32 style=&34fill:url(&35grab)&34 />&10 ;
-         
-          quote <defs>&10<linearGradient&32id=&34grac&34&32x1=&34 0&37&34&32y1=&34 0&37&34&32x2=&34 100&37&34&32y2=&34 0&37&34>&10 ; 
-          quote <stop offset=&34 0&37&34&32style=&34stop-color:rgb(18,232,232).,stop-opacity:1&34></stop>&10; 
-          quote <stop offset=&34 100&37&34&32style=&34stop-color:rgb(46,182,44).,stop-opacity:1&34></stop>&10; 
-          quote </linearGradient>&10; 
-          quote </defs>&10;
-          quote <rect x=&34 110&34 &32y=&34 'dist'&34 &32width=&34 100&34&32 height=&34 16&34&32 style=&34fill:url(&35grac)&34 />&10 ;
-         
-          quote <defs>&10<linearGradient&32id=&34grad&34&32x1=&34 0&37&34&32y1=&34 0&37&34&32x2=&34 100&37&34&32y2=&34 0&37&34>&10 ; 
-          quote <stop offset=&34 0&37&34&32style=&34stop-color:rgb(55,55,148).,stop-opacity:1&34></stop>&10; 
-          quote <stop offset=&34 100&37&34&32style=&34stop-color:rgb(18,232,232) .,stop-opacity:1&34></stop>&10; 
-          quote </linearGradient>&10; 
-          quote </defs>&10;
-          quote <rect x=&34 10&34 &32y=&34 'dist'&34 &32width=&34 100&34&32 height=&34 16&34&32 style=&34fill:url(&35grad)&34 />&10 ;
-         
-         
-         set dist 'dist' + 40 ; 
-         quote <text&32x=&34 10 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > *Optimal placement for the partition</text>&10 ;
-         set dist 'dist' + 20 ;
-         quote <text&32x=&34 30 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > Overall optimal placement </text>&10 ;
-         set dist 'dist' - 13 ;
-         quote <rect x=&34 4 &34&32y=&34 'dist'&34&32width=&34 17&34&32height=&34 17&34&32stroke-width=&34 2&34&32stroke=&34black&34&32fill=&34none&34&32 /> &10 ;
-         set dist 'dist' + 30  ;
-	 quote <text&32x=&34 30 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > Target species = $tgtname </text>&10 ;
-         
-   else
-         set tancia 10 ; 
-         loop=uup 0 19
-             quote <rect x=&34 'tancia'&34 &32y=&34 'dist'&34 &32width=&34 20&34&32 height=&34 20&34&32 style=&34fill:rgb('viridis[0 #uup]','viridis[1 #uup]','viridis[2 #uup]')&34 />&10 ;
-             set tancia 'tancia' + 20 ; 
-         stop 
-         set dist 'dist' + 40 ; 
-	 quote <text&32x=&34 10 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > *Optimal placement for the partition</text>&10 ;
-	 set dist 'dist' + 20 ;
-	 quote <text&32x=&34 30 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > Overall optimal placement </text>&10 ;
-	 set dist 'dist' - 13 ;
-	 quote <rect x=&34 4 &34&32y=&34 'dist'&34&32width=&34 17&34&32height=&34 17&34&32stroke-width=&34 2&34&32stroke=&34black&34&32fill=&34none&34&32 /> &10 ;
-	 set dist 'dist' + 30  ;
-	quote <text&32x=&34 30 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > Target species = $tgtname </text>&10 ;
-
-   end
-
-   quote </svg> &10 ; 
-   log/; 
-   SIL=FILE; 
+   set dist 'pos_y' + 60 ; 
+  
+   if (!'do_palette')
+            quote <defs>&10<linearGradient&32id=&34graa&34&32x1=&34 0&37&34&32y1=&34 0&37&34&32x2=&34 100&37&34&32y2=&34 0&37&34>&10 ; 
+           quote <stop offset=&34 0&37&34&32style=&34stop-color:rgb(254,240,1).,stop-opacity:1&34></stop>&10; 
+           quote <stop offset=&34 100&37&34&32style=&34stop-color:rgb(240,5,5).,stop-opacity:1&34></stop>&10; 
+           quote </linearGradient>&10; 
+           quote </defs>&10;
+           quote <rect x=&34 310&34 &32y=&34 'dist'&34 &32width=&34 100&34&32 height=&34 16&34&32 style=&34fill:url(&35graa)&34 />&10 ;
+           
+           quote <defs>&10<linearGradient&32id=&34grab&34&32x1=&34 0&37&34&32y1=&34 0&37&34&32x2=&34 100&37&34&32y2=&34 0&37&34>&10 ; 
+           quote <stop offset=&34 0&37&34&32style=&34stop-color:rgb(46,182,44) .,stop-opacity:1&34></stop>&10; 
+           quote <stop offset=&34 100&37&34&32style=&34stop-color:rgb(254,240,1).,stop-opacity:1&34></stop>&10; 
+           quote </linearGradient>&10; 
+           quote </defs>&10;
+           quote <rect x=&34 210&34 &32y=&34 'dist'&34 &32width=&34 100&34&32 height=&34 16&34&32 style=&34fill:url(&35grab)&34 />&10 ;
+          
+           quote <defs>&10<linearGradient&32id=&34grac&34&32x1=&34 0&37&34&32y1=&34 0&37&34&32x2=&34 100&37&34&32y2=&34 0&37&34>&10 ; 
+           quote <stop offset=&34 0&37&34&32style=&34stop-color:rgb(18,232,232).,stop-opacity:1&34></stop>&10; 
+           quote <stop offset=&34 100&37&34&32style=&34stop-color:rgb(46,182,44).,stop-opacity:1&34></stop>&10; 
+           quote </linearGradient>&10; 
+           quote </defs>&10;
+           quote <rect x=&34 110&34 &32y=&34 'dist'&34 &32width=&34 100&34&32 height=&34 16&34&32 style=&34fill:url(&35grac)&34 />&10 ;
+          
+           quote <defs>&10<linearGradient&32id=&34grad&34&32x1=&34 0&37&34&32y1=&34 0&37&34&32x2=&34 100&37&34&32y2=&34 0&37&34>&10 ; 
+           quote <stop offset=&34 0&37&34&32style=&34stop-color:rgb(55,55,148).,stop-opacity:1&34></stop>&10; 
+           quote <stop offset=&34 100&37&34&32style=&34stop-color:rgb(18,232,232) .,stop-opacity:1&34></stop>&10; 
+           quote </linearGradient>&10; 
+           quote </defs>&10;
+           quote <rect x=&34 10&34 &32y=&34 'dist'&34 &32width=&34 100&34&32 height=&34 16&34&32 style=&34fill:url(&35grad)&34 />&10 ;
+          
+          
+          set dist 'dist' + 40 ; 
+          quote <text&32x=&34 10 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > *Optimal placement for the partition</text>&10 ;
+          set dist 'dist' + 20 ;
+          quote <text&32x=&34 30 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > Overall optimal placement </text>&10 ;
+          set dist 'dist' - 13 ;
+          quote <rect x=&34 4 &34&32y=&34 'dist'&34&32width=&34 17&34&32height=&34 17&34&32stroke-width=&34 2&34&32stroke=&34black&34&32fill=&34none&34&32 /> &10 ;
+          set dist 'dist' + 30  ;
+ 	 quote <text&32x=&34 30 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > Target species = $tgtname </text>&10 ;
+          
+    else
+          set tancia 10 ; 
+          loop=uup 0 19
+              quote <rect x=&34 'tancia'&34 &32y=&34 'dist'&34 &32width=&34 20&34&32 height=&34 20&34&32 style=&34fill:rgb('viridis[0 #uup]','viridis[1 #uup]','viridis[2 #uup]')&34 />&10 ;
+              set tancia 'tancia' + 20 ; 
+          stop 
+          set dist 'dist' + 40 ; 
+ 	 quote <text&32x=&34 10 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > *Optimal placement for the partition</text>&10 ;
+ 	 set dist 'dist' + 20 ;
+ 	 quote <text&32x=&34 30 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > Overall optimal placement </text>&10 ;
+ 	 set dist 'dist' - 13 ;
+ 	 quote <rect x=&34 4 &34&32y=&34 'dist'&34&32width=&34 17&34&32height=&34 17&34&32stroke-width=&34 2&34&32stroke=&34black&34&32fill=&34none&34&32 /> &10 ;
+ 	 set dist 'dist' + 30  ;
+ 	quote <text&32x=&34 30 &34 &32 y=&34 'dist' &34 &32stroke-width=&34 1&34&32 font-size=&34 14&34 > Target species = $tgtname </text>&10 ;
  
-end
+    end
  
- 
- 
-lquote - ; 
+    quote </svg> &10 ; 
+    log/; 
+    SIL=FILE; 
+  
+ end
+  
+  
+  
+ lquote - ; 
 proc/; 
 
 
