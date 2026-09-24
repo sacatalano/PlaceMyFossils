@@ -2274,14 +2274,14 @@ loop 0 nchar
  end
 stop 
 set numchrgrp 0 ; 
-loop 0 nchar  
- if ( charsingp[#1] == 0 ) 
+loop 0 31  
+ if ( charsingp[#1] == 0   ) 
   endloop ;
  else
   set numchrgrp++ ;
  end
 stop 
- 
+
  
    
     /* nopiwe 0 = IW , 1 = Multiple Optimality criterion   2= LIKELIHOOD    3 = PARSIMONIA  ; */ 
@@ -7138,7 +7138,7 @@ set posx_nam 'posx_graf' + ('anch'/2) ; set posy_nam ('ejeY_finY' + 10)  ;
 sil-file; quote <text x=&34 'posx_nam'&34 &32y=&34 'posy_nam'&34&32 text-anchor=&34 end&34&32  font-size=&34 14&34&32 transform=&34 rotate (-60,'posx_nam','posy_nam')&34 > Complete Dataset &32 </text> &10 ; sil=all; 
 
 
-loop=aa 0 ('numchrgrp')
+loop=aa 0 ('numchrgrp'-1)
         set vta #aa + 1 ;
 	if ('guicherr'  == 0 ) 
 	   set esco 'blues['vta']' ; 
