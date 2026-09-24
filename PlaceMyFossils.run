@@ -17,8 +17,8 @@ macfloat 10 ;
 
 /*-------------------------------------------------------
 TNT script:  PlaceMyFossils.run     
-Version:     1.3.0
-Updated:     2026-8-26                                                                 
+Version:     1.3.1
+Updated:     2026-9-24                                                                 
 Author:      Santiago A. Catalano                                                        
 Mantainer:   Santiago A. Catalano                              
 Depends:     TNT version 1.6 - may 2026
@@ -1398,8 +1398,10 @@ loop=nd 0 'nds'
  if ( (#nd == root) || (#nd == 'tgtsp') || (!isintree [0 #nd]) ) 
   continue ; 
  end
- if ( ('listax[#nd]' == 1) && (#nd < root) )
-  continue ; 
+ if  (#nd < root) 
+   if ('listax[#nd]' == 1)  
+     continue ; 
+   end
  end 
  tt <#nd ; 
  ttag +#nd B#nd ; 
@@ -1479,9 +1481,11 @@ loop=cd 0 ('nconds'-1)
           if ( (#nd == root) || (#nd == 'tgtsp') || (!isintree [0 #nd]) ) 
              continue ; 
           end
-          if ( ('listax[#nd]' == 1) && (#nd < root) )
-             continue ; 
-          end 
+          if  (#nd < root) 
+            if ('listax[#nd]' == 1) 
+              continue ; 
+            end 
+          end
          if ( 'maxi_mult[#cd]' == 'mini_mult[#cd]') 
              set blue 130 ; set green 130 ; set red 130 ; 
          else
@@ -2860,9 +2864,11 @@ loop=nd 0 nnodes[0]
 	 if ( (#1 == root) || (#1 == 'tgtsp') || (!isintree [0 #nd]) ) 
 	   continue ; 
 	 end 
-	 if ( ( #1 < root) && ( 'listax [#nd]' == 1 ) ) 
-	  continue ; 
-	 end
+	 if  ( #1 < root)  
+	   if ( 'listax [#nd]' == 1 )  
+	    continue ; 
+	   end
+	 end  
 	 set tancia ('eti [#1 0]' - 'eti [anc[0 #1] 0]' ) / 4 ; 
 	 set posx 'eti [anc[0 #1] 0]' + ('tancia' * 3 )  ;
 	 if ('clade_anal')
@@ -3232,7 +3238,7 @@ else
          end 
       if (ntrees == 0 ) 
        ttag * 0 ; 
-       loop 0 (nnodes [0])
+       loop 0 ntax /* 24/9/2 */ 
          if ('listax[#1]') 
 	          tt < #1 ; 
 	          ttag +#1 (255,0,0);
@@ -3527,7 +3533,7 @@ if ('multree' == 0 )
 	  ttag- ; 
 	  ttag =; 
 	  ttag *0 ; 
-	  loop 0 nnodes [0]
+	  loop 0 ntax
 		  set posy #1 ; 
 		  if (#1 == outgroup )
 		     ttags +'posy' (0,0,0) ; 
@@ -5090,8 +5096,10 @@ loop=grp 0 ('numchrgrp'-1)
                if ( (#nd == root) || (#nd == 'tgtsp') || (!isintree [0 #nd]) ) 
                        continue ; 
                end
-               if ( ('listax[#nd]' == 1) && (#nd < root) )
+               if (#nd < root) 
+                  if ('listax[#nd]' == 1)
                    continue ; 
+                 end
                end
                set pos_x ('eti[#nd 0]' - 'eti[anc[0 #nd] 0]')/ 12 + 'eti[anc[0 #nd] 0]' + 'suma_x' ; 
                set pos_y 'eti[#nd 1]' + 4 + 'suma_y'; 
@@ -6888,8 +6896,10 @@ loop=nd 0 nnodes[0]
    if ( (#1 == root) || (#1 == 'tgtsp') ||   (!isintree [0 #nd]) ) 
      continue ; 
    end 
-   if ( ( #1 < root) && ( 'listax [#nd]' == 1 ) ) 
-     continue ; 
+   if (   #1 < root) 
+     if ( 'listax [#nd]' == 1 )  
+       continue ; 
+      end
    end
    ttag +#nd #nd  ;
 stop 
@@ -6933,9 +6943,11 @@ loop=nd 0 nnodes[0]
 	 if ( (#1 == root) || (#1 == 'tgtsp') ||   (!isintree [0 #nd]) ) 
 	    continue ; 
 	 end 
-	 if ( ( #1 < root) && ( 'listax [#nd]' == 1 ) ) 
-	    continue ; 
-	 end
+	 if  ( #1 < root)
+	     if ( 'listax [#nd]' == 1 )  
+	      continue ; 
+	     end
+	 end   
 	
 	 set tancia ('eti [#1 0]' - 'eti [anc[0 #1] 0]' ) / 4 ; 
 	 set posx 'eti [anc[0 #1] 0]' + ('tancia' * 3 );
@@ -8542,9 +8554,11 @@ macfloat 'flot_calc';
  	 if ( (#1 == root) || (#1 == 'tgtsp') || (!isintree [0 #nd]) || (#1 == outgroup )) 
  	   continue ; 
  	 end 
- 	 if ( ( #1 < root) && ( 'listax [#nd]' == 1 ) ) 
- 	  continue ; 
- 	 end
+ 	 if (   #1 < root) 
+ 	   if ( 'listax [#nd]' == 1 )  
+ 	    continue ; 
+ 	   end
+ 	 end  
  	 set tancia ('eti [#1 0]' - 'eti [anc[0 #1] 0]' ) / 4 ; 
  	 set posx 'eti [anc[0 #1] 0]' + ('tancia' * 3 )  ;
  	/* if ( ('score_poly[#1 0 ]' - 'mini') < 0.00001 ) New*/
@@ -8557,9 +8571,11 @@ macfloat 'flot_calc';
  	 if ( (#1 == root) || (#1 == 'tgtsp') || (!isintree [0 #nd]) || (#1 == outgroup ) ) 
  	   continue ; 
  	 end 
- 	 if ( ( #1 < root) && ( 'listax [#nd]' == 1 ) ) 
- 	  continue ; 
- 	 end
+ 	 if  ( #1 < root) 
+ 	   if ( 'listax [#nd]' == 1 )   
+ 	     continue ; 
+ 	   end
+ 	 end  
  	 /* if (('score_poly[#1 1 ]' - 'mini') < 0.00001 ) */
  	 if ( ( 'minima_trees[#1 1 ]' > 0 ) &&  ( nodfork [0 #nd] > 2 )  ) 
  	           ttag &+ write <circle cx=&34 'eti [#1 0]'&34 &32cy=&34 'eti [#1 1]'&34 &32r=&34 9&34&32 fill=&34black&34&32 stroke=&34black&34&32 /> &10 ;
