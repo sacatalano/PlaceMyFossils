@@ -17,11 +17,11 @@ macfloat 10 ;
 
 /*-------------------------------------------------------
 TNT script:  PlaceMyFossils.run     
-Version:     1.3.1
-Updated:     2026-9-24                                                                 
+Version:     1.3.2
+Updated:     2026-10-15                                                                 
 Author:      Santiago A. Catalano                                                        
 Mantainer:   Santiago A. Catalano                              
-Depends:     TNT version 1.6 - may 2026
+Depends:     TNT version 1.6 - September 2026
              (Goloboff and Morales, 2023. doi: 10.1111/cla.12524)      
 License:     GNU General Public Licence (3). 
 Citation:   Santiago A Catalano, Ignacio Escapa, Kelsey D Pugh, Ashley S Hammond, Pablo Goloboff, Sergio Almécija, PlaceMyFossils: 
@@ -7219,7 +7219,7 @@ k0  ;
 lquote = ;
 lquote [ ; 
 sil=all; 
-
+tt- ; 
 loop=cnd 0 ('iteres'-1)
   set dist   0 ; 
   k0 ;
@@ -7252,6 +7252,7 @@ loop=cnd 0 ('iteres'-1)
          proc/; 
        end  
      stop  
+     quote: #tx 'rut' 'nod' ; 
      edit 0 'rut' #tx 'nod' ;  
      tvault < 0 ; 
      reroot ;  
