@@ -7252,7 +7252,6 @@ loop=cnd 0 ('iteres'-1)
          proc/; 
        end  
      stop  
-     quote: #tx 'rut' 'nod' ; 
      edit 0 'rut' #tx 'nod' ;  
      tvault < 0 ; 
      reroot ;  
